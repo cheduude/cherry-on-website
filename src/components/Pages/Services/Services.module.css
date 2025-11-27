@@ -1,0 +1,17 @@
+/* src/components/Pages/Services/Services.module.css (Локальные для услуг) */
+.services {
+  padding: 4rem 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background: #333;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+}
