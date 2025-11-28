@@ -1,19 +1,20 @@
-// src/components/Pages/Services/Services.tsx (Страница услуг — плейсхолдеры для блоков, lazy подгрузка)
-import React from 'react';
-import purify from 'dompurify';  // XSS защита для desc
+// src/components/Pages/Services/Services.tsx
+import purify from 'dompurify';
 import styles from './Services.module.css';
+import type { ServicesProps } from '../../../types/index';  // Adjust path if needed (e.g., '../../../types' based on structure)
 
 const services = [
   { name: 'VPN', desc: 'Безопасный VPN.' },
-  { name: 'Прошивка роутера', desc: 'Кастомные настройки.' },
-  // ... добавь все
+  // ... add all
 ];
 
-const Services = ({ isMobile, isAuthenticated }) => {
+const Services = ({ isMobile, isAuthenticated }: ServicesProps) => {
+  const gridClass = isMobile ? styles['grid-mobile'] : styles.grid;  // Use isMobile to adapt (fix unused warning)
+
   return (
     <div className={styles.services}>
       <h2>Наши услуги</h2>
-      <div className={styles.grid}>
+      <div className={gridClass}>
         {services.map((service, i) => (
           <div key={i} className={styles.card}>
             <h3>{service.name}</h3>
