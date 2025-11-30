@@ -1,0 +1,76 @@
+@import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
+
+:root {
+  --font-primary: "PP Neue Montreal", sans-serif;
+  --text-color: rgba(245, 245, 245, 0.9);
+}
+
+.CoolButtons {
+  position: fixed;       /* фиксируем на экране */
+  right: 2rem;           /* отступ от правого края */
+  top: 50%;              /* вертикальное центрирование */
+  transform: translateY(-50%);
+
+  display: flex;         /* контейнер по размеру контента */
+  flex-direction: column;
+  gap: 0.5rem;
+
+  padding: 0;            /* padding убираем или минимальный */
+  font-family: var(--font-primary);
+
+  z-index: 10;           /* чтобы был поверх контента */
+
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: right;
+}
+
+
+
+.category {
+  opacity: 1;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--text-color);
+  cursor: pointer;
+  position: relative;
+  font-size: 1.4rem;
+  user-select: none;
+}
+
+/* При загрузке */
+.category.loaded {
+  opacity: 0.3;
+}
+
+/* Hover */
+.category:hover {
+  opacity: 1 !important;
+}
+
+/* Активная кнопка */
+.category.active {
+  opacity: 1;
+  transform: translateX(-10px);
+  padding-right: 15px;
+  color: var(--text-color);
+}
+
+/* Точка справа */
+.category.active::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: var(--text-color);
+  border-radius: 50%;
+}
+
+
+

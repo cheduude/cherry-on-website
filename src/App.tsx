@@ -18,7 +18,8 @@ function App() {
   return (
     <Router>
       <div className="app-wrapper">
-        <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:;" />
+        
+        {/* <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:;" /> */}
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
 
