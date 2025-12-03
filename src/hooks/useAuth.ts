@@ -1,23 +1,59 @@
-// src/hooks/useAuth.ts (Простая аутентификация — плейсхолдер)
+// src/hooks/useAuth.ts
 import { useState, useEffect } from 'react';
 
-export const useAuth = () => {
+interface User {
+  avatar: string;
+  username?: string;
+  email?: string;
+}
+
+interface UseAuthReturn {
+  isAuthenticated: boolean;
+  user: User | null;
+  login: (userData: User) => void;
+  logout: () => void;
+}
+
+export const useAuth = (): UseAuthReturn => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
+    // Проверяем localStorage или другой источник
     const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuthenticated(true);
-      setUser({ avatar: '/assets/avatar.png' });  // Плейсхолдер
+    const savedUser = localStorage.getItem('user');
+    
+    if (token && savedUser) {
+      try {
+        const parsedUser = JSON.parse(savedUser) as User;
+        setIsAuthenticated(true);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error('Ошибка парсинга user:', error);
+        setIsAuthenticated(false);
+        setUser(null);
+      }
     }
   }, []);
 
-  const logout = () => {
-    localStorage.clear();
-    setIsAuthenticated(false);
-    setUser(null);
+  const login = (userData: User) => {
+    setIsAuthenticated(true);
+    setUser(userData);
+    localStorage.setItem('token', 'dummy-token');
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
-  return { isAuthenticated, user, logout };
+  const logout = () => {
+    setIsAuthenticated(false);
+    setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  };
+
+  return {
+    isAuthenticated,
+    user,
+    login,
+    logout
+  };
 };
