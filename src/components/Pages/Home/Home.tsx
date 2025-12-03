@@ -25,23 +25,24 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // GSAP анимации для ImageMotion
-    if (imageMotionRef.current) {
-      gsap.set(imageMotionRef.current, {
-        transform: 'rotateX(90deg)',
-      });
+ if (imageMotionRef.current) {
+  // Начальное состояние - нормальное
+  gsap.set(imageMotionRef.current, {
+    transform: 'rotateX(90deg)',  // Начинаем с 0 градусов
+  });
 
-      gsap.to(imageMotionRef.current, {
-        transform: 'rotateX(0deg)',
-        scrollTrigger: {
-          trigger: `.${styles.section2}`,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-          markers: false,
-        },
-      });
-    }
+  // Анимация вращения при скролле
+  gsap.to(imageMotionRef.current, {
+    transform: 'rotateX(0deg)',  // Полный оборот на 360 градусов
+    scrollTrigger: {
+      trigger: `.${styles.section2}`,
+      start: 'top bottom',     // Когда верх секции достигнет низа экрана
+      end: 'bottom top',       // Когда низ секции достигнет верха экрана
+      scrub: true,               // Плавное следование за скроллом (2 секунды)
+      markers: false,
+    },
+  });
+}
 
     // Анимации для секции 3
     const titleElement = section3Ref.current?.querySelector(`.${styles.title}`);
@@ -150,7 +151,7 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
       >
         <div className={styles.section1Container}>
           <h1 className={styles.mainTitle}>
-            Digital Freedom Zone
+            П0ПКИ
           </h1>
           <p className={styles.heroSubtitle}>
             Ваш портал в цифровую свободу
@@ -162,8 +163,8 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
           </div>
           
           <div className={styles.scrollIndicator}>
-            <span className={styles.scrollText}>Прокрутите вниз</span>
-            <div className={styles.scrollLine}></div>
+            
+            
           </div>
         </div>
       </section>

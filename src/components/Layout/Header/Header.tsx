@@ -2,8 +2,11 @@
 import React from 'react';
 import MenuAuth from './MenuAuth';
 import styles from './Header.module.css';
+import type { HeaderProps } from '../../../types';
 
-const Header = ({ isMobile, isAuthenticated }) => {
+
+
+const Header: React.FC<HeaderProps> = ({ isMobile }) => {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -13,9 +16,10 @@ const Header = ({ isMobile, isAuthenticated }) => {
             <li><a href="/">Главная</a></li>
             <li><a href="/services">Услуги</a></li>
             <li><a href="/contacts">Контакты</a></li>
+            
           </ul>
+          <MenuAuth isMobile={isMobile} />
         </nav>
-        <MenuAuth isAuthenticated={isAuthenticated} isMobile={isMobile} />
       </div>
     </header>
   );

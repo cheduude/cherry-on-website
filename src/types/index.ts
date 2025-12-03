@@ -1,7 +1,8 @@
 // src/types/index.ts
 export interface User {
   avatar: string;
-  // Добавь больше полей позже
+  username?: string;
+  email?: string;
 }
 
 export interface HeaderProps {
@@ -11,6 +12,7 @@ export interface HeaderProps {
 
 export interface MenuAuthProps {
   isMobile: boolean;
+  
 }
 
 export interface HomeProps {
@@ -20,4 +22,11 @@ export interface HomeProps {
 export interface ServicesProps {
   isMobile: boolean;
   isAuthenticated: boolean;
+}
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  user: User | null;
+  login: (userData: User) => void;
+  logout: () => void;
 }
