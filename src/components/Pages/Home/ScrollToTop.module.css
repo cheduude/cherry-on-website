@@ -1,0 +1,111 @@
+/* src/components/Layout/ScrollToTop/ScrollToTop.module.css */
+.scrollToTopButton {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 20px rgba(0, 198, 255, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.scrollToTopButton:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 
+    0 8px 30px rgba(0, 198, 255, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #0072ff, #00c6ff);
+}
+
+.scrollToTopButton:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+.arrowIcon {
+  width: 24px;
+  height: 24px;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.scrollToTopButton:hover .arrowIcon {
+  transform: translateY(-2px);
+}
+
+/* Эффект пульсации (опционально) */
+.scrollToTopButton::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  opacity: 0.2;
+  z-index: -1;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.2;
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .scrollToTopButton {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .arrowIcon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scrollToTopButton {
+    bottom: 15px;
+    right: 15px;
+    width: 46px;
+    height: 46px;
+  }
+  
+  .scrollToTopButton::before {
+    display: none; /* Убираем пульсацию на мобильных */
+  }
+}
