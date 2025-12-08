@@ -23,6 +23,8 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
       gestureDirection: 'vertical',
     });
 
+    // Сохраняем экземпляр Lenis в window для использования в ScrollToTop
+    (window as any).lenis = lenis;
     gsap.registerPlugin(ScrollTrigger);
 
  if (imageMotionRef.current) {
@@ -138,6 +140,7 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
 
     return () => {
       lenis.destroy();
+      delete (window as any).lenis; // Очищаем при размонтировании
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, [isMobile]);

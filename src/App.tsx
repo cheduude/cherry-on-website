@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Layout/Header/Header';
 import Footer from './components/Layout/Footer/Footer';
 import { useDeviceDetect } from './hooks/useDeviceDetect';
+import ScrollToTop from './components/Pages/Home/ScrollToTop';
+import GlassButtons from './components/Layout/GlassButtons/GlassButtons';
 import { useAuth } from './hooks/useAuth';
 import './App.css';
 
@@ -23,6 +25,7 @@ function App() {
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
 
+      <GlassButtons />
         <div className="site-body">
           <Header isMobile={isMobile} isAuthenticated={isAuthenticated} />
           <main className="main-content">
@@ -38,6 +41,7 @@ function App() {
           </main>
         </div>
         <Footer />
+        <ScrollToTop />
       </div>
     </Router>
   );
