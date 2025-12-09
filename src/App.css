@@ -19,3 +19,25 @@ body {
   margin: 0 auto;
   padding: 0 20px;
 }
+/* === СТИЛИ ДЛЯ ИЗОЛЯЦИИ СТРАНИЦЫ АВТОРИЗАЦИИ === */
+
+/* При изоляции скрываем элементы основного layout */
+body.auth-page-isolated .glass-buttons,
+body.auth-page-isolated header,
+body.auth-page-isolated footer,
+body.auth-page-isolated .site-body::before,
+body.auth-page-isolated .site-body::after {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Основной контент становится полноэкранным на странице авторизации */
+body.auth-page-isolated .main-content {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: transparent !important;
+}

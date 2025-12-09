@@ -1,0 +1,590 @@
+/* === ИЗОЛЯЦИЯ СТИЛЕЙ ДЛЯ СТРАНИЦЫ АВТОРИЗАЦИИ === */
+
+/* Когда активна страница авторизации, сбрасываем глобальные стили */
+body.auth-page-isolated {
+  background: transparent !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body.auth-page-isolated .app-wrapper {
+  background: transparent !important;
+  min-height: 100vh !important;
+}
+
+/* Скрываем все элементы основного сайта на странице авторизации */
+body.auth-page-isolated .main-content {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999 !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+
+
+
+
+.auth-container {
+  position: fixed; /* Изменено с relative на fixed */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
+@import url('https://unicons.iconscout.com/release/v2.1.9/css/unicons.css');
+
+* {
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.auth-container {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+/* Liquid glass effect overlay */
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  backdrop-filter: blur(20px);
+  z-index: -1;
+}
+
+a {
+  cursor: pointer;
+  transition: all 200ms linear;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.link {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.link:hover {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+p {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+h4 {
+  font-weight: 600;
+  background: linear-gradient(45deg, #fff, #e0e0e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 1rem 0;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+}
+
+h6 {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+h6 span {
+  padding: 0 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1rem;
+  background: linear-gradient(45deg, #fff, #a8edea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.auth-section {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.full-height {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  width: 100%;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.align-self-center {
+  align-self: center;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.py-5 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.pb-3 {
+  padding-bottom: 1rem;
+}
+
+.pb-5 {
+  padding-bottom: 3rem;
+}
+
+.pt-5 {
+  padding-top: 3rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+[type="checkbox"]:checked,
+[type="checkbox"]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+}
+
+.checkbox:checked + label,
+.checkbox:not(:checked) + label {
+  position: relative;
+  display: block;
+  text-align: center;
+  width: 60px;
+  height: 16px;
+  border-radius: 8px;
+  padding: 0;
+  margin: 10px auto;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.checkbox:checked + label:before,
+.checkbox:not(:checked) + label:before {
+  position: absolute;
+  display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: 'unicons';
+  content: '\eb4f';
+  z-index: 20;
+  top: -10px;
+  left: -10px;
+  line-height: 36px;
+  text-align: center;
+  font-size: 24px;
+  transition: all 0.5s ease;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+}
+
+.checkbox:checked + label:before {
+  transform: translateX(44px) rotate(-270deg);
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.card-3d-wrap {
+  position: relative;
+  width: 440px;
+  max-width: 90%;
+  height: 420px;
+  transform-style: preserve-3d;
+  perspective: 800px;
+  margin: 40px auto 0 auto;
+}
+
+.card-3d-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-style: preserve-3d;
+  transition: all 600ms ease-out;
+}
+
+.card-front, .card-back {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+/* Glass refraction effect */
+.card-front::before, .card-back::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.checkbox:checked ~ .card-3d-wrap .card-3d-wrapper {
+  transform: rotateY(180deg);
+}
+
+.center-wrap {
+  position: absolute;
+  width: 100%;
+  padding: 0 30px;
+  top: 50%;
+  left: 0;
+  transform: translate3d(0, -50%, 35px) perspective(100px);
+  z-index: 20;
+  display: block;
+}
+
+.form-group {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.form-style {
+  padding: 13px 20px;
+  padding-left: 55px;
+  height: 48px;
+  width: 100%;
+  font-weight: 500;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+  outline: none;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 200ms linear;
+  backdrop-filter: blur(10px);
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-style:focus,
+.form-style:active {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.input-icon {
+  position: absolute;
+  top: 0;
+  left: 18px;
+  height: 48px;
+  font-size: 24px;
+  line-height: 48px;
+  text-align: left;
+  color: #fff;
+  transition: all 50ms linear;
+  
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 0.7;
+  transition: all 200ms linear;
+}
+
+.form-group input:focus::placeholder {
+  opacity: 0;
+  transition: all 200ms linear;
+}
+
+.btn {
+  border-radius: 12px;
+  height: 44px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 200ms linear;
+  padding: 0 30px;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(10px);
+  color: #fff;
+  box-shadow: 
+    0 8px 32px rgba(31, 38, 135, 0.37),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn:active,
+.btn:focus {
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+  color: #fff;
+  box-shadow: 
+    0 8px 32px rgba(31, 38, 135, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  outline: none;
+}
+
+.btn:hover {
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+  color: #fff;
+  box-shadow: 
+    0 8px 32px rgba(31, 38, 135, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.logo {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  display: block;
+  z-index: 100;
+  transition: all 250ms linear;
+}
+
+.logo img {
+  height: 26px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pt-sm-2 {
+  padding-top: 0.5rem;
+}
+
+/* Liquid glass animations */
+@keyframes liquidShift {
+  0%, 100% {
+    border-radius: 20px;
+  }
+  50% {
+    border-radius: 25px 15px 25px 15px;
+  }
+}
+
+.card-front, .card-back {
+  animation: liquidShift 8s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 20px;
+  }
+  
+  .card-3d-wrap {
+    width: 100%;
+    max-width: 400px;
+    height: 380px;
+    margin-top: 30px;
+  }
+  
+  .center-wrap {
+    padding: 0 20px;
+  }
+  
+  .logo {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 20px auto;
+    text-align: center;
+  }
+  
+  .full-height {
+    min-height: calc(100vh - 40px);
+  }
+  
+  .py-5 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-3d-wrap {
+    height: 400px;
+  }
+  
+  .center-wrap {
+    padding: 0 15px;
+  }
+  
+  h6 span {
+    padding: 0 10px;
+    font-size: 14px;
+  }
+  
+  .form-style {
+    padding: 12px 15px;
+    padding-left: 50px;
+    font-size: 13px;
+  }
+  
+  .input-icon {
+    left: 15px;
+    font-size: 20px;
+  }
+  
+  .btn {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 576px) {
+  .pt-sm-2 {
+    padding-top: 2rem;
+  }
+}
+
+/* Ensure proper centering */
+.justify-content-center {
+  justify-content: center !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+/* Additional liquid glass effects */
+.form-group:hover .input-icon {
+  transform: scale(1.1);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+

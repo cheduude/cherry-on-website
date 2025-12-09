@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom'; // Добавляем useNavigate
 import { useAuth } from '../../../hooks/useAuth';
 import styles from './MenuAuth.module.css';
 import type { MenuAuthProps } from '../../../types';
 
 const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
   const { isAuthenticated: authStatus, user, logout } = useAuth();
+  const navigate = useNavigate(); // Хук для навигации
   const [isHovered, setIsHovered] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -23,6 +25,27 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
 
   const handleLogout = () => {
     logout();
+    setIsDropdownOpen(false);
+  };
+
+  // Обработчики для навигации
+  const handleLoginClick = () => {
+    navigate('/auth');
+    setIsDropdownOpen(false);
+  };
+
+  const handleRegisterClick = () => {
+    navigate('/auth?mode=register');
+    setIsDropdownOpen(false);
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+    setIsDropdownOpen(false);
+  };
+
+  const handleSettingsClick = () => {
+    navigate('/settings');
     setIsDropdownOpen(false);
   };
 
@@ -49,10 +72,10 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
 
         {isDropdownOpen && authStatus && (
           <div className={styles.mobileDropdown}>
-            <button className={styles.dropdownItem} onClick={() => window.location.href = '/profile'}>
+            <button className={styles.dropdownItem} onClick={handleProfileClick}>
               Профиль
             </button>
-            <button className={styles.dropdownItem} onClick={() => window.location.href = '/settings'}>
+            <button className={styles.dropdownItem} onClick={handleSettingsClick}>
               Настройки
             </button>
             <button className={styles.dropdownItem} onClick={handleLogout}>
@@ -65,13 +88,13 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
           <div className={styles.mobileDropdown}>
             <button 
               className={styles.dropdownItem}
-              onClick={() => window.location.href = '/login'}
+              onClick={handleLoginClick}
             >
               Войти
             </button>
             <button 
               className={styles.dropdownItem}
-              onClick={() => window.location.href = '/register'}
+              onClick={handleRegisterClick}
             >
               Регистрация
             </button>
@@ -86,7 +109,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
     <div className={styles.navigation}>
       <a 
         className={styles.button}
-        href={authStatus ? '#' : '/login'}
+        href={authStatus ? '#' : '/auth'} // Изменено с '/login' на '/auth'
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={(e) => {
@@ -94,6 +117,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
             e.preventDefault();
             setIsDropdownOpen(!isDropdownOpen);
           }
+          // Если не авторизован, переход на /auth уже в href
         }}
       >
         <img 
@@ -112,13 +136,13 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
         <div className={styles.dropdown} ref={dropdownRef}>
           <button 
             className={styles.dropdownItem}
-            onClick={() => window.location.href = '/profile'}
+            onClick={handleProfileClick}
           >
             Профиль
           </button>
           <button 
             className={styles.dropdownItem}
-            onClick={() => window.location.href = '/settings'}
+            onClick={handleSettingsClick}
           >
             Настройки
           </button>
