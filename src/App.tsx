@@ -74,7 +74,7 @@ function App() {
           <meta httpEquiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
 
           {/* Скрываем GlassButtons на странице авторизации */}
-          {showHeaderAndFooter && <GlassButtons />}
+          {showHeaderAndFooter}
           
           <div className="site-body">
             {showHeaderAndFooter && <Header isMobile={isMobile} isAuthenticated={isAuthenticated} />}

@@ -1,53 +1,49 @@
-/* Базовые переменные */
-:root {
-  --fz: 14px;
-  --c-content: #1F1F1F;
-  --c-glass: #FFFFFF;
-  --c-light: #000000;
-  --c-dark: #FFFFFF;
-  --glass-reflex-light: 1;
-  --glass-reflex-dark: 0.8;
-  --saturation: 1;
-}
-
-/* Основной контейнер */
-.switcher {
+/* src/components/ThemeSwitcher/ThemeSwitcher.module.css */
+.themeSwitcherWrapper {
   position: fixed;
-  z-index: 1;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
   display: flex;
   align-items: center;
   gap: 8px;
   width: 244px;
-  max-width: 244px;
   height: 70px;
   box-sizing: border-box;
   padding: 8px 12px 10px;
-  margin: 0 auto;
   border: none;
   border-radius: 99em;
-  font-size: var(--fz);
-  background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
-  backdrop-filter: blur(8px) url(#switcher) saturate(var(--saturation));
-  -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+  background-color: color-mix(in srgb, var(--c-glass, #bbbbbc) 12%, transparent);
+  backdrop-filter: blur(8px) saturate(var(--saturation, 150%));
+  -webkit-backdrop-filter: blur(8px) saturate(var(--saturation, 150%));
   box-shadow: 
-    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent),
-    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent),
-    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent),
-    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
-    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
-    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
-    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
-    0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
-    0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-  transition: background-color 400ms cubic-bezier(1, 0, 0.4, 1), 
-              box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
+    inset 0 0 0 1px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 10%), transparent),
+    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 90%), transparent),
+    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 80%), transparent),
+    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 60%), transparent),
+    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 12%), transparent),
+    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 20%), transparent),
+    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 20%), transparent),
+    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 10%), transparent),
+    0px 1px 5px 0px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 10%), transparent),
+    0px 6px 16px 0px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 8%), transparent);
+  transition: background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
 }
 
-.switcher__legend {
+.switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.legend {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -55,23 +51,36 @@
   border: 0;
   padding: 0;
   white-space: nowrap;
-  -webkit-clip-path: inset(100%);
   clip-path: inset(100%);
   clip: rect(0 0 0 0);
   overflow: hidden;
 }
 
-.switcher__options {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  position: relative;
-  z-index: 1;
+.input {
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
 }
 
-.switcher__option {
-  --c: var(--c-content);
+.icon {
+  display: block;
+  width: 100%;
+  transition: transform 200ms cubic-bezier(0.5, 0, 0, 1);
+}
+
+.filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: -1;
+}
+
+.option {
+  --c: var(--c-content, #fff);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,131 +91,149 @@
   border-radius: 99em;
   opacity: 1;
   transition: all 160ms;
-  position: relative;
   cursor: pointer;
 }
 
-.switcher__input {
+.option:hover {
+  --c: var(--c-action, #0052f5);
+}
+
+.option:hover .icon {
+  transform: scale(1.2);
+}
+
+.option.active {
+  --c: var(--c-content, #fff);
+  cursor: auto;
+}
+
+.option.active .icon {
+  transform: scale(1);
+}
+
+.switcher::after {
+  content: "";
   position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.switcher__icon {
-  width: 36px;
-  height: 36px;
-  transition: all 160ms;
-}
-
-.switcher__option.active {
-  --c: var(--c-content);
-}
-
-.switcher__toggle {
-  position: absolute;
-  top: 8px;
-  bottom: 10px;
-  left: var(--x, 0px);
-  width: var(--w, 68px);
+  left: 4px;
+  top: 4px;
+  display: block;
+  width: 84px;
+  height: calc(100% - 10px);
   border-radius: 99em;
-  background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
-  backdrop-filter: blur(12px) url(#toggler) saturate(var(--saturation));
-  -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+  background-color: color-mix(in srgb, var(--c-glass, #bbbbbc) 36%, transparent);
+  z-index: -1;
   box-shadow: 
-    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent),
-    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent),
-    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent),
-    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
-    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
-    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
-    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
-    0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
-    0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-  transition: left 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
-              width 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  pointer-events: none;
-  z-index: 0;
+    inset 0 0 0 1px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 10%), transparent),
+    inset 2px 1px 0px -1px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 90%), transparent),
+    inset -1.5px -1px 0px -1px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 80%), transparent),
+    inset -2px -6px 1px -5px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 60%), transparent),
+    inset -1px 2px 3px -1px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 20%), transparent),
+    inset 0px -4px 1px -2px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 10%), transparent),
+    0px 3px 6px 0px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 8%), transparent);
+  transition: background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1),
+    transform 400ms cubic-bezier(1, 0, 0.4, 1);
+  transform: translateX(0);
 }
 
-.switcher__filter {
-  display: none;
+.switcher:has(input[data-option="1"]:checked)::after {
+  transform: translateX(0);
 }
 
-/* Модификатор для темной темы */
-.switcher[data-theme="dark"],
-body.dark .switcher {
-  --c-content: #F5F5F5;
-  --c-glass: #2A2A2A;
-  --c-light: #FFFFFF;
-  --c-dark: #000000;
-  --glass-reflex-light: 0.8;
-  --glass-reflex-dark: 1;
-  --saturation: 1.1;
+.switcher:has(input[data-option="2"]:checked)::after {
+  transform: translateX(76px);
 }
 
-/* Модификатор для dim темы */
-.switcher[data-theme="dim"],
-body.dim .switcher {
-  --c-content: #CCCCCC;
-  --c-glass: #333333;
-  --c-light: #DDDDDD;
-  --c-dark: #111111;
-  --glass-reflex-light: 0.9;
-  --glass-reflex-dark: 0.9;
-  --saturation: 1;
+.switcher:has(input[data-option="3"]:checked)::after {
+  transform: translateX(152px);
 }
 
-/* Анимация для плавного переключения */
-@keyframes slideIn {
-  from {
-    transform: translateX(-50%) scale(0.95);
-    opacity: 0;
+/* Анимации для переключения тем */
+@keyframes scaleToggle {
+  0% {
+    transform: scale(1, 1);
   }
-  to {
-    transform: translateX(-50%) scale(1);
-    opacity: 1;
+  50% {
+    transform: scale(1.1, 1);
+  }
+  100% {
+    transform: scale(1, 1);
   }
 }
 
-.switcher {
-  animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Для браузеров без поддержки backdrop-filter */
-@supports not (backdrop-filter: blur(1px)) {
-  .switcher {
-    background-color: color-mix(in srgb, var(--c-glass) 90%, transparent);
+@keyframes scaleToggle2 {
+  0% {
+    transform: scale(1, 1);
   }
-  
-  .switcher__toggle {
-    background-color: color-mix(in srgb, var(--c-glass) 70%, transparent);
+  50% {
+    transform: scale(1.2, 1);
+  }
+  100% {
+    transform: scale(1, 1);
   }
 }
 
-/* Мобильная адаптация */
+@keyframes scaleToggle3 {
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.1, 1);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* Адаптивность */
 @media (max-width: 768px) {
-  .switcher {
-    top: 20px;
+  .themeSwitcherWrapper {
+    top: 10px;
+    right: 10px;
     width: 220px;
     height: 60px;
     padding: 6px 10px 8px;
   }
   
-  .switcher__option {
-    width: 60px;
+  .option {
     padding: 0 12px;
+    width: 60px;
   }
   
-  .switcher__toggle {
-    top: 6px;
-    bottom: 8px;
-    width: var(--w, 60px);
+  .switcher::after {
+    width: 76px;
   }
   
-  .switcher__icon {
-    width: 32px;
-    height: 32px;
+  .switcher:has(input[data-option="2"]:checked)::after {
+    transform: translateX(68px);
+  }
+  
+  .switcher:has(input[data-option="3"]:checked)::after {
+    transform: translateX(136px);
+  }
+}
+
+@media (max-width: 480px) {
+  .themeSwitcherWrapper {
+    width: 200px;
+    height: 55px;
+    padding: 5px 8px 7px;
+  }
+  
+  .option {
+    padding: 0 10px;
+    width: 54px;
+  }
+  
+  .switcher::after {
+    width: 70px;
+  }
+  
+  .switcher:has(input[data-option="2"]:checked)::after {
+    transform: translateX(62px);
+  }
+  
+  .switcher:has(input[data-option="3"]:checked)::after {
+    transform: translateX(124px);
   }
 }
