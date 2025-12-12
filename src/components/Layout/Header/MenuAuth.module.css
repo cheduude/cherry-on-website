@@ -34,17 +34,18 @@
 }
 
 .logout {
-  font-size: 0.8em;
+  font-size: 0.9em;
   font-family: 'Oswald', sans-serif;
   position: relative;
   right: -18px;
-  bottom: -4px;
+  bottom: -3px;
   overflow: hidden;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   opacity: 0;
   transition: opacity 0.45s ease;
   white-space: nowrap;
   color: white;
+  cursor: pointer;
 }
 
 .button:hover .logout,
@@ -52,54 +53,7 @@
   opacity: 0.9;
 }
 
-/* Dropdown для десктопа */
-.dropdown {
-  position: absolute;
-  top: 100%;
-  right: 15px;
-  background-color: rgba(0, 0, 0, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 8px 0;
-  min-width: 150px;
-  z-index: 1000;
-  margin-top: 5px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
 
-/* Dropdown для мобильных */
-.mobileDropdown {
-  position: absolute;
-  top: 100%;
-  right: 15px;
-  background-color: rgba(0, 0, 0, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 8px 0;
-  min-width: 150px;
-  z-index: 1000;
-  margin-top: 5px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.dropdownItem {
-  display: block;
-  width: 100%;
-  padding: 10px 16px;
-  background: none;
-  border: none;
-  color: white;
-  text-align: left;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: 'Oswald', sans-serif;
-  letter-spacing: 1px;
-  transition: background 0.2s ease;
-}
-
-.dropdownItem:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
 
 /* Адаптация для мобильных */
 @media (max-width: 768px) {

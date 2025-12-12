@@ -1,29 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
+import { useNotifications } from '../../../contexts/NotificationContext';
+import { VALIDATION_RULES, VALIDATION_MESSAGES } from '../../../constants/validation';
 import LoginForm from './Log';
 import SignupForm from './Reg';
 import './Auth.css';
-
-// Интерфейс для ошибок валидации
-interface ValidationErrors {
-  [key: string]: string;
-}
 
 const Auth: React.FC = () => {
   const [searchParams] = useSearchParams();
   const mode = searchParams.get('mode');
   const [isLogin, setIsLogin] = useState(mode !== 'register');
   const { login, signup } = useAuth();
-  
-  const [errors, setErrors] = useState<ValidationErrors>({});
+  const { showError, showSuccess } = useNotifications();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     setIsLogin(mode !== 'register');
-    setErrors({});
-    setSubmitError(null);
   }, [mode]);
 
   useEffect(() => {
@@ -41,86 +34,114 @@ const Auth: React.FC = () => {
     confirmPassword: '',
   });
 
-  // Базовая функция валидации
-  const validateForm = (formType: 'login' | 'signup'): boolean => {
-    const newErrors: ValidationErrors = {};
-
-    if (formType === 'login') {
-      if (!formData.loginEmail.trim()) {
-        newErrors.loginEmail = 'Email обязателен';
-      } else if (!/\S+@\S+\.\S+/.test(formData.loginEmail)) {
-        newErrors.loginEmail = 'Введите корректный email';
-      }
-
-      if (!formData.loginPassword.trim()) {
-        newErrors.loginPassword = 'Пароль обязателен';
-      } else if (formData.loginPassword.length < 6) {
-        newErrors.loginPassword = 'Пароль должен содержать минимум 6 символов';
-      }
-    }
-
-    if (formType === 'signup') {
-      if (!formData.signupName.trim()) {
-        newErrors.signupName = 'Имя обязательно';
-      } else if (formData.signupName.length < 2) {
-        newErrors.signupName = 'Имя должно содержать минимум 2 символа';
-      }
-
-      if (!formData.signupEmail.trim()) {
-        newErrors.signupEmail = 'Email обязателен';
-      } else if (!/\S+@\S+\.\S+/.test(formData.signupEmail)) {
-        newErrors.signupEmail = 'Введите корректный email';
-      }
-
-      if (!formData.signupPassword.trim()) {
-        newErrors.signupPassword = 'Пароль обязателен';
-      } else if (formData.signupPassword.length < 6) {
-        newErrors.signupPassword = 'Пароль должен содержать минимум 6 символов';
-      }
-
-      if (!formData.confirmPassword.trim()) {
-        newErrors.confirmPassword = 'Подтвердите пароль';
-      } else if (formData.signupPassword !== formData.confirmPassword) {
-        newErrors.confirmPassword = 'Пароли не совпадают';
-      }
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+  };
+
+  // Функция валидации пароля с использованием VALIDATION_RULES
+  const validatePassword = useCallback((password: string): { isValid: boolean; errors: string[] } => {
+    const errors: string[] = [];
     
-    // Убираем ошибку при вводе
-    if (errors[name]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[name];
-        return newErrors;
-      });
+    if (!password.trim()) {
+      errors.push(VALIDATION_MESSAGES.PASSWORD_REQUIRED);
+    } else {
+      // Проверка длины
+      if (password.length < VALIDATION_RULES.MIN_PASSWORD_LENGTH) {
+        errors.push(VALIDATION_MESSAGES.PASSWORD_TOO_SHORT);
+      }
+      
+      if (password.length > VALIDATION_RULES.MAX_PASSWORD_LENGTH) {
+        errors.push(VALIDATION_MESSAGES.PASSWORD_TOO_LONG);
+      }
+      
+      // Проверка по регулярному выражению
+      if (!VALIDATION_RULES.PASSWORD_REGEX.test(password)) {
+        errors.push(VALIDATION_MESSAGES.PASSWORD_WEAK);
+      }
     }
-    if (submitError) setSubmitError(null);
+    
+    return {
+      isValid: errors.length === 0,
+      errors
+    };
+  }, []);
+
+  const validateLoginForm = (): boolean => {
+    const errors: string[] = [];
+
+    // Email валидация
+    if (!formData.loginEmail.trim()) {
+      errors.push(VALIDATION_MESSAGES.EMAIL_REQUIRED);
+    } else if (!VALIDATION_RULES.EMAIL_REGEX.test(formData.loginEmail)) {
+      errors.push(VALIDATION_MESSAGES.EMAIL_INVALID);
+    }
+
+    // Пароль валидация
+    const passwordValidation = validatePassword(formData.loginPassword);
+    if (!passwordValidation.isValid) {
+      errors.push(...passwordValidation.errors);
+    }
+
+    if (errors.length > 0) {
+      showError('Ошибка входа', errors.join('. '));
+      return false;
+    }
+
+    return true;
+  };
+
+  const validateSignupForm = (): boolean => {
+    const errors: string[] = [];
+
+    // Имя валидация
+    if (!formData.signupName.trim()) {
+      errors.push(VALIDATION_MESSAGES.NAME_REQUIRED);
+    } else if (formData.signupName.length < VALIDATION_RULES.MIN_USERNAME_LENGTH) {
+      errors.push(VALIDATION_MESSAGES.NAME_TOO_SHORT);
+    } else if (formData.signupName.length > VALIDATION_RULES.MAX_USERNAME_LENGTH) {
+      errors.push(VALIDATION_MESSAGES.NAME_TOO_LONG);
+    }
+
+    // Email валидация
+    if (!formData.signupEmail.trim()) {
+      errors.push(VALIDATION_MESSAGES.EMAIL_REQUIRED);
+    } else if (!VALIDATION_RULES.EMAIL_REGEX.test(formData.signupEmail)) {
+      errors.push(VALIDATION_MESSAGES.EMAIL_INVALID);
+    }
+
+    // Пароль валидация
+    const passwordValidation = validatePassword(formData.signupPassword);
+    if (!passwordValidation.isValid) {
+      errors.push(...passwordValidation.errors);
+    }
+
+    // Подтверждение пароля
+    if (!formData.confirmPassword.trim()) {
+      errors.push('Подтвердите пароль');
+    } else if (formData.signupPassword !== formData.confirmPassword) {
+      errors.push(VALIDATION_MESSAGES.PASSWORDS_NOT_MATCH);
+    }
+
+    if (errors.length > 0) {
+      showError('Ошибка регистрации', errors.join('. '));
+      return false;
+    }
+
+    return true;
   };
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitError(null);
     
-    if (!validateForm('login')) return;
+    if (!validateLoginForm()) return;
     
     setIsSubmitting(true);
     
     try {
-      console.log('Login data:', {
-        email: formData.loginEmail,
-        password: formData.loginPassword
-      });
-      
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       login({
@@ -129,8 +150,10 @@ const Auth: React.FC = () => {
         name: formData.loginEmail.split('@')[0]
       });
       
+      showSuccess('Успешный вход', 'Вы успешно вошли в систему');
+      
     } catch (error) {
-      setSubmitError('Ошибка входа. Проверьте email и пароль.');
+      showError('Ошибка входа', 'Неверный email или пароль');
     } finally {
       setIsSubmitting(false);
     }
@@ -138,19 +161,12 @@ const Auth: React.FC = () => {
 
   const handleSignupSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitError(null);
     
-    if (!validateForm('signup')) return;
+    if (!validateSignupForm()) return;
     
     setIsSubmitting(true);
     
     try {
-      console.log('Signup data:', {
-        name: formData.signupName,
-        email: formData.signupEmail,
-        password: formData.signupPassword
-      });
-      
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       signup({
@@ -159,8 +175,10 @@ const Auth: React.FC = () => {
         name: formData.signupName
       });
       
+      showSuccess('Успешная регистрация', 'Вы успешно зарегистрировались');
+      
     } catch (error) {
-      setSubmitError('Ошибка регистрации. Попробуйте позже.');
+      showError('Ошибка регистрации', 'Пользователь с таким email уже существует');
     } finally {
       setIsSubmitting(false);
     }
@@ -172,20 +190,14 @@ const Auth: React.FC = () => {
         <img src="https://assets.codepen.io/1462889/fcy.png" alt="Front Codes" />
       </a>
 
-      {submitError && (
-        <div className="auth-error-message">
-          {submitError}
-        </div>
-      )}
-
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
             <div className="col-12 text-center align-self-center py-5">
               <div className="auth-section pb-5 pt-5 pt-sm-2 text-center">
                 <h6 className="mb-0 pb-3">
-                  <span>Log In</span>
-                  <span>Sign Up</span>
+                  <span>Вход</span>
+                  <span>Регистрация</span>
                 </h6>
                 
                 <input 
@@ -204,14 +216,12 @@ const Auth: React.FC = () => {
                       formData={formData}
                       onInputChange={handleInputChange}
                       onSubmit={handleLoginSubmit}
-                      errors={errors}
                       isSubmitting={isSubmitting}
                     />
                     <SignupForm 
                       formData={formData}
                       onInputChange={handleInputChange}
                       onSubmit={handleSignupSubmit}
-                      errors={errors}
                       isSubmitting={isSubmitting}
                     />
                   </div>

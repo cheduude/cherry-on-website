@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { NotificationProvider } from './contexts/NotificationContext';
 import Header from './components/Layout/Header/Header';
 import Footer from './components/Layout/Footer/Footer';
 import { useDeviceDetect } from './hooks/useDeviceDetect';
@@ -103,7 +104,9 @@ function App() {
 function AppWrapper() {
   return (
     <Router>
-      <App />
+      <NotificationProvider>
+        <App />
+      </NotificationProvider>
     </Router>
   );
 }

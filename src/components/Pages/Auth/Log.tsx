@@ -7,7 +7,6 @@ interface LoginFormProps {
   };
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
-  errors: Record<string, string>;
   isSubmitting: boolean;
 }
 
@@ -15,7 +14,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
   formData, 
   onInputChange, 
   onSubmit,
-  errors,
   isSubmitting 
 }) => {
   return (
@@ -26,39 +24,31 @@ const LoginForm: React.FC<LoginFormProps> = ({
           <form onSubmit={onSubmit}>
             <div className="form-group">
               <input 
-                type="email" 
+                type="text" // Изменено с email на text, чтобы убрать встроенную валидацию
                 name="loginEmail" 
-                className={`form-style ${errors.loginEmail ? 'error' : ''}`}
+                className="form-style"
                 placeholder="Your Email" 
                 id="logemail" 
                 autoComplete="off"
                 value={formData.loginEmail}
                 onChange={onInputChange}
-                required
                 disabled={isSubmitting}
               />
               <i className="input-icon uil uil-at"></i>
-              {errors.loginEmail && (
-                <div className="error-message">{errors.loginEmail}</div>
-              )}
             </div>	
             <div className="form-group mt-2">
               <input 
                 type="password" 
                 name="loginPassword" 
-                className={`form-style ${errors.loginPassword ? 'error' : ''}`}
+                className="form-style"
                 placeholder="Your Password" 
                 id="logpass" 
                 autoComplete="off"
                 value={formData.loginPassword}
                 onChange={onInputChange}
-                required
                 disabled={isSubmitting}
               />
               <i className="input-icon uil uil-lock-alt"></i>
-              {errors.loginPassword && (
-                <div className="error-message">{errors.loginPassword}</div>
-              )}
             </div>
             <button 
               type="submit" 

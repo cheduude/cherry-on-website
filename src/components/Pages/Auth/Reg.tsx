@@ -1,4 +1,5 @@
 import React from 'react';
+import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 
 interface SignupFormProps {
   formData: {
@@ -9,7 +10,6 @@ interface SignupFormProps {
   };
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
-  errors: Record<string, string>;
   isSubmitting: boolean;
 }
 
@@ -17,86 +17,70 @@ const SignupForm: React.FC<SignupFormProps> = ({
   formData, 
   onInputChange, 
   onSubmit,
-  errors,
   isSubmitting 
 }) => {
   return (
     <div className="card-back">
       <div className="center-wrap">
         <div className="section text-center">
-          <h4 className="mb-4 pb-3">Sign Up</h4>
+          <h4 className="mb-4 pb-3">Регистрация</h4>
           <form onSubmit={onSubmit}>
             <div className="form-group">
               <input 
                 type="text" 
                 name="signupName" 
-                className={`form-style ${errors.signupName ? 'error' : ''}`}
-                placeholder="Your Full Name" 
+                className="form-style"
+                placeholder="Ваше имя" 
                 id="logname" 
                 autoComplete="off"
                 value={formData.signupName}
                 onChange={onInputChange}
-                required
                 disabled={isSubmitting}
               />
               <i className="input-icon uil uil-user"></i>
-              {errors.signupName && (
-                <div className="error-message">{errors.signupName}</div>
-              )}
             </div>	
             <div className="form-group mt-2">
               <input 
-                type="email" 
+                type="text" 
                 name="signupEmail" 
-                className={`form-style ${errors.signupEmail ? 'error' : ''}`}
-                placeholder="Your Email" 
+                className="form-style"
+                placeholder="Ваш Email" 
                 id="signupemail" 
                 autoComplete="off"
                 value={formData.signupEmail}
                 onChange={onInputChange}
-                required
                 disabled={isSubmitting}
               />
               <i className="input-icon uil uil-at"></i>
-              {errors.signupEmail && (
-                <div className="error-message">{errors.signupEmail}</div>
-              )}
             </div>	
             <div className="form-group mt-2">
               <input 
                 type="password" 
                 name="signupPassword" 
-                className={`form-style ${errors.signupPassword ? 'error' : ''}`}
-                placeholder="Your Password" 
+                className="form-style"
+                placeholder="Пароль" 
                 id="signuppass" 
                 autoComplete="off"
                 value={formData.signupPassword}
                 onChange={onInputChange}
-                required
                 disabled={isSubmitting}
               />
               <i className="input-icon uil uil-lock-alt"></i>
-              {errors.signupPassword && (
-                <div className="error-message">{errors.signupPassword}</div>
-              )}
+              <PasswordStrengthIndicator password={formData.signupPassword} />
             </div>
             <div className="form-group mt-2">
               <input 
                 type="password" 
                 name="confirmPassword" 
-                className={`form-style ${errors.confirmPassword ? 'error' : ''}`}
-                placeholder="Confirm Password" 
+                className="form-style"
+                placeholder="Подтвердите пароль" 
                 id="confirmpass" 
                 autoComplete="off"
                 value={formData.confirmPassword}
                 onChange={onInputChange}
-                required
                 disabled={isSubmitting}
               />
               <i className="input-icon uil uil-lock-alt"></i>
-              {errors.confirmPassword && (
-                <div className="error-message">{errors.confirmPassword}</div>
-              )}
             </div>
             <button 
               type="submit" 
