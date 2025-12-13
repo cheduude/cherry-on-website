@@ -8,6 +8,19 @@ export interface User {
   id?: string | number;
   name?: string;
   role?: string;
+  displayName?: string;
+}
+
+export interface DropdownMenuProps {
+  isOpen: boolean;
+  isClosing?: boolean;
+  onClose: () => void;
+  items: MenuItem[];
+  userRole?: string;
+  onItemClick: (item: MenuItem) => void;
+  onLogout: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 }
 
 export interface HeaderProps {
@@ -71,4 +84,26 @@ export interface LoginFormProps extends AuthFormProps {
 
 export interface SignupFormProps extends AuthFormProps {
   onLoginClick?: () => void;
+}
+
+export interface MenuItem {
+  id: string;
+  label: string;
+  path: string;
+  icon?: string;
+  adminOnly?: boolean;
+  roles?: string[]; // Роли, которым доступен пункт
+}
+
+export interface DropdownMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+  items: MenuItem[];
+  userRole?: string;
+}
+
+export interface UserAvatarProps {
+  user: User;
+  isExpanded: boolean;
+  onClick: () => void;
 }

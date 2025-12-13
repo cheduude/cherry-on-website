@@ -5,7 +5,7 @@ import { useNotifications } from '../../../contexts/NotificationContext';
 import { VALIDATION_RULES, VALIDATION_MESSAGES } from '../../../constants/validation';
 import LoginForm from './Log';
 import SignupForm from './Reg';
-import './Auth.css';
+
 
 const Auth: React.FC = () => {
   const [searchParams] = useSearchParams();

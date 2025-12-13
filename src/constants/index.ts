@@ -1,5 +1,93 @@
-export * from './auth';
-// Можно добавить другие константы в будущем
-// export * from './routes';
-// export * from './ui';
-// export * from './api';
+// src/types/index.ts
+import { AUTH_ROUTES, AUTH_TEXT, AUTH_MODES } from '../constants/auth';
+import type { MenuItemConfig } from '../constants/menu'; // Импортируем тип
+
+export interface User {
+  avatar: string;
+  username?: string;
+  email?: string;
+  id?: string | number;
+  name?: string;
+  role?: string;
+  displayName?: string;
+}
+
+export interface HeaderProps {
+  isMobile: boolean;
+  isAuthenticated: boolean;
+}
+
+export interface MenuAuthProps {
+  isMobile: boolean;
+}
+
+// Обновляем интерфейс MenuItem
+export interface MenuItem extends Omit<MenuItemConfig, 'roles'> {
+  roles?: string[];
+}
+
+export interface DropdownMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+  items: MenuItem[];
+  userRole?: string;
+  onItemClick: (item: MenuItem) => void;
+  onLogout: () => void;
+}
+
+export interface UserAvatarProps {
+  user: User | null; // Разрешаем null
+  isExpanded: boolean;
+  onClick: () => void;
+}
+
+export interface HomeProps {
+  isMobile: boolean;
+}
+
+export interface ServicesProps {
+  isMobile: boolean;
+  isAuthenticated: boolean;
+}
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  user: User | null;
+  login: (userData: User) => void;
+  logout: () => void;
+  updateUser: (userData: Partial<User>) => void;
+}
+
+export type AuthRoute = typeof AUTH_ROUTES[keyof typeof AUTH_ROUTES];
+export type AuthMode = typeof AUTH_MODES[keyof typeof AUTH_MODES];
+
+export interface LoginFormData {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+}
+
+export interface SignupFormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  termsAccepted?: boolean;
+}
+
+export interface AuthFormProps {
+  onSubmit: (data: LoginFormData | SignupFormData) => void;
+  isLoading?: boolean;
+  error?: string | null;
+  success?: string | null;
+}
+
+export interface LoginFormProps extends AuthFormProps {
+  initialEmail?: string;
+  onForgotPassword?: () => void;
+  onSignupClick?: () => void;
+}
+
+export interface SignupFormProps extends AuthFormProps {
+  onLoginClick?: () => void;
+}

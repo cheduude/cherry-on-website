@@ -1,3 +1,4 @@
+// src/hooks/useAuth.ts
 import { useState, useEffect } from 'react';
 import type { User } from '../types';
 
@@ -6,7 +7,8 @@ interface UseAuthReturn {
   user: User | null;
   login: (userData: User) => void;
   logout: () => void;
-  signup: (userData: User) => void; // Добавьте этот метод
+  signup: (userData: User) => void;
+  updateUser: (userData: Partial<User>) => void;
 }
 
 export const useAuth = (): UseAuthReturn => {
@@ -31,17 +33,27 @@ export const useAuth = (): UseAuthReturn => {
   }, []);
 
   const login = (userData: User) => {
+    const userWithDisplayName = {
+      ...userData,
+      displayName: userData.displayName || userData.name || userData.username || 'Пользователь',
+    };
+    
     setIsAuthenticated(true);
-    setUser(userData);
+    setUser(userWithDisplayName);
     localStorage.setItem('token', 'dummy-token');
-    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('user', JSON.stringify(userWithDisplayName));
   };
 
   const signup = (userData: User) => {
+    const userWithDisplayName = {
+      ...userData,
+      displayName: userData.displayName || userData.name || userData.username || 'Пользователь',
+    };
+    
     setIsAuthenticated(true);
-    setUser(userData);
+    setUser(userWithDisplayName);
     localStorage.setItem('token', 'dummy-token');
-    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('user', JSON.stringify(userWithDisplayName));
   };
 
   const logout = () => {
@@ -51,11 +63,20 @@ export const useAuth = (): UseAuthReturn => {
     localStorage.removeItem('user');
   };
 
+  const updateUser = (userData: Partial<User>) => {
+    if (user) {
+      const updatedUser = { ...user, ...userData };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+    }
+  };
+
   return {
     isAuthenticated,
     user,
     login,
-    signup, // Экспортируем метод
-    logout
+    signup,
+    logout,
+    updateUser,
   };
 };

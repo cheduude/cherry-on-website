@@ -2,76 +2,538 @@
 
 .navigation {
   position: relative;
-  display: flex;
+  display: inline-flex;
   justify-content: flex-end;
   width: auto;
+  margin-right: 15px;
 }
 
-.button {
-	text-decoration: none;
-	float: right;
-  padding: 12px;
-  margin: 15px;
+/* ОБЩИЙ СТИЛЬ ДЛЯ ВСЕХ КНОПОК ЛОГИНА */
+.loginButton {
+  text-decoration: none;
   color: white;
-  width: 25px;
   background-color: black;
-  transition: width .35s;
-  -webkit-transition: width .35s;
-  overflow: hidden
+  overflow: hidden;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center; /* Восстанавливаем выравнивание по центру */
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  position: relative;
+  margin: 15px 0;
+  min-height: 50px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 0;
 }
 
-.button:hover {
-  width: 100px;
+/* ===== КНОПКА "ВОЙТИ" (НЕАВТОРИЗОВАННЫЙ) ===== */
+/* Базовый стиль кнопки "Вход" */
+.loginButton:not(:has(.userName)) {
+  width: 50px;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
 }
 
-.button img {
+/* Расширенное состояние кнопки "Вход" */
+.loginButton:not(:has(.userName)):hover {
+  width: 120px;
+  background-color: #111;
+  border-color: #555;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* КОНТЕЙНЕР ДЛЯ АВАТАРА */
+.avatarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* АВАТАРКА - фиксированная позиция слева */
+.loginButton .avatar {
   width: 25px;
   height: 25px;
-  border-radius: 50%;
+  border-radius: 4px;
   object-fit: cover;
-  flex-shrink: 0;
-  float: left;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: brightness(0.9);
+  position: absolute;
+  left: 13px; /* Фиксированный отступ слева */
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.logout {
+/* Плавное увеличение аватарки при расширении */
+.loginButton:not(:has(.userName)):hover .avatar {
+  transform: translateY(-50%) scale(1.05);
+  filter: brightness(1);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+}
+
+/* КОНТЕНТ КНОПКИ "ВОЙТИ" - справа от аватарки */
+.loginButton:not(:has(.userName)) .buttonContent {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  opacity: 0;
+  width: 0;
+  padding-left: 10px; /* Отступ от аватарки */
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, width;
+}
+
+/* Текст "Войти" плавно появляется при расширении */
+.loginButton:not(:has(.userName)):hover .buttonContent {
+  opacity: 1;
+  width: calc(100% - 50px); /* Оставшееся пространство после аватарки */
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+}
+
+/* Текст "Войти" */
+.loginText {
   font-size: 0.9em;
   font-family: 'Oswald', sans-serif;
-  position: relative;
-  right: -18px;
-  bottom: -3px;
-  overflow: hidden;
   letter-spacing: 2px;
-  opacity: 0;
-  transition: opacity 0.45s ease;
   white-space: nowrap;
   color: white;
-  cursor: pointer;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
 }
 
-.button:hover .logout,
-.visible {
+/* Текст плавно появляется */
+.loginButton:not(:has(.userName)):hover .loginText {
   opacity: 0.9;
+  transform: translateX(0);
 }
 
+/* ===== АВТОРИЗОВАННАЯ КНОПКА ===== */
 
+/* Авторизованная кнопка (свернутое состояние) */
+.loginButton:has(.userName) {
+  width: 50px;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
 
-/* Адаптация для мобильных */
+/* РАСШИРЕННОЕ состояние авторизованной кнопки */
+.loginButton.expanded {
+  width: 200px !important;
+  border-color: #555;
+  background-color: #111;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  justify-content: flex-start;
+}
+
+/* Контент авторизованной кнопки */
+.loginButton:has(.userName) .buttonContent {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+  opacity: 0;
+  width: 0;
+  padding-left: 10px; /* Отступ от аватарки */
+  padding-right: 15px; /* Отступ справа */
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, width;
+}
+
+/* Контент появляется в расширенном состоянии */
+.loginButton.expanded .buttonContent {
+  opacity: 1;
+  width: calc(100% - 50px); /* Оставшееся пространство после аватарки */
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+  padding: 0 15px;
+}
+
+/* Имя пользователя */
+.userName {
+  font-size: 0.9em;
+  font-family: 'Oswald', sans-serif;
+  overflow: hidden;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  color: white;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.4s ease 0.15s,
+              transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
+}
+
+.loginButton.expanded .userName {
+  opacity: 0.9;
+  transform: translateX(0);
+}
+
+/* Стрелочка для авторизованной кнопки */
+.arrowIcon {
+  font-size: 0.7em;
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+  opacity: 0.7;
+}
+
+.loginButton.expanded .arrowIcon {
+  transform: rotate(180deg);
+}
+
+/* Основной контейнер для авторизованного состояния */
+.authContainer {
+  position: relative;
+  display: inline-block;
+}
+
+/* ВЫПАДАЮЩИЙ СПИСОК С ПЛАВНЫМ СКРЫТИЕМ */
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: black;
+  border: 1px solid #555;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  min-width: 200px;
+  width: 200px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  z-index: 1000;
+  overflow: hidden;
+  transform-origin: top center;
+  margin: 0;
+}
+
+/* Анимация появления */
+.dropdownMenu.appearing {
+  animation: menuAppear 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 0;
+  transform: translateY(-5px) scale(0.98);
+  will-change: opacity, transform;
+}
+
+/* Анимация скрытия */
+.dropdownMenu.disappearing {
+  animation: menuDisappear 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  will-change: opacity, transform;
+}
+
+@keyframes menuAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes menuDisappear {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  30% {
+    opacity: 0.7;
+    transform: translateY(2px) scale(0.99);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+    visibility: hidden;
+  }
+}
+
+/* Анимация элементов меню при появлении */
+.menuHeader.appearing {
+  animation: headerAppear 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s forwards;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+@keyframes headerAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menuHeader.disappearing {
+  animation: headerDisappear 0.25s ease forwards;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes headerDisappear {
+  to {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+
+.menuHeader {
+  padding: 12px 15px;
+  border-bottom: 1px solid #333;
+  background-color: #000;
+}
+
+.menuTitle {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9em;
+  color: white;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+}
+
+.userRole {
+  font-size: 0.7em;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.menuItems {
+  padding: 5px 0;
+}
+
+/* Анимация элементов меню */
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+}
+
+/* Анимация появления элементов */
+.menuItem.appearing {
+  opacity: 0;
+  transform: translateX(-15px);
+  animation: itemAppear 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes itemAppear {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Анимация скрытия элементов */
+.menuItem.disappearing {
+  opacity: 1;
+  transform: translateX(0);
+  animation: itemDisappear 0.25s ease forwards;
+}
+
+@keyframes itemDisappear {
+  to {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+
+/* Каскадная анимация элементов при появлении */
+.menuItem.appearing:nth-child(1) { animation-delay: 0.05s; }
+.menuItem.appearing:nth-child(2) { animation-delay: 0.1s; }
+.menuItem.appearing:nth-child(3) { animation-delay: 0.15s; }
+.menuItem.appearing:nth-child(4) { animation-delay: 0.2s; }
+.menuItem.appearing:nth-child(5) { animation-delay: 0.25s; }
+
+/* Каскадная анимация элементов при скрытии (обратный порядок) */
+.menuItem.disappearing:nth-child(5) { animation-delay: 0.05s; }
+.menuItem.disappearing:nth-child(4) { animation-delay: 0.1s; }
+.menuItem.disappearing:nth-child(3) { animation-delay: 0.15s; }
+.menuItem.disappearing:nth-child(2) { animation-delay: 0.2s; }
+.menuItem.disappearing:nth-child(1) { animation-delay: 0.25s; }
+
+/* Анимация разделителя */
+.menuDivider.appearing {
+  opacity: 0;
+  animation: dividerAppear 0.4s ease 0.3s forwards;
+}
+
+.menuDivider.disappearing {
+  opacity: 1;
+  animation: dividerDisappear 0.25s ease forwards;
+}
+
+@keyframes dividerAppear {
+  to { opacity: 1; }
+}
+
+@keyframes dividerDisappear {
+  to { opacity: 0; }
+}
+
+.menuItem:hover {
+  background-color: #111;
+  padding-left: 20px;
+}
+
+.menuIcon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.menuItem:hover .menuIcon {
+  transform: scale(1.1);
+}
+
+.menuLabel {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.adminBadge {
+  font-size: 0.7em;
+  background-color: #d32f2f;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.menuDivider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #333, transparent);
+  margin: 8px 15px;
+}
+
+.logoutItem {
+  color: #ff6b6b;
+}
+
+.logoutItem:hover {
+  background-color: rgba(255, 107, 107, 0.1);
+  color: #ff5252;
+}
+
+.logoutItem:hover .menuIcon {
+  transform: rotate(10deg) scale(1.1);
+}
+
+/* Мобильная версия */
 @media (max-width: 768px) {
   .navigation {
     margin-right: 10px;
+    display: inline-flex;
   }
   
-  .button {
-    margin: 10px;
-    width: 25px !important; /* Отключаем hover-эффект на мобильных */
+  .loginButton {
+    margin: 10px 0;
   }
   
-  .button:hover .logout {
-    opacity: 0; /* Скрываем hover-эффект на мобильных */
+  /* Кнопка "Вход" на мобильных */
+  .loginButton:not(:has(.userName)) {
+    width: 50px !important;
   }
   
-  .logout {
-    opacity: 0.9; /* Всегда показываем текст на мобильных */
-    right: -10px;
+  .loginButton:not(:has(.userName)):hover .buttonContent {
+    display: none;
+  }
+  
+  .loginButton:not(:has(.userName)) .avatar {
+    left: 13px !important;
+    transform: translateY(-50%) !important;
+  }
+  
+  /* Авторизованная кнопка на мобильных */
+  .loginButton:has(.userName),
+  .loginButton.expanded {
+    width: 50px !important;
+  }
+  
+  .loginButton.expanded .buttonContent {
+    display: none;
+  }
+  
+  .loginButton:has(.userName) .avatar {
+    left: 13px !important;
+    transform: translateY(-50%) !important;
+  }
+  
+  .dropdownMenu {
+    position: fixed;
+    top: 70px;
+    right: 10px;
+    left: 10px;
+    width: auto !important;
+    min-width: 200px;
+    max-width: calc(100vw - 20px);
+    border-radius: 4px;
+  }
+  
+  .dropdownMenu.appearing {
+    animation: menuAppearMobile 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .dropdownMenu.disappearing {
+    animation: menuDisappearMobile 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  @keyframes menuAppearMobile {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.98);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  @keyframes menuDisappearMobile {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.98);
+      visibility: hidden;
+    }
   }
 }

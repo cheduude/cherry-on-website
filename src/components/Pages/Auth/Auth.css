@@ -1,20 +1,20 @@
 /* === ИЗОЛЯЦИЯ СТИЛЕЙ ДЛЯ СТРАНИЦЫ АВТОРИЗАЦИИ === */
 
 /* Когда активна страница авторизации, сбрасываем глобальные стили */
-body.auth-page-isolated {
+.auth-layout body.auth-page-isolated {
   background: transparent !important;
   overflow: visible !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-body.auth-page-isolated .app-wrapper {
+.auth-layout body.auth-page-isolated .app-wrapper {
   background: transparent !important;
   min-height: 100vh !important;
 }
 
 /* Скрываем все элементы основного сайта на странице авторизации */
-body.auth-page-isolated .main-content {
+.auth-layout body.auth-page-isolated .main-content {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
@@ -26,11 +26,7 @@ body.auth-page-isolated .main-content {
   margin: 0 !important;
 }
 
-
-
-
-
-.auth-container {
+.auth-layout .auth-container {
   position: fixed; /* Изменено с relative на fixed */
   top: 0;
   left: 0;
@@ -46,12 +42,12 @@ body.auth-page-isolated .main-content {
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 @import url('https://unicons.iconscout.com/release/v2.1.9/css/unicons.css');
 
-* {
+.auth-layout * {
   box-sizing: border-box;
   margin-bottom: 1rem;
 }
 
-body {
+.auth-layout  {
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
   font-size: 15px;
@@ -64,7 +60,7 @@ body {
   min-height: 100vh;
 }
 
-.auth-container {
+.auth-layout .auth-container {
   position: relative;
   min-height: 100vh;
   width: 100%;
@@ -75,7 +71,7 @@ body {
 }
 
 /* Liquid glass effect overlay */
-.auth-container::before {
+.auth-layout .auth-container::before {
   content: '';
   position: absolute;
   top: 0;
@@ -91,47 +87,48 @@ body {
   z-index: -1;
 }
 
-a {
+.auth-layout a {
   cursor: pointer;
   transition: all 200ms linear;
   text-decoration: none;
 }
 
-a:hover {
+.auth-layout a:hover {
   text-decoration: none;
 }
 
-.link {
+.auth-layout .link {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.link:hover {
+.auth-layout .link:hover {
   color: #fff;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
-p {
+.auth-layout p {
   font-weight: 500;
   font-size: 14px;
   line-height: 1.7;
   margin: 0;
 }
 
-h4 {
+.auth-layout h4 {
   font-weight: 600;
   background: linear-gradient(45deg, #fff, #e0e0e0);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0 0 1rem 0;
   text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
 }
 
-h6 {
+.auth-layout h6 {
   margin: 0;
   color: rgba(255, 255, 255, 0.9);
 }
 
-h6 span {
+.auth-layout h6 span {
   padding: 0 20px;
   text-transform: uppercase;
   font-weight: 700;
@@ -141,26 +138,26 @@ h6 span {
   -webkit-text-fill-color: transparent;
 }
 
-.section {
+.auth-layout .section {
   position: relative;
   width: 100%;
   display: block;
 }
 
-.auth-section {
+.auth-layout .auth-section {
   position: relative;
   width: 100%;
   display: block;
 }
 
-.full-height {
+.auth-layout .full-height {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.container {
+.auth-layout .container {
   width: 100%;
   max-width: 1200px;
   padding-right: 15px;
@@ -169,7 +166,7 @@ h6 span {
   margin-left: auto;
 }
 
-.row {
+.auth-layout .row {
   display: flex;
   flex-wrap: wrap;
   margin-right: -15px;
@@ -177,66 +174,66 @@ h6 span {
   width: 100%;
 }
 
-.justify-content-center {
+.auth-layout .justify-content-center {
   justify-content: center;
 }
 
-.text-center {
+.auth-layout .text-center {
   text-align: center;
 }
 
-.align-self-center {
+.auth-layout .align-self-center {
   align-self: center;
 }
 
-.col-12 {
+.auth-layout .col-12 {
   flex: 0 0 100%;
   max-width: 100%;
   padding-right: 15px;
   padding-left: 15px;
 }
 
-.py-5 {
+.auth-layout .py-5 {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
 
-.mb-0 {
+.auth-layout .mb-0 {
   margin-bottom: 0 !important;
 }
 
-.pb-3 {
+.auth-layout .pb-3 {
   padding-bottom: 1rem;
 }
 
-.pb-5 {
+.auth-layout .pb-5 {
   padding-bottom: 3rem;
 }
 
-.pt-5 {
+.auth-layout .pt-5 {
   padding-top: 3rem;
 }
 
-.mt-2 {
+.auth-layout .mt-2 {
   margin-top: 0.5rem;
 }
 
-.mt-4 {
+.auth-layout .mt-4 {
   margin-top: 1.5rem;
 }
 
-.mb-4 {
+.auth-layout .mb-4 {
   margin-bottom: 1.5rem;
 }
 
-[type="checkbox"]:checked,
-[type="checkbox"]:not(:checked) {
+.auth-layout [type="checkbox"]:checked,
+.auth-layout [type="checkbox"]:not(:checked) {
   position: absolute;
   left: -9999px;
 }
 
-.checkbox:checked + label,
-.checkbox:not(:checked) + label {
+.auth-layout .checkbox:checked + label,
+.auth-layout .checkbox:not(:checked) + label {
   position: relative;
   display: block;
   text-align: center;
@@ -251,8 +248,8 @@ h6 span {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.checkbox:checked + label:before,
-.checkbox:not(:checked) + label:before {
+.auth-layout .checkbox:checked + label:before,
+.auth-layout .checkbox:not(:checked) + label:before {
   position: absolute;
   display: block;
   width: 36px;
@@ -274,12 +271,12 @@ h6 span {
   box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
 }
 
-.checkbox:checked + label:before {
+.auth-layout .checkbox:checked + label:before {
   transform: translateX(44px) rotate(-270deg);
   background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
 }
 
-.card-3d-wrap {
+.auth-layout .card-3d-wrap {
   position: relative;
   width: 440px;
   max-width: 90%;
@@ -291,7 +288,7 @@ h6 span {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Плавная анимация */
 }
 
-.card-3d-wrapper {
+.auth-layout .card-3d-wrapper {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -301,7 +298,7 @@ h6 span {
   transition: all 600ms ease-out;
 }
 
-.card-front, .card-back {
+.auth-layout .card-front, .auth-layout .card-back {
   width: 100%;
   height: auto; /* Автоматическая высота */
   min-height: 100%; /* Минимальная высота равна родителю */
@@ -323,7 +320,7 @@ h6 span {
 }
 
 /* Glass refraction effect */
-.card-front::before, .card-back::before {
+.auth-layout .card-front::before, .auth-layout .card-back::before {
   content: '';
   position: absolute;
   top: 0;
@@ -338,16 +335,16 @@ h6 span {
   );
 }
 
-.card-back {
+.auth-layout .card-back {
   transform: rotateY(180deg);
 }
 
-.checkbox:checked ~ .card-3d-wrap .card-3d-wrapper {
+.auth-layout .checkbox:checked ~ .card-3d-wrap .card-3d-wrapper {
   transform: rotateY(180deg);
 }
 
 /* Контейнер для центрирования контента */
-.center-wrap {
+.auth-layout .center-wrap {
   position: relative; /* Изменено с absolute на relative */
   width: 100%;
   padding: 30px; /* Увеличен padding */
@@ -356,7 +353,7 @@ h6 span {
   display: block;
 }
 
-.form-group {
+.auth-layout .form-group {
   position: relative;
   display: block;
   margin: 0 0 1rem 0;
@@ -365,10 +362,11 @@ h6 span {
   transition: margin 0.3s ease;
 }
 
-.form-group:last-child {
+.auth-layout .form-group:last-child {
   margin-bottom: 0;
 }
-.password-strength-container {
+
+.auth-layout .password-strength-container {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
@@ -377,13 +375,13 @@ h6 span {
               margin 0.3s ease;
 }
 
-.password-strength-container.visible {
+.auth-layout .password-strength-container.visible {
   max-height: 200px; /* Максимальная высота для плавного раскрытия */
   opacity: 1;
   margin-top: 8px;
 }
 
-.form-style {
+.auth-layout .form-style {
   padding: 13px 20px;
   padding-left: 55px;
   height: 48px;
@@ -402,15 +400,15 @@ h6 span {
   font-family: 'Poppins', sans-serif;
 }
 
-.form-style:focus,
-.form-style:active {
+.auth-layout .form-style:focus,
+.auth-layout .form-style:active {
   border: 1px solid rgba(255, 255, 255, 0.4);
   outline: none;
   background: rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
-.input-icon {
+.auth-layout .input-icon {
   position: absolute;
   top: 0;
   left: 18px;
@@ -423,18 +421,18 @@ h6 span {
   
 }
 
-.form-group input::placeholder {
+.auth-layout .form-group input::placeholder {
   color: rgba(255, 255, 255, 0.7);
   opacity: 0.7;
   transition: all 200ms linear;
 }
 
-.form-group input:focus::placeholder {
+.auth-layout .form-group input:focus::placeholder {
   opacity: 0;
   transition: all 200ms linear;
 }
 
-.btn {
+.auth-layout .btn {
   border-radius: 12px;
   height: 44px;
   font-size: 13px;
@@ -462,8 +460,8 @@ h6 span {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.btn:active,
-.btn:focus {
+.auth-layout .btn:active,
+.auth-layout .btn:focus {
   background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
   color: #fff;
   box-shadow: 
@@ -472,7 +470,7 @@ h6 span {
   outline: none;
 }
 
-.btn:hover {
+.auth-layout .btn:hover {
   background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
   color: #fff;
   box-shadow: 
@@ -481,7 +479,7 @@ h6 span {
   transform: translateY(-2px);
 }
 
-.logo {
+.auth-layout .logo {
   position: absolute;
   top: 30px;
   right: 30px;
@@ -490,19 +488,19 @@ h6 span {
   transition: all 250ms linear;
 }
 
-.logo img {
+.auth-layout .logo img {
   height: 26px;
   width: auto;
   display: block;
   filter: brightness(0) invert(1);
 }
 
-.mx-auto {
+.auth-layout .mx-auto {
   margin-left: auto;
   margin-right: auto;
 }
 
-.pt-sm-2 {
+.auth-layout .pt-sm-2 {
   padding-top: 0.5rem;
 }
 
@@ -516,28 +514,28 @@ h6 span {
   }
 }
 
-.card-front, .card-back {
+.auth-layout .card-front, .auth-layout .card-back {
   animation: liquidShift 8s ease-in-out infinite;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .auth-container {
+  .auth-layout .auth-container {
     padding: 20px;
   }
   
-  .card-3d-wrap {
+  .auth-layout .card-3d-wrap {
     width: 100%;
     max-width: 400px;
     height: 380px;
     margin-top: 30px;
   }
   
-  .center-wrap {
+  .auth-layout .center-wrap {
     padding: 0 20px;
   }
   
-  .logo {
+  .auth-layout .logo {
     position: relative;
     top: auto;
     right: auto;
@@ -545,68 +543,67 @@ h6 span {
     text-align: center;
   }
   
-  .full-height {
+  .auth-layout .full-height {
     min-height: calc(100vh - 40px);
   }
   
-  .py-5 {
+  .auth-layout .py-5 {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .card-3d-wrap {
+  .auth-layout .card-3d-wrap {
     height: 400px;
   }
   
-  .center-wrap {
+  .auth-layout .center-wrap {
     padding: 0 15px;
   }
   
-  h6 span {
+  .auth-layout h6 span {
     padding: 0 10px;
     font-size: 14px;
   }
   
-  .form-style {
+  .auth-layout .form-style {
     padding: 12px 15px;
     padding-left: 50px;
     font-size: 13px;
   }
   
-  .input-icon {
+  .auth-layout .input-icon {
     left: 15px;
     font-size: 20px;
   }
   
-  .btn {
+  .auth-layout .btn {
     max-width: 100%;
   }
 }
 
 @media (min-width: 576px) {
-  .pt-sm-2 {
+  .auth-layout .pt-sm-2 {
     padding-top: 2rem;
   }
 }
 
 /* Ensure proper centering */
-.justify-content-center {
+.auth-layout .justify-content-center {
   justify-content: center !important;
 }
 
-.align-items-center {
+.auth-layout .align-items-center {
   align-items: center !important;
 }
 
-.d-flex {
+.auth-layout .d-flex {
   display: flex !important;
 }
 
 /* Additional liquid glass effects */
-.form-group:hover .input-icon {
+.auth-layout .form-group:hover .input-icon {
   transform: scale(1.1);
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
-

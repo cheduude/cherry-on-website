@@ -1,26 +1,47 @@
-/* src/components/Layout/Header/Header.module.css (Локальные стили для хедера) */
+/* src/components/Layout/Header/Header.module.css */
+
 .header {
-  background: #1a1a1a;
-  padding: 1rem 0;
+  padding: 0.75rem 0;
 }
 
-/* Просто добавьте эти строки в существующий CSS */
-.nav {
+.container {
   display: flex;
   align-items: center;
-  gap: 2rem; /* Расстояние между ul и MenuAuth */
-  justify-content: space-between;
+  width: 100%;
 }
 
+/* Левая зона: заголовок + меню */
+.left {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Заголовок */
+.title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Навигация */
 .nav ul {
   list-style: none;
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
 }
 
 .nav a {
-  color: #fff;
   text-decoration: none;
+  color: inherit;
+}
+
+/* 🔑 ВАЖНО:
+   последний элемент в container (MenuAuth)
+   жёстко уходит вправо */
+.container > :last-child {
+  margin-left: auto;
 }
