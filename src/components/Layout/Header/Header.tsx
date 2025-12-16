@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
   return (
     <header className={`${styles.header} ${isMobile ? styles.mobile : ''}`}>
       <div className={styles.container}>
-        {/* Левая часть: иконка + логотип/название + мобильное меню */}
+        {/* Левая часть: логотип/название + мобильное меню */}
         <div className={styles.leftSection}>
           {isMobile && (
             <button 
@@ -60,17 +60,6 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
           )}
           
           <Link to="/" className={styles.logoLink}>
-            {/* Иконка для десктопной версии */}
-            {!isMobile && (
-              <div className={styles.logoIcon}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-            )}
-            
             <h1 className={styles.logo}>
               Мой Домен
               <span className={styles.logoSubtitle}>Услуги</span>
@@ -83,22 +72,13 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
           <nav className={styles.nav} role="navigation" aria-label="Основное меню">
             <ul className={styles.navList}>
               <li className={styles.navItem}>
-                <Link to="/" className={styles.navLink}>
-                  <span className={styles.navIcon}>🏠</span>
-                  <span className={styles.navText}>Главная</span>
-                </Link>
+                <Link to="/" className={styles.navLink}>Главная</Link>
               </li>
               <li className={styles.navItem}>
-                <Link to="/services" className={styles.navLink}>
-                  <span className={styles.navIcon}>🔧</span>
-                  <span className={styles.navText}>Услуги</span>
-                </Link>
+                <Link to="/services" className={styles.navLink}>Услуги</Link>
               </li>
               <li className={styles.navItem}>
-                <Link to="/contacts" className={styles.navLink}>
-                  <span className={styles.navIcon}>📞</span>
-                  <span className={styles.navText}>Контакты</span>
-                </Link>
+                <Link to="/contacts" className={styles.navLink}>Контакты</Link>
               </li>
             </ul>
           </nav>

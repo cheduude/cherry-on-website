@@ -8,6 +8,7 @@ import ScrollToTop from './components/Pages/Home/ScrollToTop';
 const Home = React.lazy(() => import('./components/Pages/Home/Home'));
 const Services = React.lazy(() => import('./components/Pages/Services/Services'));
 const Auth = React.lazy(() => import('./components/Pages/Auth/Auth'));
+const OrdersPage = React.lazy(() => import('./components/Pages/Orders/OrdersPage'));
 
 const App: React.FC = () => {
   return (
@@ -28,6 +29,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Home isMobile={false} />} />
             <Route path="/services" element={<Services isMobile={false} isAuthenticated={false} />} />
             <Route path="/contacts" element={<div>Контакты</div>} />
+            <Route path="/orders" element={<OrdersPage />} />
           </Route>
 
           {/* REDIRECT ALL UNKNOWN */}
