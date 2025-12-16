@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom'; // Добавлен useNavigate
 import { useAuth } from '../../../hooks/useAuth';
 import { useNotifications } from '../../../contexts/NotificationContext';
 import { VALIDATION_RULES, VALIDATION_MESSAGES } from '../../../constants/validation';
 import LoginForm from './Log';
 import SignupForm from './Reg';
-
 
 const Auth: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -14,6 +13,7 @@ const Auth: React.FC = () => {
   const { login, signup } = useAuth();
   const { showError, showSuccess } = useNotifications();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate(); // Добавлен хук для навигации
 
   useEffect(() => {
     setIsLogin(mode !== 'register');
@@ -152,6 +152,9 @@ const Auth: React.FC = () => {
       
       showSuccess('Успешный вход', 'Вы успешно вошли в систему');
       
+      // ДОБАВЛЕНО: Редирект на главную страницу
+      navigate('/'); // или navigate('/dashboard') если нужен другой путь
+      
     } catch (error) {
       showError('Ошибка входа', 'Неверный email или пароль');
     } finally {
@@ -176,6 +179,9 @@ const Auth: React.FC = () => {
       });
       
       showSuccess('Успешная регистрация', 'Вы успешно зарегистрировались');
+      
+      // ДОБАВЛЕНО: Редирект на главную страницу и после регистрации
+      navigate('/');
       
     } catch (error) {
       showError('Ошибка регистрации', 'Пользователь с таким email уже существует');

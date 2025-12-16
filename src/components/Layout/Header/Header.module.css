@@ -1,47 +1,561 @@
 /* src/components/Layout/Header/Header.module.css */
 
+/* ===== ОБЩИЕ СТИЛИ ===== */
 .header {
-  padding: 0.75rem 0;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Контейнер */
 .container {
   display: flex;
   align-items: center;
-  width: 100%;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 64px;
 }
 
-/* Левая зона: заголовок + меню */
-.left {
+/* Левая секция */
+.leftSection {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 20px;
 }
 
-/* Заголовок */
-.title {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-/* Навигация */
-.nav ul {
-  list-style: none;
+/* Иконка логотипа */
+.logoIcon {
   display: flex;
-  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  color: #4dabf7;
+  transition: all 0.3s ease;
+}
+
+.logoLink:hover .logoIcon {
+  color: #339af0;
+  transform: scale(1.05);
+}
+
+.logoIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Логотип */
+.logoLink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.logoSubtitle {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #4dabf7;
+  opacity: 0.9;
+}
+
+/* ===== ДЕСКТОПНАЯ НАВИГАЦИЯ С ИКОНКАМИ ===== */
+.navList {
+  display: flex;
+  gap: 32px;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.nav a {
-  text-decoration: none;
-  color: inherit;
+.navItem {
+  position: relative;
 }
 
-/* 🔑 ВАЖНО:
-   последний элемент в container (MenuAuth)
-   жёстко уходит вправо */
-.container > :last-child {
-  margin-left: auto;
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  opacity: 0.9;
+  border-radius: 6px;
+}
+
+.navLink:hover {
+  color: #4dabf7;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 12px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #4dabf7, #339af0);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 1px;
+}
+
+.navLink:hover::after {
+  width: calc(100% - 24px);
+}
+
+/* Иконки в навигации */
+.navIcon {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.navLink:hover .navIcon {
+  transform: scale(1.1);
+}
+
+.navText {
+  white-space: nowrap;
+}
+
+/* Правая секция */
+.rightSection {
+  display: flex;
+  align-items: center;
+}
+
+/* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
+.header.mobile {
+  height: 56px;
+}
+
+.header.mobile .container {
+  padding: 0 16px;
+  height: 56px;
+}
+
+/* Гамбургер-меню */
+.menuToggle {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  z-index: 1001;
+}
+
+.hamburger {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #fff;
+  border-radius: 1px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menuToggle.active .hamburger:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.menuToggle.active .hamburger:nth-child(2) {
+  opacity: 0;
+}
+
+.menuToggle.active .hamburger:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Лого в мобильной версии */
+.header.mobile .logo {
+  font-size: 1.2rem;
+}
+
+.header.mobile .logoSubtitle {
+  font-size: 0.75rem;
+}
+
+/* ===== МОБИЛЬНОЕ МЕНЮ ===== */
+.mobileMenu {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 10, 10, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 999;
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobileMenu.open {
+  transform: translateX(0);
+}
+
+.mobileMenuContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+}
+
+/* Заголовок мобильного меню */
+.mobileMenuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+}
+
+.mobileMenuTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.closeButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.closeIcon {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+/* Навигация в мобильном меню */
+.mobileNavList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.mobileNavItem {
+  margin-bottom: 8px;
+}
+
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
+
+.mobileNavLink:hover,
+.mobileNavLink:active {
+  background: rgba(77, 171, 247, 0.15);
+  border-color: rgba(77, 171, 247, 0.3);
+  transform: translateX(8px);
+}
+
+.mobileNavIcon {
+  font-size: 1.5rem;
+  margin-right: 16px;
+  width: 24px;
+  text-align: center;
+}
+
+.mobileNavText {
+  font-size: 1.1rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+/* Футер мобильного меню */
+.mobileMenuFooter {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobileMenuInfo {
+  text-align: center;
+}
+
+.mobileMenuContact {
+  color: #4dabf7;
+  font-size: 0.9rem;
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+.mobileMenuHours {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  margin: 8px 0;
+}
+
+/* ===== МЕДИА-ЗАПРОСЫ ДЛЯ РАЗНЫХ УСТРОЙСТВ ===== */
+
+/* iPhone SE (375px) и маленькие устройства */
+@media (max-width: 375px) {
+  .header.mobile {
+    height: 52px;
+  }
+  
+  .header.mobile .container {
+    padding: 0 12px;
+    height: 52px;
+  }
+  
+  .mobileMenu {
+    top: 52px;
+  }
+  
+  .logo {
+    font-size: 1.1rem;
+  }
+  
+  .logoSubtitle {
+    font-size: 0.7rem;
+  }
+  
+  .menuToggle {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .mobileMenuContent {
+    padding: 16px;
+  }
+  
+  .mobileNavLink {
+    padding: 14px 16px;
+  }
+  
+  .mobileNavText {
+    font-size: 1rem;
+  }
+}
+
+/* Samsung Galaxy S20 Ultra (412px) и подобные */
+@media (min-width: 376px) and (max-width: 414px) {
+  .header.mobile .container {
+    padding: 0 14px;
+  }
+  
+  .mobileMenuContent {
+    padding: 18px;
+  }
+  
+  .mobileNavLink {
+    padding: 15px 18px;
+  }
+}
+
+/* Планшеты и большие телефоны */
+@media (min-width: 415px) and (max-width: 768px) {
+  .header.mobile .container {
+    padding: 0 20px;
+  }
+  
+  .mobileMenuContent {
+    padding: 24px;
+  }
+  
+  .mobileNavLink {
+    padding: 18px 24px;
+  }
+  
+  .mobileNavText {
+    font-size: 1.2rem;
+  }
+}
+
+/* Десктоп: маленькие экраны */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 0 24px;
+  }
+  
+  .navList {
+    gap: 24px;
+  }
+  
+  .navLink {
+    font-size: 0.9rem;
+  }
+}
+
+/* Десктоп: большие экраны */
+@media (min-width: 1025px) {
+  .container {
+    padding: 0 32px;
+  }
+  
+  .navList {
+    gap: 40px;
+  }
+  
+  .navLink {
+    font-size: 1rem;
+  }
+}
+
+/* Высокие устройства (соотношение сторон) */
+@media (max-height: 700px) {
+  .mobileMenu {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  
+  .mobileNavItem {
+    margin-bottom: 6px;
+  }
+  
+  .mobileNavLink {
+    padding: 12px 16px;
+  }
+}
+
+/* Безопасные зоны для iPhone X+ */
+@supports (padding: max(0px)) {
+  .header {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  
+  .mobileMenu {
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Улучшения для касаний на мобильных */
+@media (hover: none) and (pointer: coarse) {
+  .navLink:hover::after {
+    width: 0;
+  }
+  
+  .navLink:active {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0.98);
+  }
+  
+  .mobileNavLink:active {
+    background: rgba(77, 171, 247, 0.2);
+    transform: scale(0.98);
+  }
+  
+  .menuToggle:active {
+    opacity: 0.7;
+  }
+}
+
+/* Темная тема по умолчанию (уже темная) */
+@media (prefers-color-scheme: light) {
+  .header {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .logoIcon {
+    color: #1971c2;
+  }
+  
+  .logo {
+    color: #1a1a1a;
+  }
+  
+  .navLink {
+    color: #333;
+  }
+  
+  .navLink:hover {
+    color: #1971c2;
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  .navLink::after {
+    background: linear-gradient(90deg, #1971c2, #1c7ed6);
+  }
+  
+  .mobileMenu {
+    background: rgba(255, 255, 255, 0.98);
+  }
+  
+  .mobileMenuTitle,
+  .mobileNavText {
+    color: #1a1a1a;
+  }
+  
+  .mobileNavLink {
+    background: rgba(0, 0, 0, 0.05);
+    color: #1a1a1a;
+  }
+  
+  .mobileNavLink:hover,
+  .mobileNavLink:active {
+    background: rgba(25, 113, 194, 0.1);
+  }
+  
+  .hamburger {
+    background: #1a1a1a;
+  }
+  
+  .closeIcon {
+    color: #1a1a1a;
+  }
+  
+  .mobileMenuContact {
+    color: #1971c2;
+  }
+  
+  .mobileMenuHours {
+    color: rgba(0, 0, 0, 0.6);
+  }
 }

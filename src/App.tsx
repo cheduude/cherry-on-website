@@ -5,7 +5,6 @@ import { NotificationProvider } from './contexts/NotificationContext';
 import MainLayout from './components/Layout/MainLayout/MainLayout';
 import AuthLayout from './components/Layout/AuthLayout/AuthLayout';
 import ScrollToTop from './components/Pages/Home/ScrollToTop';
-import TypingEffect from './effects/TypingEffect';
 const Home = React.lazy(() => import('./components/Pages/Home/Home'));
 const Services = React.lazy(() => import('./components/Pages/Services/Services'));
 const Auth = React.lazy(() => import('./components/Pages/Auth/Auth'));
@@ -14,7 +13,7 @@ const App: React.FC = () => {
   return (
     
     <NotificationProvider>
-      <TypingEffect />
+      
       <ScrollToTop />
       <Suspense fallback={<div className="loading">Загрузка...</div>}>
         <Routes>

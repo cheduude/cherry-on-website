@@ -7,7 +7,7 @@ export default defineConfig({
     modules: {
       localsConvention: 'camelCase',
     }
-  }
+  },
   plugins: [react()],
   server: {
     proxy: {

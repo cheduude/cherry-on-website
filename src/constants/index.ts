@@ -1,5 +1,5 @@
 // src/types/index.ts
-import { AUTH_ROUTES, AUTH_TEXT, AUTH_MODES } from '../constants/auth';
+import { AUTH_ROUTES, AUTH_MODES } from '../constants/auth';
 import type { MenuItemConfig } from '../constants/menu'; // Импортируем тип
 
 export interface User {
