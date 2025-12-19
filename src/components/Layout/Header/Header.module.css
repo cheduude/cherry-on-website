@@ -76,7 +76,13 @@
   color: #4dabf7;
   opacity: 0.9;
 }
-
+.nav {
+    position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
 /* ===== ДЕСКТОПНАЯ НАВИГАЦИЯ С ИКОНКАМИ ===== */
 .navList {
   display: flex;
