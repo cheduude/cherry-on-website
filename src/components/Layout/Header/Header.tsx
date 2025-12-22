@@ -80,6 +80,9 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
               <li className={styles.navItem}>
                 <Link to="/contacts" className={styles.navLink}>Контакты</Link>
               </li>
+              <li className={styles.navItem}>
+                <Link to="/admin" className={styles.navLink}>Админка</Link>
+              </li>
             </ul>
           </nav>
         )}
