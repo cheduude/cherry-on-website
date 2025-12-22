@@ -5,16 +5,17 @@ import { NotificationProvider } from './contexts/NotificationContext';
 import MainLayout from './components/Layout/MainLayout/MainLayout';
 import AuthLayout from './components/Layout/AuthLayout/AuthLayout';
 import ScrollToTop from './components/Pages/Home/ScrollToTop';
-import TypingEffect from './effects/TypingEffect';
+import AdminAccessPage from './components/Pages/Admin';
 const Home = React.lazy(() => import('./components/Pages/Home/Home'));
 const Services = React.lazy(() => import('./components/Pages/Services/Services'));
 const Auth = React.lazy(() => import('./components/Pages/Auth/Auth'));
+const OrdersPage = React.lazy(() => import('./components/Pages/Orders/OrdersPage'));
 
 const App: React.FC = () => {
   return (
     
     <NotificationProvider>
-      <TypingEffect />
+      
       <ScrollToTop />
       <Suspense fallback={<div className="loading">Загрузка...</div>}>
         <Routes>
@@ -29,6 +30,8 @@ const App: React.FC = () => {
             <Route path="/" element={<Home isMobile={false} />} />
             <Route path="/services" element={<Services isMobile={false} isAuthenticated={false} />} />
             <Route path="/contacts" element={<div>Контакты</div>} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/admin" element={<AdminAccessPage />} />
           </Route>
 
           {/* REDIRECT ALL UNKNOWN */}
