@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className="sidebar admin-sidebar">
       <div className="sidebar-header">
         <div className="logo">
           <i className="fas fa-cloud"></i>

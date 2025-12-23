@@ -11,10 +11,16 @@ const ServerManagementPage: React.FC = () => {
     <div className="server-management">
       <div className="container">
         <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
-        
+
         <main className="main-content">
-          {activeTab === 'nginx' ? <NginxUI /> : <HAProxyUI />}
-        </main>
+  <div className="admin-topbar">
+    {activeTab === 'nginx' ? 'Nginx Administration' : 'HAProxy Administration'}
+  </div>
+
+  <div className="admin-iframe-wrapper">
+    {activeTab === 'nginx' ? <NginxUI /> : <HAProxyUI />}
+  </div>
+</main>
       </div>
     </div>
   );
