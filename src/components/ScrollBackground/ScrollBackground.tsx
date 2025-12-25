@@ -5,13 +5,7 @@ import "./ScrollBackground.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const backgrounds = [
-  "https://assets.codepen.io/7558/flame-glow-blur-001.jpg",
-  "https://assets.codepen.io/7558/flame-glow-blur-002.jpg",
-  "https://assets.codepen.io/7558/flame-glow-blur-003.jpg",
-  "https://assets.codepen.io/7558/flame-glow-blur-004.jpg",
-  "https://assets.codepen.io/7558/flame-glow-blur-005.jpg",
-];
+
 
 export default function ScrollBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,13 +41,7 @@ export default function ScrollBackground() {
 
   return (
     <div className="scroll-bg-wrapper" ref={containerRef}>
-      {backgrounds.map((bg, i) => (
-        <div
-          key={i}
-          className="scroll-bg-section"
-          style={{ backgroundImage: `url(${bg})` }}
-        />
-      ))}
+      
       <div className="scroll-bg-spacer" />
     </div>
   );
