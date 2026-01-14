@@ -1,17 +1,480 @@
-/* src/components/Pages/Services/Services.module.css (Локальные для услуг) */
+/* src/components/Pages/Services/Services.module.css */
 .services {
-  padding: 4rem 0;
+  padding: 2rem 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
+  position: relative;
+  z-index: 1;
 }
 
+/* Hero секция */
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(13, 13, 13, 0.9) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(77, 171, 247, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #4dabf7, transparent);
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #aaa;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+/* Статистика */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  background: rgba(77, 171, 247, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(77, 171, 247, 0.2);
+  transition: all 0.3s ease;
+}
+
+.stat:hover {
+  background: rgba(77, 171, 247, 0.15);
+  transform: translateY(-2px);
+}
+
+.statIcon {
+  width: 20px;
+  height: 20px;
+  color: #4dabf7;
+}
+
+.stat span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #eee;
+}
+
+/* Сетка услуг */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 3.5rem;
+  margin-bottom: 3rem;
+}
+
+.grid-mobile {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Карточка услуги */
+.card {
+  background: linear-gradient(145deg, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.95) 100%);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(77, 171, 247, 0.3), transparent);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(77, 171, 247, 0.3);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cardHeader {
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.iconWrapper {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, rgba(77, 171, 247, 0.1) 0%, rgba(51, 154, 240, 0.05) 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  border: 1px solid rgba(77, 171, 247, 0.2);
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  color: #4dabf7;
+}
+
+.cardHeader h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.5rem;
+}
+
+.price {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #4dabf7;
+  background: rgba(77, 171, 247, 0.1);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  display: inline-block;
+  border: 1px solid rgba(77, 171, 247, 0.2);
+}
+
+.cardContent {
+  flex: 1;
+  margin-bottom: 1.5rem;
+}
+
+.cardContent p {
+  color: #aaa;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Особенности услуги */
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.8rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.3s ease;
+}
+
+.feature:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(77, 171, 247, 0.1);
+}
+
+.featureIcon {
+  width: 16px;
+  height: 16px;
+  color: #4dabf7;
+  opacity: 0.8;
+}
+
+.feature span {
+  font-size: 0.85rem;
+  color: #ccc;
+  font-weight: 500;
+}
+
+/* Футер карточки */
+.cardFooter {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.orderButton, .authButton {
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.orderButton {
+  background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%);
+  color: white;
+}
+
+.orderButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(77, 171, 247, 0.3);
+  background: linear-gradient(135deg, #339af0 0%, #1c7ed6 100%);
+}
+
+.authButton {
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.authButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.buttonIcon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Информационная секция */
+.infoSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.infoCard {
+  background: rgba(26, 26, 26, 0.6);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(77, 171, 247, 0.1);
+}
+
+.infoIcon {
+  width: 40px;
+  height: 40px;
+  color: #4dabf7;
+  margin-bottom: 1rem;
+}
+
+.infoCard h3 {
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.steps, .paymentMethods {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.steps li, .paymentMethods li {
+  padding: 0.5rem 0;
+  color: #ccc;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.steps li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #4dabf7;
+  font-weight: bold;
+}
+
+.paymentMethods li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #4dabf7;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .services {
+    padding: 1rem 0.5rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+  
+  .stats {
+    gap: 0.8rem;
+  }
+  
+  .stat {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .card {
+    padding: 1.2rem;
+  }
+  
+  .infoSection {
+    grid-template-columns: 1fr;
+  }
+  
+  .infoCard {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .iconWrapper {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .cardHeader h3 {
+    font-size: 1.2rem;
+  }
+  
+  .price {
+    font-size: 1.1rem;
+  }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .card {
-  background: #333;
-  padding: 2rem;
-  border-radius: 8px;
-  text-align: center;
+  animation: fadeIn 0.6s ease forwards;
+  animation-delay: calc(var(--index, 0) * 0.1s);
+  opacity: 0;
+}
+
+/* Темная тема (уже темная по умолчанию) */
+@media (prefers-color-scheme: light) {
+  .services {
+    background: #f8f9fa;
+  }
+  
+  .hero {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 250, 0.95) 100%);
+    border-color: rgba(25, 113, 194, 0.1);
+  }
+  
+  .title {
+    background: linear-gradient(135deg, #1971c2 0%, #1c7ed6 100%);
+    -webkit-background-clip: text;
+  }
+  
+  .subtitle {
+    color: #666;
+  }
+  
+  .stat {
+    background: rgba(25, 113, 194, 0.08);
+    border-color: rgba(25, 113, 194, 0.15);
+  }
+  
+  .stat span {
+    color: #333;
+  }
+  
+  .card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .cardHeader h3 {
+    color: #1a1a1a;
+  }
+  
+  .cardContent p {
+    color: #666;
+  }
+  
+  .feature {
+    background: rgba(0, 0, 0, 0.03);
+  }
+  
+  .feature span {
+    color: #555;
+  }
+  
+  .infoCard {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(25, 113, 194, 0.15);
+  }
+  
+  .infoCard h3 {
+    color: #1a1a1a;
+  }
+  
+  .steps li, .paymentMethods li {
+    color: #555;
+  }
 }
