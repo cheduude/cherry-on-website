@@ -1,7 +1,7 @@
 // src/components/Layout/ScrollToTop/ScrollToTop.tsx
 import React, { useState, useEffect } from 'react';
 import styles from './ScrollToTop.module.css';
-import Lenis from '@studio-freight/lenis';
+
 
 const ScrollToTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
