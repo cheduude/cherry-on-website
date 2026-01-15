@@ -10,9 +10,8 @@ export default defineConfig({
   },
   plugins: [react()],
   server: {
-    proxy: {
-      '/api': 'http://localhost:8000'  // Для backend
-    }
+    host: '0.0.0.0',  
+    port: 13001
   }
 	
 })
