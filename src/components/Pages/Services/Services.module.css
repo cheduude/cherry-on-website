@@ -1,8 +1,6 @@
 /* src/components/Pages/Services/Services.module.css */
 .services {
   padding: 2rem 1rem;
-  max-width: 1400px;
-  margin: 0 auto;
   min-height: calc(100vh - 200px);
   position: relative;
   z-index: 1;
@@ -92,7 +90,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 3.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
 }
 
 .grid-mobile {
@@ -274,8 +272,8 @@
 .infoSection {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 3rem;
+  gap: 3.5rem;
+  
 }
 
 .infoCard {
