@@ -141,7 +141,21 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
     return () => {
       lenis.destroy();
       delete (window as any).lenis; // Очищаем при размонтировании
+      // Восстанавливаем нормальный скролл
+      document.body.style.overflow = 'auto';
+      document.body.style.height = 'auto';
+      document.body.style.position = 'static';
+      document.documentElement.style.overflow = 'auto';
+      document.documentElement.style.height = 'auto';
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      gsap.ticker.remove(raf);
+      // Дополнительная очистка
+      if (document.body.classList.contains('lenis')) {
+        document.body.classList.remove('lenis');
+      }
+      if (document.body.classList.contains('lenis-smooth')) {
+        document.body.classList.remove('lenis-smooth');
+      }
     };
   }, [isMobile]);
 
