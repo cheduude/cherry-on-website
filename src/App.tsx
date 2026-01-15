@@ -15,7 +15,6 @@ const App: React.FC = () => {
   return (
     
     <NotificationProvider>
-      
       <ScrollToTop />
       <Suspense fallback={<div className="loading">Загрузка...</div>}>
         <Routes>
