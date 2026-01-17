@@ -1,0 +1,25 @@
+/* CherryLogo.module.css */
+.cherryIcon {
+  color: #c92a2a;
+  opacity: 0.9;
+  transition: transform 0.3s ease, color 0.3s ease;
+  animation: popLogo 0.8s ease forwards;
+}
+
+@keyframes popLogo {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.cherryIcon:hover {
+  color: #e03131;
+  transform: scale(1.05);
+}
+
+
