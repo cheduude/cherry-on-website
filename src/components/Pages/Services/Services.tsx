@@ -2,6 +2,7 @@
 import purify from 'dompurify';
 import styles from './Services.module.css';
 import type { ServicesProps } from '../../../types/index';
+import { useLenisCleanup } from '../../../hooks/useLenisCleanup';
 import { 
   Shield, 
   Server, 
@@ -63,6 +64,7 @@ const services = [
 ];
 
 const Services = ({ isMobile, isAuthenticated }: ServicesProps) => {
+  useLenisCleanup();
   const gridClass = isMobile ? styles['grid-mobile'] : styles.grid;
 
   const handleOrder = (serviceName: string) => {

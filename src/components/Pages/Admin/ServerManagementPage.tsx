@@ -4,8 +4,10 @@ import NginxUI from './NginxUI';
 import HAProxyUI from './HAProxyUI';
 import './ServerManagement.css';
 import Lenis from '@studio-freight/lenis';
+import { useLenisCleanup } from '../../../hooks/useLenisCleanup';
 
 const ServerManagementPage: React.FC = () => {
+  useLenisCleanup();
   const [activeTab, setActiveTab] = useState<'nginx' | 'haproxy'>('nginx');
   const wrapperRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);

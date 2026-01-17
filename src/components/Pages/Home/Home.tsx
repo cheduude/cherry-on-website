@@ -142,7 +142,7 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
       lenis.destroy();
       delete (window as any).lenis; // Очищаем при размонтировании
       // Восстанавливаем нормальный скролл
-      document.body.style.overflow = 'auto';
+      
       document.body.style.height = 'auto';
       document.body.style.position = 'static';
       document.documentElement.style.overflow = 'auto';
