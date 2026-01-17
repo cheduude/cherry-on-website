@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import MenuAuth from './MenuAuth';
 import styles from './Header.module.css';
 import type { HeaderProps } from '../../../types';
+import CherryLogo from '../../CherryLogo/CherryLogo';
 
 const Header: React.FC<HeaderProps> = ({ isMobile }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,10 +61,9 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
           )}
           
           <Link to="/" className={styles.logoLink}>
-            <h1 className={styles.logo}>
-              Мой Домен
-              <span className={styles.logoSubtitle}>Услуги</span>
-            </h1>
+            <span className={styles.logoIcon}>
+              <CherryLogo />
+            </span>
           </Link>
         </div>
 

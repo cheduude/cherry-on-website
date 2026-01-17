@@ -41,24 +41,6 @@
   transition: all 0.3s ease;
 }
 
-.logoLink:hover .logoIcon {
-  color: #339af0;
-  transform: scale(1.05);
-}
-
-.logoIcon svg {
-  width: 24px;
-  height: 24px;
-}
-
-/* Логотип */
-.logoLink {
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  align-items: center;
-}
-
 .logo {
   font-size: 1.4rem;
   font-weight: 700;
