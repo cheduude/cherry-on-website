@@ -1,0 +1,79 @@
+/* ===============================
+   BASE TOKENS — DARK (DEFAULT)
+   =============================== */
+
+:root {
+  /* Backgrounds */
+  --color-bg: #0f0f0f;
+  --color-surface: #161616;
+  --color-surface-alt: #1e1e1e;
+
+  /* Glass / panels */
+  --color-glass-bg: rgba(22, 22, 22, 0.7);
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+  --color-glass-hover: rgba(255, 255, 255, 0.12);
+
+  /* Text */
+  --color-text: #eaeaea;
+  --color-text-muted: rgba(255, 255, 255, 0.6);
+  --color-text-inverse: #0f0f0f;
+
+  /* Borders */
+  --color-border: rgba(255, 255, 255, 0.1);
+
+  /* Accent */
+  --color-accent: #4dabf7;
+  --color-accent-hover: #339af0;
+
+  /* Status */
+  --color-danger: #ff6b6b;
+  --color-success: #51cf66;
+  --color-warning: #ffd43b;
+
+  /* Effects */
+  --blur-strong: blur(14px);
+  --blur-soft: blur(8px);
+
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* ===============================
+   LIGHT THEME
+   =============================== */
+
+[data-theme="light"] {
+  /* Backgrounds */
+  --color-bg: #f4f5f7;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f1f3f5;
+
+  /* Glass / panels */
+  --color-glass-bg: rgba(255, 255, 255, 0.7);
+  --color-glass-border: rgba(0, 0, 0, 0.08);
+  --color-glass-hover: rgba(0, 0, 0, 0.06);
+
+  /* Text */
+  --color-text: #1a1a1a;
+  --color-text-muted: rgba(0, 0, 0, 0.6);
+  --color-text-inverse: #ffffff;
+
+  /* Borders */
+  --color-border: rgba(0, 0, 0, 0.12);
+
+  /* Accent */
+  --color-accent: #1971c2;
+  --color-accent-hover: #1c7ed6;
+
+  /* Status */
+  --color-danger: #e03131;
+  --color-success: #2f9e44;
+  --color-warning: #f08c00;
+
+  /* Effects */
+  --blur-strong: blur(10px);
+  --blur-soft: blur(6px);
+
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
