@@ -1,8 +1,8 @@
 /* src/App.css (Глобальные стили — базовые, для шаблона) */
 body {
   font-family: Arial, sans-serif;
-  background: #111;
-  color: #eee;
+  background: var(--color-bg);
+  color: var(--color-text);
   margin: 0;
   padding: 0;
   overflow: hidden;
