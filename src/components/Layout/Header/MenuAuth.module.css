@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald:400');
-
 .navigation {
   position: relative;
   display: inline-flex;
@@ -7,13 +6,12 @@
   width: auto;
   margin-right: 15px;
 }
-
 /* ===== ОБЩИЙ СТИЛЬ КНОПКИ ИЗ КОДА 1 ===== */
 /* ОБЩИЙ СТИЛЬ ДЛЯ ВСЕХ КНОПОК ЛОГИНА */
 .loginButton {
   text-decoration: none;
-  color: white;
-  background-color: black;
+  color: var(--color-text);
+  background-color: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
   overflow: hidden;
   display: inline-flex;
   justify-content: flex-end;
@@ -24,10 +22,8 @@
   position: relative;
   min-height: 50px;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   padding: 0;
 }
-
 /* ===== КНОПКА "ВОЙТИ" (НЕАВТОРИЗОВАННЫЙ) ===== */
 /* Базовый стиль кнопки "Вход" */
 .loginButton:not(:has(.userName)) {
@@ -35,18 +31,16 @@
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
 }
-
 /* Расширенное состояние кнопки "Вход" */
 .loginButton:not(:has(.userName)):hover {
   width: 120px;
-  background-color: #111;
-  border-color: #555;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-medium);
   transform: translateY(-2px);
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-
 /* АВАТАРКА - фиксированная позиция слева */
 .loginButton .avatar {
   width: 25px;
@@ -60,14 +54,12 @@
   top: 50%;
   transform: translateY(-50%);
 }
-
 /* Плавное увеличение аватарки при расширении */
 .loginButton:not(:has(.userName)):hover .avatar {
   transform: translateY(-50%) scale(1.05);
   filter: brightness(1);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
 }
-
 /* КОНТЕНТ КНОПКИ "ВОЙТИ" - справа от аватарки */
 .loginButton:not(:has(.userName)) .buttonContent {
   display: flex;
@@ -79,51 +71,44 @@
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: opacity, width;
 }
-
 /* Текст "Войти" плавно появляется при расширении */
 .loginButton:not(:has(.userName)):hover .buttonContent {
   opacity: 1;
   width: calc(100% - 50px);
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
 }
-
 /* Текст "Войти" */
 .loginText {
   font-size: 0.9em;
   font-family: 'Oswald', sans-serif;
   letter-spacing: 2px;
   white-space: nowrap;
-  color: white;
+  color: var(--color-text);
   opacity: 0;
   transform: translateX(-10px);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
 }
-
 /* Текст плавно появляется */
 .loginButton:not(:has(.userName)):hover .loginText {
   opacity: 0.9;
   transform: translateX(0);
 }
-
 /* ===== АВТОРИЗОВАННАЯ КНОПКА ===== */
-
 /* Авторизованная кнопка (свернутое состояние) */
 .loginButton:has(.userName) {
   width: 50px;
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-
 /* РАСШИРЕННОЕ состояние авторизованной кнопки */
 .loginButton.expanded {
   width: 200px !important;
-  border-color: #555;
-  background-color: #111;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  border-color: var(--color-border);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-medium);
   transform: translateY(-2px);
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   justify-content: flex-start;
 }
-
 /* Контент авторизованной кнопки */
 .loginButton:has(.userName) .buttonContent {
   display: flex;
@@ -138,7 +123,6 @@
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: opacity, width;
 }
-
 /* Контент появляется в расширенном состоянии */
 .loginButton.expanded .buttonContent {
   opacity: 1;
@@ -146,7 +130,6 @@
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
   padding: 0 15px;
 }
-
 /* Имя пользователя */
 .userName {
   font-size: 0.9em;
@@ -154,7 +137,7 @@
   overflow: hidden;
   letter-spacing: 1px;
   white-space: nowrap;
-  color: white;
+  color: var(--color-text);
   text-overflow: ellipsis;
   flex: 1;
   min-width: 0;
@@ -163,67 +146,59 @@
   transition: opacity 0.4s ease 0.15s,
               transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
 }
-
 .loginButton.expanded .userName {
   opacity: 0.9;
   transform: translateX(0);
 }
-
 /* Стрелочка */
 .arrowIcon {
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-text-muted);
   transition: transform 0.3s ease;
   margin-left: 8px;
   opacity: 0.7;
 }
-
 .loginButton.expanded .arrowIcon {
   transform: rotate(180deg);
 }
-
 /* Основной контейнер для авторизованного состояния */
 .authContainer {
   position: relative;
   display: inline-block;
 }
-
 /* ===== ВЫПАДАЮЩИЙ СПИСОК ИЗ КОДА 2 ===== */
 .dropdownMenu {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  background: rgba(20, 20, 20, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: var(--color-glass-bg);
+  backdrop-filter: var(--blur-strong);
+  -webkit-backdrop-filter: var(--blur-strong);
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-glass-border);
   min-width: 220px;
-  box-shadow: 
-    0 10px 40px rgba(0, 0, 0, 0.4),
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow:
+    var(--shadow-medium),
+    var(--shadow-soft),
+    inset 0 1px 0 var(--color-glass-hover);
   z-index: 1000;
   overflow: hidden;
   animation: menuAppear 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   opacity: 0;
   transform: translateY(-10px) scale(0.95);
 }
-
 @keyframes menuAppear {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
-
 /* Анимация скрытия (из кода 1, но адаптированная) */
 .dropdownMenu.disappearing {
   animation: menuDisappear 0.25s ease forwards;
   opacity: 1;
   transform: translateY(0) scale(1);
 }
-
 @keyframes menuDisappear {
   0% {
     opacity: 1;
@@ -235,43 +210,38 @@
     visibility: hidden;
   }
 }
-
 /* Заголовок меню */
 .menuHeader {
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
 }
-
 .menuTitle {
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-text-muted);
   margin-bottom: 4px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 600;
 }
-
 .userRole {
   font-size: 0.75rem;
-  color: #4dabf7;
+  color: var(--color-accent);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 500;
 }
-
 /* Список меню */
 .menuItems {
   padding: 8px 0;
 }
-
 /* Элементы меню */
 .menuItem {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 12px 20px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--color-text);
   text-decoration: none;
   cursor: pointer;
   background: none;
@@ -283,13 +253,11 @@
   transition: all 0.2s ease;
   position: relative;
 }
-
 .menuItem:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: var(--color-glass-hover);
+  color: var(--color-text);
   padding-left: 24px;
 }
-
 /* Иконки меню */
 .menuIcon {
   font-size: 1.1rem;
@@ -298,93 +266,85 @@
   transition: transform 0.2s ease;
   flex-shrink: 0;
 }
-
 .menuItem:hover .menuIcon {
   transform: scale(1.1);
 }
-
 .menuLabel {
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .adminBadge {
   font-size: 0.7em;
-  background-color: #d32f2f;
-  color: white;
+  background-color: var(--color-danger);
+  color: var(--color-text-inverse);
   padding: 2px 8px;
   border-radius: 4px;
   text-transform: uppercase;
   letter-spacing: 1px;
   flex-shrink: 0;
 }
-
 /* Разделитель */
 .menuDivider {
   height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(255, 255, 255, 0.1) 50%, 
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--color-border) 50%,
     transparent 100%);
   margin: 8px 20px;
 }
-
 /* Кнопка выхода */
 .logoutItem {
-  color: #ff6b6b;
+  color: var(--color-danger);
 }
-
 .logoutItem:hover {
-  background: rgba(255, 107, 107, 0.1);
-  color: #ff5252;
+  background: var(--color-glass-hover);
+  color: var(--color-danger);
 }
-
 .logoutItem:hover .menuIcon {
   transform: rotate(15deg);
 }
-
 /* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
 @media (max-width: 768px) {
   .navigation {
     margin-right: 10px;
     display: inline-flex;
   }
-  
+
   .loginButton {
     margin: 10px 0;
   }
-  
+
   /* Кнопка "Вход" на мобильных */
   .loginButton:not(:has(.userName)) {
     width: 50px !important;
   }
-  
+
   .loginButton:not(:has(.userName)):hover .buttonContent {
     display: none;
   }
-  
+
   .loginButton:not(:has(.userName)) .avatar {
     left: 13px !important;
     transform: translateY(-50%) !important;
   }
-  
+
   /* Авторизованная кнопка на мобильных */
   .loginButton:has(.userName),
   .loginButton.expanded {
     width: 50px !important;
   }
-  
+
   .loginButton.expanded .buttonContent {
     display: none;
   }
-  
+
   .loginButton:has(.userName) .avatar {
     left: 13px !important;
     transform: translateY(-50%) !important;
   }
-  
+
   .dropdownMenu {
     position: fixed;
     top: 70px;
@@ -394,19 +354,19 @@
     min-width: 200px;
     max-width: calc(100vw - 20px);
     border-radius: 12px;
-    background: rgba(20, 20, 20, 0.98);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    background: var(--color-glass-bg);
+    backdrop-filter: var(--blur-strong);
+    -webkit-backdrop-filter: var(--blur-strong);
   }
-  
+
   .dropdownMenu.appearing {
     animation: menuAppearMobile 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
-  
+
   .dropdownMenu.disappearing {
     animation: menuDisappearMobile 0.25s ease forwards;
   }
-  
+
   @keyframes menuAppearMobile {
     0% {
       opacity: 0;
@@ -417,7 +377,7 @@
       transform: translateY(0) scale(1);
     }
   }
-  
+
   @keyframes menuDisappearMobile {
     0% {
       opacity: 1;
@@ -430,92 +390,88 @@
     }
   }
 }
-
 /* iPhone SE (375px) и маленькие устройства */
 @media (max-width: 375px) {
   .navigation {
     margin-right: 5px;
     min-width: 44px;
   }
-  
+
   .loginButton {
     padding: 0;
     min-height: 44px;
   }
-  
+
   .avatar {
     width: 22px;
     height: 22px;
     left: 11px !important;
   }
-  
+
   .buttonText {
     font-size: 0.85rem;
     max-width: 100px;
   }
-  
+
   .dropdownMenu {
     min-width: 200px;
     right: -8px;
     max-width: calc(100vw - 16px);
   }
-  
+
   .menuItem {
     padding: 11px 16px;
     font-size: 0.9rem;
   }
-  
+
   .menuIcon {
     font-size: 1rem;
   }
 }
-
 /* Samsung Galaxy S20 Ultra (412px) и подобные */
 @media (min-width: 376px) and (max-width: 414px) {
   .loginButton {
     min-height: 46px;
   }
-  
+
   .avatar {
     width: 24px;
     height: 24px;
   }
-  
+
   .dropdownMenu {
     min-width: 220px;
     max-width: calc(100vw - 20px);
   }
-  
+
   .menuItem {
     padding: 12px 18px;
   }
 }
-
 /* Планшеты и большие телефоны */
 @media (min-width: 415px) and (max-width: 768px) {
   .navigation {
     min-width: 48px;
   }
-  
+
   .loginButton {
     min-height: 48px;
   }
-  
+
   .avatar {
     width: 25px;
     height: 25px;
   }
-  
+
   .dropdownMenu {
     min-width: 240px;
     max-width: calc(100vw - 40px);
   }
-  
+
   .menuItem {
     padding: 14px 20px;
   }
 }
-
 /* Особенности для высоких устройств */
 @media (max-height: 700px) and (max-width: 768px) {
   .dropdownMenu {
@@ -523,36 +479,33 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   .menuItem {
     padding: 10px 16px;
   }
 }
-
 /* Безопасные зоны для iPhone X+ */
 @supports (padding: max(0px)) {
   .dropdownMenu {
     margin-right: max(0px, env(safe-area-inset-right) - 8px);
   }
 }
-
 /* Улучшения для касаний на мобильных */
 @media (hover: none) and (pointer: coarse) {
   .loginButton:active {
     transform: scale(0.98);
   }
-  
+
   .menuItem:active {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--color-glass-hover);
     transform: scale(0.98);
   }
-  
+
   .loginButton:hover {
     transform: none;
   }
-  
+
   .menuItem:hover {
     padding-left: 20px;
   }
 }
-

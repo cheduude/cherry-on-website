@@ -5,18 +5,15 @@ import MenuAuth from './MenuAuth';
 import styles from './Header.module.css';
 import type { HeaderProps } from '../../../types';
 import CherryLogo from '../../CherryLogo/CherryLogo';
-
+import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 const Header: React.FC<HeaderProps> = ({ isMobile }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
-
   // Закрываем меню при клике вне его области
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -25,11 +22,9 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
         closeMenu();
       }
     };
-
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isMenuOpen]);
-
   // Блокируем скролл при открытом меню
   useEffect(() => {
     if (isMenuOpen) {
@@ -41,14 +36,13 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
       document.body.style.overflow = '';
     };
   }, [isMenuOpen]);
-
   return (
     <header className={`${styles.header} ${isMobile ? styles.mobile : ''}`}>
       <div className={styles.container}>
         {/* Левая часть: логотип/название + мобильное меню */}
         <div className={styles.leftSection}>
           {isMobile && (
-            <button 
+            <button
               className={`${styles.menuToggle} ${isMenuOpen ? styles.active : ''}`}
               onClick={toggleMenu}
               aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
@@ -59,14 +53,13 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
               <span className={styles.hamburger}></span>
             </button>
           )}
-          
+         
           <Link to="/" className={styles.logoLink}>
             <span className={styles.logoIcon}>
               <CherryLogo />
             </span>
           </Link>
         </div>
-
         {/* Десктопная навигация */}
         {!isMobile && (
           <nav className={styles.nav} role="navigation" aria-label="Основное меню">
@@ -86,27 +79,26 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
             </ul>
           </nav>
         )}
-
         {/* Правая часть: авторизация */}
         <div className={styles.rightSection}>
           <MenuAuth isMobile={isMobile} />
+          <ThemeToggle />
         </div>
       </div>
-
       {/* Мобильное меню */}
       {isMobile && (
         <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.open : ''}`}>
           <div className={styles.mobileMenuContent}>
             <div className={styles.mobileMenuHeader}>
               <span className={styles.mobileMenuTitle}>Меню</span>
-              
+             
             </div>
-            
+           
             <nav className={styles.mobileNav} role="navigation" aria-label="Мобильное меню">
               <ul className={styles.mobileNavList}>
                 <li className={styles.mobileNavItem}>
-                  <Link 
-                    to="/" 
+                  <Link
+                    to="/"
                     className={styles.mobileNavLink}
                     onClick={closeMenu}
                   >
@@ -115,8 +107,8 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                   </Link>
                 </li>
                 <li className={styles.mobileNavItem}>
-                  <Link 
-                    to="/services" 
+                  <Link
+                    to="/services"
                     className={styles.mobileNavLink}
                     onClick={closeMenu}
                   >
@@ -125,8 +117,8 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                   </Link>
                 </li>
                 <li className={styles.mobileNavItem}>
-                  <Link 
-                    to="/contacts" 
+                  <Link
+                    to="/contacts"
                     className={styles.mobileNavLink}
                     onClick={closeMenu}
                   >
@@ -136,7 +128,7 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                 </li>
               </ul>
             </nav>
-            
+           
             <div className={styles.mobileMenuFooter}>
               <div className={styles.mobileMenuInfo}>
                 <p className={styles.mobileMenuContact}>support@mydomain.ru</p>
@@ -149,5 +141,4 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
     </header>
   );
 };
-
 export default Header;

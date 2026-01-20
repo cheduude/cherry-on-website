@@ -1,33 +1,26 @@
-/* Home.module.css - Исправленная версия */
-
-/* Импорт шрифтов */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-
 /* ВНИМАНИЕ: Убрали глобальный сброс для .homeContainer * */
 /* Вместо этого сбрасываем только основные элементы */
-
 .homeContainer {
   min-height: 100vh;
-  background-color: #000;
+  background-color: var(--color-bg);
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
 }
-
 /* Сбрасываем только точечно, если нужно */
 .homeContainer > section {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 /* === СЕКЦИЯ 1: Заголовок и кнопки === */
 .section1 {
   position: relative;
   min-height: 100vh;
   width: 100%;
-  background-color: var(--bg, black);
+  background-color: var(--color-bg);
   /*display: flex;*/
   align-items: center;
   /*justify-content: center;*/
@@ -36,10 +29,8 @@
   /* Явно задаём box-sizing если нужно */
   box-sizing: border-box;
 }
-
 .section1Container {
   text-align: center;
-  
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -49,39 +40,34 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 .mainTitle {
   font-size: 5rem;
   font-weight: 900;
   margin-bottom: 1rem;
   line-height: 1.1;
-  color: white;
+  color: var(--color-text);
   letter-spacing: -2px;
   /* Явно сбрасываем наследование */
   margin: 0 0 1rem 0;
   padding: 0;
 }
-
 .heroSubtitle {
   font-size: 1.4rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-muted);
   max-width: 600px;
   margin: 0 auto 2rem;
   line-height: 1.6;
   padding: 0;
 }
-
 /* Контейнер для CoolButtons */
 .coolButtonsWrapper {
   margin: 2rem 0;
-  
   z-index: 2;
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 0;
 }
-
 /* Индикатор скролла в секции 1 */
 .scrollIndicator {
   position: absolute;
@@ -95,55 +81,46 @@
   margin: 0;
   padding: 0;
 }
-
 .scrollText {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-muted);
   font-size: 1rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   margin: 0;
   padding: 0;
 }
-
 .scrollLine {
   width: 1px;
   height: 60px;
-  background: linear-gradient(to bottom, 
-    transparent 0%, 
-    rgba(0, 198, 255, 0.8) 50%, 
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--color-accent) 80%, transparent) 50%,
     transparent 100%
   );
-  
   margin: 0;
   padding: 0;
 }
-
-
-
 /* Секция 2: Анимированное изображение */
 .section2 {
   position: relative;
   height: min-content;
   width: 100%;
-  background-color: var(--bg, black);
+  background-color: var(--color-bg);
   overflow: hidden;
   padding: 5rem 0;
   /* Явно задаём box-sizing */
   box-sizing: border-box;
   margin: 0;
 }
-
 .imageMotion {
   width: 100%;
-  
   margin: 0 auto;
   overflow: hidden;
   transform: rotateX(90deg);
   transform-origin: 50% 0;
-  box-shadow: 0 0 50px rgba(0, 198, 255, 0.1);
+  box-shadow: 0 0 50px color-mix(in srgb, var(--color-accent) 10%, transparent);
   box-sizing: border-box;
 }
-
 .imageMotion picture {
   display: block;
   width: 100%;
@@ -151,7 +128,6 @@
   margin: 0;
   padding: 0;
 }
-
 .imageMotion img {
   width: 100%;
   height: 100%;
@@ -162,21 +138,17 @@
   padding: 0;
   display: block;
 }
-
-
-
 /* Секция 3: Текст и фичи */
 .section3 {
-  --bg-color: #000000;
-  --text-primary: #ccc;
-  --text-secondary: #aaa;
-  --text-white: #ffffff;
-  --accent-primary: #00c6ff;
-  --accent-secondary: #0072ff;
-  --accent-tertiary: #9400d3;
+  --bg-color: var(--color-bg);
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-text-muted);
+  --text-white: var(--color-text);
+  --accent-primary: var(--color-accent);
+  --accent-secondary: var(--color-accent-hover);
+  --accent-tertiary: var(--color-accent-hover);
   --border-radius: 25px;
   --transition: all 0.3s ease;
-
   position: relative;
   display: flex;
   justify-content: center;
@@ -189,7 +161,6 @@
   margin: 0;
   box-sizing: border-box;
 }
-
 .container {
   width: 100%;
   max-width: 1200px;
@@ -200,14 +171,13 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 .title {
   font-size: 5rem;
   font-weight: 900;
   margin: 0 0 2.5rem 0;
-  background: linear-gradient(135deg, 
-    var(--accent-primary) 0%, 
-    var(--accent-secondary) 50%, 
+  background: linear-gradient(135deg,
+    var(--accent-primary) 0%,
+    var(--accent-secondary) 50%,
     var(--accent-tertiary) 100%
   );
   -webkit-background-clip: text;
@@ -219,7 +189,6 @@
   padding: 0;
   display: block;
 }
-
 .title::after {
   content: '';
   position: absolute;
@@ -230,7 +199,6 @@
   height: 4px;
   border-radius: 2px;
 }
-
 .subtitle {
   position: relative;
   width: fit-content;
@@ -242,7 +210,6 @@
   text-transform: uppercase;
   padding: 0;
 }
-
 .subtitle::before,
 .subtitle::after {
   content: '◆';
@@ -252,21 +219,17 @@
   color: var(--accent-primary);
   font-size: 1.2rem;
 }
-
 .subtitle::before {
   left: -30px;
 }
-
 .subtitle::after {
   right: -30px;
 }
-
 .textContent {
   margin: 0 0 6rem 0;
   position: relative;
   padding: 0;
 }
-
 .text {
   font-size: 1.3rem;
   font-weight: 400;
@@ -279,7 +242,6 @@
   text-align: center;
   padding: 0;
 }
-
 .features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -287,14 +249,13 @@
   margin: 5rem 0 0 0;
   padding: 0;
 }
-
 .feature {
-  background: linear-gradient(145deg, 
-    rgba(0, 198, 255, 0.1) 0%, 
-    rgba(0, 114, 255, 0.05) 100%
+  background: linear-gradient(145deg,
+    color-mix(in srgb, var(--color-accent) 10%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent-hover) 5%, transparent) 100%
   );
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 198, 255, 0.3);
+  backdrop-filter: var(--blur-strong);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
   border-radius: var(--border-radius);
   padding: 3.5rem 2.5rem;
   text-align: center;
@@ -305,7 +266,6 @@
   margin: 0;
   box-sizing: border-box;
 }
-
 .feature::before {
   content: '';
   position: absolute;
@@ -313,28 +273,25 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(0, 198, 255, 0.2), 
+  background: linear-gradient(90deg,
+    transparent,
+    color-mix(in srgb, var(--color-accent) 20%, transparent),
     transparent
   );
   transition: left 0.6s ease;
 }
-
 .feature:hover::before {
   left: 100%;
 }
-
 .feature:hover {
   transform: translateY(-15px) scale(1.02);
-  background: linear-gradient(145deg, 
-    rgba(0, 198, 255, 0.2) 0%, 
-    rgba(0, 114, 255, 0.1) 100%
+  background: linear-gradient(145deg,
+    color-mix(in srgb, var(--color-accent) 20%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent-hover) 10%, transparent) 100%
   );
-  border-color: rgba(0, 198, 255, 0.6);
-  box-shadow: 0 20px 40px rgba(0, 198, 255, 0.2);
+  border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+  box-shadow: 0 20px 40px color-mix(in srgb, var(--color-accent) 20%, transparent);
 }
-
 .featureIcon {
   font-size: 3.5rem;
   display: block;
@@ -342,18 +299,16 @@
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
   transition: transform 0.3s ease;
 }
-
 .feature:hover .featureIcon {
   transform: scale(1.1) rotate(5deg);
 }
-
 .feature h3 {
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-white);
   margin: 0 0 1.5rem 0;
-  background: linear-gradient(135deg, 
-    var(--text-white) 0%, 
+  background: linear-gradient(135deg,
+    var(--text-white) 0%,
     var(--accent-primary) 100%
   );
   -webkit-background-clip: text;
@@ -361,7 +316,6 @@
   background-clip: text;
   padding: 0;
 }
-
 .feature p {
   font-size: 1.1rem;
   font-weight: 300;
@@ -370,7 +324,6 @@
   margin: 0;
   padding: 0;
 }
-
 /* CTA секция */
 .ctaSection {
   margin: 5rem 0 0 0;
@@ -380,7 +333,6 @@
   flex-wrap: wrap;
   padding: 0;
 }
-
 .ctaButton,
 .secondaryButton {
   padding: 18px 36px;
@@ -398,29 +350,24 @@
   box-sizing: border-box;
   display: inline-block;
 }
-
 .ctaButton {
   background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
-  color: white;
-  box-shadow: 0 10px 30px rgba(0, 198, 255, 0.3);
+  color: var(--color-text-inverse);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
-
 .ctaButton:hover {
   transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 15px 40px rgba(0, 198, 255, 0.4);
+  box-shadow: 0 15px 40px color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
-
 .secondaryButton {
   background: transparent;
   color: var(--accent-primary);
   border: 2px solid var(--accent-primary);
 }
-
 .secondaryButton:hover {
-  background: rgba(0, 198, 255, 0.1);
-  box-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
-
 /* Адаптивность */
 @media (max-width: 768px) {
   /* Секция 1 */
@@ -428,115 +375,98 @@
     padding: 1rem;
     min-height: 90vh;
   }
-  
+
   .mainTitle {
     font-size: 3rem;
   }
-  
+
   .heroSubtitle {
     font-size: 1.2rem;
   }
-  
+
   /* Адаптация CoolButtons для мобильных */
   .coolButtonsWrapper {
     width: 100%;
   }
-  
+
   .section2 {
     padding: 3rem 0;
   }
-  
+
   .imageMotion {
     height: 400px;
   }
-  
+
   .section3 {
     padding: 4rem 1rem;
   }
-
   .title {
     font-size: 3.5rem;
     letter-spacing: -1px;
   }
-
   .title::after {
     width: 60px;
     height: 3px;
   }
-
   .subtitle {
     font-size: 1.2rem;
     margin-bottom: 3rem;
     letter-spacing: 2px;
   }
-
   .subtitle::before,
   .subtitle::after {
     display: none;
   }
-
   .textContent {
     margin-bottom: 4rem;
   }
-
   .text {
     font-size: 1.1rem;
   }
-
   .features {
     grid-template-columns: 1fr;
     gap: 2rem;
     margin-top: 3rem;
   }
-
   .feature {
     padding: 2.5rem 2rem;
   }
-
   .featureIcon {
     font-size: 3rem;
     margin-bottom: 1.5rem;
   }
-
   .feature h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
   }
-
   .feature p {
     font-size: 1rem;
   }
-
   .ctaSection {
     flex-direction: column;
     align-items: center;
     margin-top: 3rem;
   }
-
   .ctaButton,
   .secondaryButton {
     width: 100%;
     max-width: 300px;
   }
 }
-
 @media (max-width: 480px) {
   .mainTitle {
     font-size: 2.5rem;
   }
-
   .heroSubtitle {
     font-size: 1rem;
   }
-
   .imageMotion {
     height: 300px;
   }
-  
+
   .title {
     font-size: 2.5rem;
   }
-
   .subtitle {
     font-size: 1rem;
   }

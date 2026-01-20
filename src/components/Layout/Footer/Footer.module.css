@@ -1,17 +1,15 @@
 /* src/components/Layout/Footer/Footer.module.css (Локальные для футера) */
 .footer {
-  background: #1a1a1a;
+  background: var(--color-surface);
   padding: 2rem 0;
   margin-top: auto;
 }
-
 .sitemap {
   list-style: none;
   display: flex;
   gap: 1rem;
 }
-
 .sitemap a {
-  color: #aaa;
+  color: var(--color-text-muted);
   text-decoration: none;
 }
