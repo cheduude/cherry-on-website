@@ -1,0 +1,123 @@
+.theme-toggle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: fixed;
+  border: none;
+  outline: none;
+  display: grid;
+  place-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.35s ease;
+  overflow: hidden;
+  z-index: 100;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+
+.theme-toggle:active {
+  transform: scale(0.96);
+}
+
+.theme-toggle:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.icon {
+  position: absolute;
+  font-size: 20px;
+  color: var(--color-text);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  z-index: 2;
+}
+
+/* DARK */
+.theme-toggle.dark .sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.4);
+}
+
+.theme-toggle.dark .moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* LIGHT */
+.theme-toggle.light .sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle.light .moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.4);
+}
+
+/* Волна */
+.wave-origin {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.wave-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translate(-50%, -50%) scale(0);
+  animation: waveExpand 1s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.03;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+/* Для Firefox */
+@supports not (mix-blend-mode: difference) {
+  .wave-effect {
+    opacity: 0.1;
+    mix-blend-mode: normal;
+  }
+}
+
+@keyframes waveExpand {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.03;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+/* Альтернативный вариант - цветная волна */
+.theme-toggle.light .wave-effect {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  mix-blend-mode: multiply;
+  opacity: 0.1;
+}
+
+.theme-toggle.dark .wave-effect {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  mix-blend-mode: screen;
+  opacity: 0.1;
+}
