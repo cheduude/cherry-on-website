@@ -24,7 +24,7 @@ const App: React.FC = () => {
           <Route element={<AuthLayout />}>
             <Route path="/auth" element={<Auth />} />
           </Route>
-
+          
           {/* MAIN LAYOUT */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home isMobile={false} />} />
@@ -32,6 +32,7 @@ const App: React.FC = () => {
             <Route path="/contacts" element={<div>Контакты</div>} />
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/admin" element={<AdminAccessPage />} />
+            
           </Route>
 
           {/* REDIRECT ALL UNKNOWN */}
