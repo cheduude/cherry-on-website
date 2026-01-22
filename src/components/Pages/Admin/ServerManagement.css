@@ -29,6 +29,7 @@
   box-shadow:
     inset -1px 0 0 var(--color-glass-hover),
     var(--shadow-soft);
+  z-index: 10;
 }
 /* Header */
 .admin-sidebar .sidebar-header {
@@ -52,8 +53,19 @@
    NAV ITEMS
    ========================= */
 .admin-sidebar .sidebar-nav {
-  /*flex: 1;*/
+  flex: 1;
   padding: 12px 0;
+  overflow-y: auto;
+}
+.admin-sidebar .sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+.admin-sidebar .sidebar-nav::-webkit-scrollbar-track {
+  background: var(--color-surface-alt);
+}
+.admin-sidebar .sidebar-nav::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 2px;
 }
 .admin-sidebar .nav-item {
   margin: 4px 10px;
@@ -72,8 +84,8 @@
   background:
     linear-gradient(
       135deg,
-      rgba(120, 160, 255, 0.35),
-      rgba(120, 160, 255, 0.15)
+      rgba(var(--color-accent-rgb, 77, 171, 247), 0.35),
+      rgba(var(--color-accent-rgb, 77, 171, 247), 0.15)
     );
 }
 .admin-sidebar .nav-link {
@@ -97,6 +109,7 @@
 .admin-sidebar .nav-label {
   font-size: 13px;
   color: var(--color-text-muted);
+  font-weight: 500;
 }
 /* Активный индикатор */
 .admin-sidebar .active-indicator {
@@ -107,6 +120,7 @@
   border-radius: 50%;
   background: var(--color-accent);
   box-shadow: 0 0 8px var(--color-accent-hover);
+  animation: pulse 2s infinite;
 }
 /* =========================
    SIDEBAR FOOTER
@@ -148,11 +162,14 @@
   align-items: center;
   padding: 0 18px;
   font-size: 13px;
+  font-weight: 600;
   color: var(--color-text);
-  background: var(--color-surface);
+  background: var(--color-glass-bg);
   backdrop-filter: var(--blur-soft);
   -webkit-backdrop-filter: var(--blur-soft);
   border-bottom: 1px solid var(--color-border);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 /* =========================
    IFRAME CONTAINER
@@ -160,7 +177,7 @@
 .admin-iframe-wrapper {
   flex: 1;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
   background: var(--color-glass-bg);
   backdrop-filter: var(--blur-strong);
   -webkit-backdrop-filter: var(--blur-strong);
@@ -168,10 +185,66 @@
   box-shadow:
     0 0 0 1px var(--color-glass-hover),
     var(--shadow-medium);
+  margin: 20px;
+  border-radius: 12px;
 }
 .admin-iframe-wrapper iframe {
   width: 100%;
   height: 100%;
   border: none;
   background: transparent;
+}
+/* Контент для временных страниц */
+.ui-content {
+  padding: 40px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 16px;
+}
+/* =========================
+   АНИМАЦИИ
+   ========================= */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+/* =========================
+   АДАПТИВНОСТЬ
+   ========================= */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    width: 200px;
+  }
+  .admin-sidebar .nav-label {
+    font-size: 12px;
+  }
+}
+@media (max-width: 768px) {
+  .server-management .container {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 50vh;
+    border-right: none;
+    border-bottom: 1px solid var(--color-glass-border);
+  }
+  .admin-sidebar .sidebar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+  }
+  .admin-sidebar .nav-item {
+    flex: 1;
+    min-width: 80px;
+    margin: 2px;
+  }
+  .admin-iframe-wrapper {
+    margin: 10px;
+    border-radius: 8px;
+  }
 }

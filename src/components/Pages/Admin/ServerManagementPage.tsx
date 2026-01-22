@@ -2,18 +2,60 @@ import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './Sidebar';
 import NginxUI from './NginxUI';
 import HAProxyUI from './HAProxyUI';
+import MonitorUI from './MonitorUI';
+import PanelUI from './PanelUI';
+import MailUI from './MailUI';
+import CloudUI from './CloudUI';
 import './ServerManagement.css';
 import Lenis from '@studio-freight/lenis';
 import { useLenisCleanup } from '../../../hooks/useLenisCleanup';
 
+type TabType = 'nginx' | 'haproxy' | 'monitor' | 'panel' | 'mail' | 'cloud' | 'logs' | 'metrics' | 'settings';
+
 const ServerManagementPage: React.FC = () => {
   useLenisCleanup();
-  const [activeTab, setActiveTab] = useState<'nginx' | 'haproxy'>('nginx');
+  const [activeTab, setActiveTab] = useState<TabType>('nginx');
   const wrapperRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
 
+  const tabTitles = {
+    nginx: 'Nginx Administration',
+    haproxy: 'HAProxy Administration',
+    monitor: 'System Monitoring',
+    panel: 'Service Panel',
+    mail: 'Mail Administration',
+    cloud: 'Cloud Storage',
+    logs: 'System Logs',
+    metrics: 'Performance Metrics',
+    settings: 'System Settings'
+  };
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'nginx':
+        return <NginxUI />;
+      case 'haproxy':
+        return <HAProxyUI />;
+      case 'monitor':
+        return <MonitorUI />;
+      case 'panel':
+        return <PanelUI />;
+      case 'mail':
+        return <MailUI />;
+      case 'cloud':
+        return <CloudUI />;
+      case 'logs':
+        return <div className="ui-content">Логи системы (в разработке)</div>;
+      case 'metrics':
+        return <div className="ui-content">Метрики производительности (в разработке)</div>;
+      case 'settings':
+        return <div className="ui-content">Настройки системы (в разработке)</div>;
+      default:
+        return <NginxUI />;
+    }
+  };
+
   useEffect(() => {
-    // БАГ 1: Сбрасываем скролл всей страницы при входе в админку
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -21,10 +63,8 @@ const ServerManagementPage: React.FC = () => {
     const wrapperElement = wrapperRef.current;
     if (!wrapperElement) return;
 
-    // Сбрасываем скролл контейнера
     wrapperElement.scrollTop = 0;
 
-    // Создаем Lenis только для wrapper
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -34,12 +74,9 @@ const ServerManagementPage: React.FC = () => {
       gestureDirection: 'vertical',
     });
 
-    // Сохраняем ссылку для доступа
     lenisRef.current = lenis;
 
-    // Обработчик колеса мыши ТОЛЬКО для wrapper
     const handleWheel = (e: WheelEvent) => {
-      // БАГ 2: Проверяем что курсор НАД wrapper
       const rect = wrapperElement.getBoundingClientRect();
       const isOverWrapper = 
         e.clientX >= rect.left && 
@@ -51,16 +88,13 @@ const ServerManagementPage: React.FC = () => {
         e.preventDefault();
         e.stopPropagation();
         
-        // Рассчитываем новый скролл
         const delta = e.deltaY;
         const currentScroll = wrapperElement.scrollTop;
         const maxScroll = wrapperElement.scrollHeight - wrapperElement.clientHeight;
         
-        // Ограничиваем скролл
         const newScroll = Math.max(0, Math.min(currentScroll + delta, maxScroll));
         wrapperElement.scrollTop = newScroll;
         
-        // Обновляем Lenis
         if (lenisRef.current) {
           lenisRef.current.raf(Date.now());
         }
@@ -69,7 +103,6 @@ const ServerManagementPage: React.FC = () => {
       }
     };
 
-    // Обработчик для тач-устройств
     const handleTouchStart = (e: TouchEvent) => {
       const rect = wrapperElement.getBoundingClientRect();
       const touch = e.touches[0];
@@ -99,12 +132,10 @@ const ServerManagementPage: React.FC = () => {
       }
     };
 
-    // Вешаем обработчики на window с capture: true
     window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: false, capture: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: false, capture: true });
 
-    // Анимационный цикл
     let animationFrameId: number;
     const raf = (time: number) => {
       if (lenisRef.current) {
@@ -115,7 +146,6 @@ const ServerManagementPage: React.FC = () => {
 
     animationFrameId = requestAnimationFrame(raf);
 
-    // Очистка
     return () => {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
@@ -130,12 +160,10 @@ const ServerManagementPage: React.FC = () => {
         lenisRef.current = null;
       }
       
-      // Снова сбрасываем скролл при выходе
       window.scrollTo(0, 0);
     };
   }, []);
 
-  // Сброс скролла при смене таба
   useEffect(() => {
     if (wrapperRef.current) {
       wrapperRef.current.scrollTop = 0;
@@ -149,11 +177,11 @@ const ServerManagementPage: React.FC = () => {
 
         <main className="main-content">
           <div className="admin-topbar">
-            {activeTab === 'nginx' ? 'Nginx Administration' : 'HAProxy Administration'}
+            {tabTitles[activeTab]}
           </div>
 
           <div className="admin-iframe-wrapper" ref={wrapperRef}>
-            {activeTab === 'nginx' ? <NginxUI /> : <HAProxyUI />}
+            {renderContent()}
           </div>
         </main>
       </div>
