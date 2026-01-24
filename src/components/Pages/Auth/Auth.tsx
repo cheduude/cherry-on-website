@@ -6,6 +6,7 @@ import { VALIDATION_RULES, VALIDATION_MESSAGES } from '../../../constants/valida
 import LoginForm from './Log';
 import SignupForm from './Reg';
 
+
 const Auth: React.FC = () => {
   const [searchParams] = useSearchParams();
   const mode = searchParams.get('mode');
@@ -192,6 +193,7 @@ const Auth: React.FC = () => {
 
   return (
     <div className="auth-container">
+      
       <a href="https://front.codes/" className="logo" target="_blank" rel="noopener noreferrer">
         <img src="https://assets.codepen.io/1462889/fcy.png" alt="Front Codes" />
       </a>
