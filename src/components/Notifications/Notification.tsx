@@ -76,3 +76,5 @@ const Notification: React.FC<NotificationProps> = ({ data, onClose }) => {
 };
 
 export default Notification;
+
+    
