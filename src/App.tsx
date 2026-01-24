@@ -29,7 +29,7 @@ const App: React.FC = () => {
           {/* MAIN LAYOUT */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home isMobile={false} />} />
-            <Route path="/services" element={<Services isMobile={false} isAuthenticated={false} />} />
+            <Route path="/services" element={<Services  />} />
             <Route path="/contacts" element={<div>Контакты</div>} />
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/admin" element={<AdminAccessPage />} />
