@@ -1,115 +1,132 @@
-@import url('https://fonts.googleapis.com/css?family=Oswald:400');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* ===== ОСНОВНЫЕ СТИЛИ ===== */
 .navigation {
   position: relative;
   display: inline-flex;
   justify-content: flex-end;
   width: auto;
-  margin-right: 15px;
+  margin-right: 20px;
 }
-/* ===== ОБЩИЙ СТИЛЬ КНОПКИ ИЗ КОДА 1 ===== */
-/* ОБЩИЙ СТИЛЬ ДЛЯ ВСЕХ КНОПОК ЛОГИНА */
+
+/* ===== ПРЕМИУМ КНОПКА ЛОГИНА ===== */
 .loginButton {
   text-decoration: none;
   color: var(--color-text);
-  background-color: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+  background: transparent;
   overflow: hidden;
   display: inline-flex;
   justify-content: flex-end;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 14px;
   cursor: pointer;
-  border: 1px solid transparent;
+  border: 1px solid var(--color-glass-border);
   position: relative;
-  min-height: 50px;
+  min-height: 48px;
   white-space: nowrap;
   padding: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
-/* ===== КНОПКА "ВОЙТИ" (НЕАВТОРИЗОВАННЫЙ) ===== */
-/* Базовый стиль кнопки "Вход" */
+
+/* Неавторизованная кнопка */
 .loginButton:not(:has(.userName)) {
-  width: 50px;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+  width: 48px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 100%
+  );
 }
-/* Расширенное состояние кнопки "Вход" */
+
 .loginButton:not(:has(.userName)):hover {
-  width: 120px;
-  background-color: var(--color-surface);
-  border-color: var(--color-border);
-  box-shadow: var(--shadow-medium);
+  width: 140px;
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  box-shadow: 
+    0 4px 20px rgba(var(--color-accent-rgb, 77, 171, 247), 0.15),
+    0 0 0 1px rgba(var(--color-accent-rgb, 77, 171, 247), 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
   transform: translateY(-2px);
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-/* АВАТАРКА - фиксированная позиция слева */
+
+/* Аватарка */
 .loginButton .avatar {
-  width: 25px;
-  height: 25px;
-  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
   object-fit: cover;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  filter: brightness(0.9);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: absolute;
-  left: 13px;
+  left: 6px;
   top: 50%;
   transform: translateY(-50%);
+  border: 2px solid transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-/* Плавное увеличение аватарки при расширении */
+
 .loginButton:not(:has(.userName)):hover .avatar {
-  transform: translateY(-50%) scale(1.05);
-  filter: brightness(1);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+  transform: translateY(-50%) scale(1.08);
+  border-color: var(--color-accent);
+  box-shadow: 
+    0 6px 24px rgba(var(--color-accent-rgb, 77, 171, 247), 0.25),
+    0 0 0 1px rgba(var(--color-accent-rgb, 77, 171, 247), 0.15);
 }
-/* КОНТЕНТ КНОПКИ "ВОЙТИ" - справа от аватарки */
+
+/* Контент кнопки */
 .loginButton:not(:has(.userName)) .buttonContent {
   display: flex;
   align-items: center;
   overflow: hidden;
   opacity: 0;
   width: 0;
-  padding-left: 10px;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding-left: 12px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, width;
 }
-/* Текст "Войти" плавно появляется при расширении */
+
 .loginButton:not(:has(.userName)):hover .buttonContent {
   opacity: 1;
-  width: calc(100% - 50px);
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+  width: calc(100% - 52px);
 }
-/* Текст "Войти" */
+
 .loginText {
   font-size: 0.9em;
-  font-family: 'Oswald', sans-serif;
-  letter-spacing: 2px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   white-space: nowrap;
   color: var(--color-text);
   opacity: 0;
-  transform: translateX(-10px);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
+  transform: translateX(-8px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
 }
-/* Текст плавно появляется */
+
 .loginButton:not(:has(.userName)):hover .loginText {
-  opacity: 0.9;
+  opacity: 1;
   transform: translateX(0);
 }
+
 /* ===== АВТОРИЗОВАННАЯ КНОПКА ===== */
-/* Авторизованная кнопка (свернутое состояние) */
 .loginButton:has(.userName) {
-  width: 50px;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  width: 48px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 100%
+  );
 }
-/* РАСШИРЕННОЕ состояние авторизованной кнопки */
+
 .loginButton.expanded {
-  width: 200px !important;
-  border-color: var(--color-border);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-medium);
+  width: 220px !important;
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  box-shadow: 
+    0 8px 32px rgba(var(--color-accent-rgb, 77, 171, 247), 0.2),
+    0 0 0 1px rgba(var(--color-accent-rgb, 77, 171, 247), 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transform: translateY(-2px);
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  justify-content: flex-start;
 }
-/* Контент авторизованной кнопки */
+
 .loginButton:has(.userName) .buttonContent {
   display: flex;
   align-items: center;
@@ -118,259 +135,565 @@
   min-width: 0;
   opacity: 0;
   width: 0;
-  padding-left: 10px;
-  padding-right: 15px;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding-left: 12px;
+  padding-right: 16px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, width;
 }
-/* Контент появляется в расширенном состоянии */
+
 .loginButton.expanded .buttonContent {
   opacity: 1;
-  width: calc(100% - 50px);
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
-  padding: 0 15px;
+  width: calc(100% - 52px);
 }
-/* Имя пользователя */
+
 .userName {
   font-size: 0.9em;
-  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
   overflow: hidden;
-  letter-spacing: 1px;
+  letter-spacing: 0.3px;
   white-space: nowrap;
   color: var(--color-text);
   text-overflow: ellipsis;
   flex: 1;
   min-width: 0;
   opacity: 0;
-  transform: translateX(-10px);
-  transition: opacity 0.4s ease 0.15s,
-              transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
+  transform: translateX(-8px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
 }
+
 .loginButton.expanded .userName {
-  opacity: 0.9;
+  opacity: 1;
   transform: translateX(0);
 }
-/* Стрелочка */
+
 .arrowIcon {
   font-size: 0.7rem;
   color: var(--color-text-muted);
-  transition: transform 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   margin-left: 8px;
   opacity: 0.7;
 }
+
 .loginButton.expanded .arrowIcon {
   transform: rotate(180deg);
+  opacity: 1;
+  color: var(--color-accent);
 }
-/* Основной контейнер для авторизованного состояния */
+
+/* Контейнер */
 .authContainer {
   position: relative;
   display: inline-block;
 }
-/* ===== ВЫПАДАЮЩИЙ СПИСОК ИЗ КОДА 2 ===== */
+
+/* ===== ПРЕМИУМ ВЫПАДАЮЩИЙ СПИСОК ===== */
 .dropdownMenu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 12px);
   right: 0;
-  background: var(--color-glass-bg);
-  backdrop-filter: var(--blur-strong);
-  -webkit-backdrop-filter: var(--blur-strong);
-  border-radius: 12px;
+  
+  /* Премиум стеклянный эффект */
+  background: linear-gradient(
+    152deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  backdrop-filter: saturate(200%) blur(32px);
+  -webkit-backdrop-filter: saturate(200%) blur(32px);
+  
+  border-radius: 20px;
   border: 1px solid var(--color-glass-border);
-  min-width: 220px;
-  box-shadow:
-    var(--shadow-medium),
-    var(--shadow-soft),
-    inset 0 1px 0 var(--color-glass-hover);
+  min-width: 300px;
+  
+  /* Многослойные тени */
+  box-shadow: 
+    0 1px 0 0 rgba(255, 255, 255, 0.03),
+    0 2px 4px -1px rgba(0, 0, 0, 0.12),
+    0 8px 32px -4px rgba(0, 0, 0, 0.25),
+    0 32px 64px -12px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  
   z-index: 1000;
   overflow: hidden;
-  animation: menuAppear 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  opacity: 0;
-  transform: translateY(-10px) scale(0.95);
+  transform-origin: top right;
 }
-@keyframes menuAppear {
-  to {
+
+/* Анимации */
+.dropdownMenu.appearing {
+  animation: premiumAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+}
+
+.dropdownMenu.disappearing {
+  animation: premiumDisappear 0.3s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+@keyframes premiumAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  100% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
-/* Анимация скрытия (из кода 1, но адаптированная) */
-.dropdownMenu.disappearing {
-  animation: menuDisappear 0.25s ease forwards;
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-@keyframes menuDisappear {
+
+@keyframes premiumDisappear {
   0% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-10px) scale(0.98);
+    transform: translateY(-8px) scale(0.98);
     visibility: hidden;
   }
 }
-/* Заголовок меню */
+
+/* ===== ЗАГОЛОВОК МЕНЮ ===== */
 .menuHeader {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface-alt);
+  padding: 24px 24px 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
 }
+
+.menuHeader::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+}
+
 .menuTitle {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  margin-bottom: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
+.menuTitle::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb, 77, 171, 247), 0.2);
+}
+
 .userRole {
   font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
   color: var(--color-accent);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 500;
+  background: rgba(var(--color-accent-rgb, 77, 171, 247), 0.12);
+  padding: 8px 14px;
+  border-radius: 12px;
+  display: inline-block;
+  border: 1px solid rgba(var(--color-accent-rgb, 77, 171, 247), 0.2);
+  backdrop-filter: blur(10px);
 }
-/* Список меню */
+
+/* ===== ЭЛЕМЕНТЫ МЕНЮ ===== */
 .menuItems {
-  padding: 8px 0;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-/* Элементы меню */
+
 .menuItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
+  gap: 16px;
+  padding: 14px 20px;
   color: var(--color-text);
   text-decoration: none;
   cursor: pointer;
-  background: none;
+  background: transparent;
   border: none;
-  width: 100%;
+  
+  margin: 0 8px;
   text-align: left;
-  font-size: 0.95rem;
-  font-weight: 400;
-  transition: all 0.2s ease;
+  
+  font-size: 0.9375rem;
+  font-weight: 500;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  border-radius: 14px;
   position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  /* Градиентная обводка при наведении */
+  border: 1px solid transparent;
 }
+
+/* Фон при наведении */
 .menuItem:hover {
-  background: var(--color-glass-hover);
-  color: var(--color-text);
-  padding-left: 24px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transform: translateX(4px);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  padding-left: 22px;
 }
-/* Иконки меню */
+
+/* Иконки */
 .menuIcon {
-  font-size: 1.1rem;
-  width: 20px;
-  text-align: center;
-  transition: transform 0.2s ease;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .menuItem:hover .menuIcon {
-  transform: scale(1.1);
+  color: var(--color-accent);
+  transform: translateY(-1px) scale(1.15);
 }
+
+/* Текст */
 .menuLabel {
   flex: 1;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: all 0.3s ease;
 }
+
+.menuItem:hover .menuLabel {
+  color: var(--color-accent);
+  background: linear-gradient(
+    90deg,
+    var(--color-accent) 0%,
+    color-mix(in srgb, var(--color-accent) 70%, white) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Бейдж админа */
 .adminBadge {
-  font-size: 0.7em;
-  background-color: var(--color-danger);
-  color: var(--color-text-inverse);
-  padding: 2px 8px;
-  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  flex-shrink: 0;
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    var(--color-danger) 0%,
+    color-mix(in srgb, var(--color-danger) 60%, #ff8e8e) 100%
+  );
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 4px 12px rgba(255, 107, 107, 0.25),
+    0 0 0 1px rgba(255, 107, 107, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
 }
+
 /* Разделитель */
 .menuDivider {
   height: 1px;
-  background: linear-gradient(90deg,
+  margin: 16px 20px;
+  background: linear-gradient(
+    90deg,
     transparent 0%,
-    var(--color-border) 50%,
-    transparent 100%);
-  margin: 8px 20px;
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.1) 80%,
+    transparent 100%
+  );
+  position: relative;
+  overflow: hidden;
 }
+
+.menuDivider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: dividerShine 4s infinite;
+}
+
+@keyframes dividerShine {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
 /* Кнопка выхода */
 .logoutItem {
-  color: var(--color-danger);
+  color: var(--color-text);
 }
+
 .logoutItem:hover {
-  background: var(--color-glass-hover);
-  color: var(--color-danger);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 107, 0.12) 0%,
+    rgba(255, 107, 107, 0.06) 100%
+  );
+  border: 1px solid rgba(255, 107, 107, 0.25);
 }
+
 .logoutItem:hover .menuIcon {
-  transform: rotate(15deg);
+  color: var(--color-danger);
+  transform: rotate(15deg) translateY(-1px);
 }
+
+.logoutItem:hover .menuLabel {
+  color: var(--color-danger);
+  background: linear-gradient(
+    90deg,
+    var(--color-danger) 0%,
+    color-mix(in srgb, var(--color-danger) 70%, white) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== АНИМАЦИИ ДЛЯ ЭЛЕМЕНТОВ ===== */
+.menuHeader.appearing,
+.menuItem.appearing,
+.menuDivider.appearing {
+  animation: slideInFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.menuHeader.appearing { animation-delay: 0.1s; }
+.menuItem.appearing:nth-child(1) { animation-delay: 0.15s; }
+.menuItem.appearing:nth-child(2) { animation-delay: 0.2s; }
+.menuItem.appearing:nth-child(3) { animation-delay: 0.25s; }
+.menuItem.appearing:nth-child(4) { animation-delay: 0.3s; }
+.menuDivider.appearing { animation-delay: 0.35s; }
+.logoutItem.appearing { animation-delay: 0.4s; }
+
+.menuHeader.disappearing,
+.menuItem.disappearing,
+.menuDivider.disappearing {
+  animation: slideOutFade 0.25s ease forwards;
+}
+
+@keyframes slideInFade {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutFade {
+  to {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+
+/* ===== СВЕТЛАЯ ТЕМА ===== */
+[data-theme="light"] .dropdownMenu {
+  background: linear-gradient(
+    152deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0.92) 100%
+  );
+  backdrop-filter: saturate(200%) blur(28px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    0 1px 0 0 rgba(255, 255, 255, 0.8),
+    0 2px 6px -1px rgba(0, 0, 0, 0.1),
+    0 12px 40px -4px rgba(0, 0, 0, 0.15),
+    0 32px 72px -12px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .menuHeader {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.02) 0%,
+    transparent 100%
+  );
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .menuHeader::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.06),
+    transparent
+  );
+}
+
+[data-theme="light"] .userRole {
+  background: rgba(var(--color-accent-rgb, 25, 113, 194), 0.1);
+  border: 1px solid rgba(var(--color-accent-rgb, 25, 113, 194), 0.15);
+}
+
+[data-theme="light"] .menuItem:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.03) 0%,
+    rgba(0, 0, 0, 0.01) 100%
+  );
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="light"] .menuDivider {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.06) 20%,
+    rgba(0, 0, 0, 0.06) 80%,
+    transparent 100%
+  );
+}
+
+[data-theme="light"] .menuDivider::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.1),
+    transparent
+  );
+}
+
+[data-theme="light"] .logoutItem:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(224, 49, 49, 0.1) 0%,
+    rgba(224, 49, 49, 0.05) 100%
+  );
+  border: 1px solid rgba(224, 49, 49, 0.15);
+}
+
+[data-theme="light"] .loginButton {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .loginButton:not(:has(.userName)) {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.02) 0%,
+    transparent 100%
+  );
+}
+
+[data-theme="light"] .loginButton:not(:has(.userName)):hover,
+[data-theme="light"] .loginButton.expanded {
+  background: white;
+  border-color: var(--color-accent);
+  box-shadow: 
+    0 8px 32px rgba(25, 113, 194, 0.15),
+    0 0 0 1px rgba(25, 113, 194, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .loginButton .avatar {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
 /* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
 @media (max-width: 768px) {
   .navigation {
-    margin-right: 10px;
-    display: inline-flex;
+    margin-right: 12px;
   }
 
   .loginButton {
-    margin: 10px 0;
+    min-height: 44px;
   }
 
-  /* Кнопка "Вход" на мобильных */
-  .loginButton:not(:has(.userName)) {
-    width: 50px !important;
-  }
-
-  .loginButton:not(:has(.userName)):hover .buttonContent {
-    display: none;
-  }
-
-  .loginButton:not(:has(.userName)) .avatar {
-    left: 13px !important;
-    transform: translateY(-50%) !important;
-  }
-
-  /* Авторизованная кнопка на мобильных */
+  .loginButton:not(:has(.userName)),
   .loginButton:has(.userName),
   .loginButton.expanded {
-    width: 50px !important;
+    width: 44px !important;
   }
 
+  .loginButton .avatar {
+    width: 28px;
+    height: 28px;
+    left: 8px;
+  }
+
+  .loginButton:not(:has(.userName)):hover .buttonContent,
   .loginButton.expanded .buttonContent {
     display: none;
-  }
-
-  .loginButton:has(.userName) .avatar {
-    left: 13px !important;
-    transform: translateY(-50%) !important;
   }
 
   .dropdownMenu {
     position: fixed;
     top: 70px;
-    right: 10px;
-    left: 10px;
-    width: auto !important;
-    min-width: 200px;
-    max-width: calc(100vw - 20px);
-    border-radius: 12px;
-    background: var(--color-glass-bg);
-    backdrop-filter: var(--blur-strong);
-    -webkit-backdrop-filter: var(--blur-strong);
+    right: 16px;
+    left: 16px;
+    max-width: none;
+    min-width: auto;
+    width: auto;
+    border-radius: 24px;
   }
 
   .dropdownMenu.appearing {
-    animation: menuAppearMobile 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: mobileAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .dropdownMenu.disappearing {
-    animation: menuDisappearMobile 0.25s ease forwards;
+    animation: mobileDisappear 0.3s cubic-bezier(0.7, 0, 0.84, 0) forwards;
   }
 
-  @keyframes menuAppearMobile {
+  @keyframes mobileAppear {
     0% {
       opacity: 0;
-      transform: translateY(-10px) scale(0.98);
+      transform: translateY(-12px) scale(0.96);
     }
     100% {
       opacity: 1;
@@ -378,134 +701,63 @@
     }
   }
 
-  @keyframes menuDisappearMobile {
+  @keyframes mobileDisappear {
     0% {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
     100% {
       opacity: 0;
-      transform: translateY(-10px) scale(0.98);
+      transform: translateY(-12px) scale(0.96);
       visibility: hidden;
     }
   }
+
+  .menuItem {
+    margin: 0 12px;
+    width: calc(100% - 24px);
+    padding: 16px 20px;
+  }
 }
-/* iPhone SE (375px) и маленькие устройства */
+
+/* Маленькие экраны */
 @media (max-width: 375px) {
   .navigation {
-    margin-right: 5px;
-    min-width: 44px;
-  }
-
-  .loginButton {
-    padding: 0;
-    min-height: 44px;
-  }
-
-  .avatar {
-    width: 22px;
-    height: 22px;
-    left: 11px !important;
-  }
-
-  .buttonText {
-    font-size: 0.85rem;
-    max-width: 100px;
+    margin-right: 8px;
   }
 
   .dropdownMenu {
-    min-width: 200px;
-    right: -8px;
-    max-width: calc(100vw - 16px);
+    right: 12px;
+    left: 12px;
   }
 
   .menuItem {
-    padding: 11px 16px;
-    font-size: 0.9rem;
-  }
-
-  .menuIcon {
-    font-size: 1rem;
+    padding: 14px 18px;
   }
 }
-/* Samsung Galaxy S20 Ultra (412px) и подобные */
-@media (min-width: 376px) and (max-width: 414px) {
-  .loginButton {
-    min-height: 46px;
-  }
 
-  .avatar {
-    width: 24px;
-    height: 24px;
-  }
-
+/* Планшеты */
+@media (min-width: 769px) and (max-width: 1024px) {
   .dropdownMenu {
-    min-width: 220px;
-    max-width: calc(100vw - 20px);
-  }
-
-  .menuItem {
-    padding: 12px 18px;
+    min-width: 280px;
   }
 }
-/* Планшеты и большие телефоны */
-@media (min-width: 415px) and (max-width: 768px) {
-  .navigation {
-    min-width: 48px;
-  }
 
-  .loginButton {
-    min-height: 48px;
-  }
-
-  .avatar {
-    width: 25px;
-    height: 25px;
-  }
-
-  .dropdownMenu {
-    min-width: 240px;
-    max-width: calc(100vw - 40px);
-  }
-
-  .menuItem {
-    padding: 14px 20px;
-  }
-}
-/* Особенности для высоких устройств */
-@media (max-height: 700px) and (max-width: 768px) {
-  .dropdownMenu {
-    max-height: 60vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .menuItem {
-    padding: 10px 16px;
-  }
-}
-/* Безопасные зоны для iPhone X+ */
-@supports (padding: max(0px)) {
-  .dropdownMenu {
-    margin-right: max(0px, env(safe-area-inset-right) - 8px);
-  }
-}
-/* Улучшения для касаний на мобильных */
+/* Улучшения для касаний */
 @media (hover: none) and (pointer: coarse) {
+  .menuItem:active {
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(0.98);
+  }
+
   .loginButton:active {
     transform: scale(0.98);
   }
+}
 
-  .menuItem:active {
-    background: var(--color-glass-hover);
-    transform: scale(0.98);
-  }
-
-  .loginButton:hover {
-    transform: none;
-  }
-
-  .menuItem:hover {
-    padding-left: 20px;
+/* Безопасные зоны */
+@supports (padding: max(0px)) {
+  .dropdownMenu {
+    margin-right: max(0px, env(safe-area-inset-right) - 8px);
   }
 }

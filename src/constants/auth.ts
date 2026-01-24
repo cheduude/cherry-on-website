@@ -1,6 +1,6 @@
 // Аватары по умолчанию
-export const DEFAULT_AVATAR = "https://pbs.twimg.com/profile_images/378800000639740507/fc0aaad744734cd1dbc8aeb3d51f8729_400x400.jpeg";
-export const FALLBACK_AVATAR = "https://pbs.twimg.com/profile_images/378800000639740507/fc0aaad744734cd1dbc8aeb3d51f8729_400x400.jpeg";
+export const DEFAULT_AVATAR = "https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true";
+export const FALLBACK_AVATAR = "https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true";
 
 // Маршруты аутентификации
 export const AUTH_ROUTES = {

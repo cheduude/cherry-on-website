@@ -145,7 +145,7 @@ const Auth: React.FC = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       login({
-        avatar: 'https://pbs.twimg.com/profile_images/378800000639740507/fc0aaad744734cd1dbc8aeb3d51f8729_400x400.jpeg',
+        avatar: 'https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true',
         email: formData.loginEmail,
         name: formData.loginEmail.split('@')[0]
       });
@@ -173,7 +173,7 @@ const Auth: React.FC = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       signup({
-        avatar: 'https://pbs.twimg.com/profile_images/378800000639740507/fc0aaad744734cd1dbc8aeb3d51f8729_400x400.jpeg',
+        avatar: 'https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true',
         email: formData.signupEmail,
         name: formData.signupName
       });

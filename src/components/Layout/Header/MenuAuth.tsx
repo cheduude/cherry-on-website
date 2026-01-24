@@ -107,7 +107,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
               onClick={toggleAuthMenu}
             >
               <img 
-                src={user.avatar || 'https://pbs.twimg.com/profile_images/378800000639740507/fc0aaad744734cd1dbc8aeb3d51f8729_400x400.jpeg'} 
+                src={user.avatar || 'https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true'} 
                 alt="Avatar" 
                 className={styles.avatar}
               />
@@ -157,7 +157,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
           >
             <div className={styles.avatarPlaceholder}>
               <img 
-                src="https://pbs.twimg.com/profile_images/378800000639740507/fc0aaad744734cd1dbc8aeb3d51f8729_400x400.jpeg" 
+                src="https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true" 
                 alt="Avatar" 
                 className={styles.avatar}
               />
@@ -186,7 +186,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
             onClick={toggleAuthMenu}
           >
             <img 
-              src={user.avatar || 'https://pbs.twimg.com/profile_images/378800000639740507/fc0aaad744734cd1dbc8aeb3d51f8729_400x400.jpeg'} 
+              src={user.avatar || 'https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true'} 
               alt="Avatar" 
               className={styles.avatar}
             />
@@ -216,7 +216,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
         >
           <div className={styles.avatarPlaceholder}>
             <img 
-              src="https://pbs.twimg.com/profile_images/378800000639740507/fc0aaad744734cd1dbc8aeb3d51f8729_400x400.jpeg" 
+              src="https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true" 
               alt="Avatar" 
               className={styles.avatar}
             />
