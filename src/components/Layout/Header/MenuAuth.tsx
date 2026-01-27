@@ -115,7 +115,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
                 <div className={`${styles.buttonText} ${styles.userName}`}>
                   {user.displayName || user.name || user.username || 'Пользователь'}
                 </div>
-                <div className={styles.arrowIcon}>▼</div>
+                
               </div>
             </button>
             {isMenuOpen && (
