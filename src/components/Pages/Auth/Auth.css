@@ -36,7 +36,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(10px);
+  
 }
 
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
@@ -67,7 +67,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(10px);
+  
 }
 
 /* Liquid glass effect overlay */
@@ -83,7 +83,7 @@
     rgba(255, 255, 255, 0.1) 0%,
     rgba(255, 255, 255, 0.05) 100%
   );
-  backdrop-filter: blur(20px);
+  
   z-index: -1;
 }
 
