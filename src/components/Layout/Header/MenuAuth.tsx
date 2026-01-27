@@ -15,16 +15,44 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
   const authContainerRef = useRef<HTMLDivElement>(null);
   const loginLinkRef = useRef<HTMLAnchorElement>(null);
   
+  // Для мобильной версии показываем только компактную кнопку
+  if (isMobile) {
+    if (isAuthenticated && user) {
+      return (
+        <div className={styles.navigation}>
+          <Link
+            to="/profile"
+            className={styles.mobileAvatarButton}
+          >
+            <img 
+              src={user.avatar || 'https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true'} 
+              alt="Avatar" 
+              className={styles.mobileAvatar}
+            />
+          </Link>
+        </div>
+      );
+    }
+    
+    return (
+      <div className={styles.navigation}>
+        <Link
+          to="/auth"
+          className={styles.mobileLoginButton}
+        >
+          <span className={styles.mobileLoginIcon}>🔐</span>
+        </Link>
+      </div>
+    );
+  }
 
-  // Фильтрация пунктов меню по ролям
+  // Десктопная версия (остается без изменений)
   const getFilteredMenuItems = (): MenuItem[] => {
     if (!isAuthenticated || !user) return [];
 
     return MENU_CONFIG.filter(item => {
-      // Пропускаем пункт "Выйти" в основном списке
       if (item.id === 'logout') return false;
       
-      // Проверяем доступ для админских пунктов
       if (item.adminOnly && item.roles) {
         return item.roles.includes(user.role || 'user');
       }
@@ -74,12 +102,10 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       
-      // Проверяем для авторизованного контейнера
       if (authContainerRef.current && !authContainerRef.current.contains(target)) {
         closeAuthMenu();
       }
       
-      // Проверяем для ссылки "Вход"
       if (loginLinkRef.current && !loginLinkRef.current.contains(target)) {
         closeLoginButton();
       }
@@ -94,86 +120,6 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
     };
   }, [isMenuOpen, isLoginExpanded]);
 
-  // Для мобильной версии
-  if (isMobile) {
-    const mobileItems = getFilteredMenuItems();
-    
-    return (
-      <div className={styles.navigation}>
-        {isAuthenticated && user ? (
-          <div className={styles.authContainer} ref={authContainerRef}>
-            <button
-              className={`${styles.loginButton} ${isAuthExpanded ? styles.expanded : ''}`}
-              onClick={toggleAuthMenu}
-            >
-              <img 
-                src={user.avatar || 'https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true'} 
-                alt="Avatar" 
-                className={styles.avatar}
-              />
-              <div className={styles.buttonContent}>
-                <div className={`${styles.buttonText} ${styles.userName}`}>
-                  {user.displayName || user.name || user.username || 'Пользователь'}
-                </div>
-                <div className={styles.arrowIcon}>▼</div>
-              </div>
-            </button>
-            {isMenuOpen && (
-              <div className={styles.dropdownMenu}>
-                <div className={styles.menuItems}>
-                  {mobileItems.map(item => (
-                    <Link
-                      key={item.id}
-                      to={item.path}
-                      className={styles.menuItem}
-                      onClick={() => handleMenuItemClick(item)}
-                    >
-                      {item.icon && <span className={styles.menuIcon}>{item.icon}</span>}
-                      <span className={styles.menuLabel}>{item.label}</span>
-                      {item.adminOnly && (
-                        <span className={styles.adminBadge}>ADMIN</span>
-                      )}
-                    </Link>
-                  ))}
-                  <div className={styles.menuDivider}></div>
-                  <button
-                    className={`${styles.menuItem} ${styles.logoutItem}`}
-                    onClick={logout}
-                  >
-                    <span className={styles.menuIcon}>🚪</span>
-                    <span className={styles.menuLabel}>Выйти</span>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <Link
-            to="/auth"
-            className={styles.loginButton}
-            onMouseEnter={() => setIsLoginExpanded(true)}
-            onMouseLeave={() => setIsLoginExpanded(false)}
-            ref={loginLinkRef}
-          >
-            <div className={styles.avatarPlaceholder}>
-              <img 
-                src="https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true" 
-                alt="Avatar" 
-                className={styles.avatar}
-              />
-            </div>
-            <div className={`${styles.buttonContent} ${isLoginExpanded ? styles.visible : ''}`}>
-              <div className={`${styles.buttonText} ${styles.loginText}`}>
-                Войти
-              </div>
-            </div>
-          </Link>
-        )}
-      </div>
-    );
-  }
-
-  // Десктопная версия
   return (
     <div className={styles.navigation}>
       {isAuthenticated && user ? (
@@ -194,7 +140,6 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
               <div className={`${styles.buttonText} ${styles.userName}`}>
                 {user.displayName || user.name || user.username || 'Пользователь'}
               </div>
-              
             </div>
           </button>
           

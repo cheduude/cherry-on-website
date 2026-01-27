@@ -33,7 +33,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   return (
     <div className={`${styles.dropdownMenu} ${styles[animationClass]}`}>
       <div className={`${styles.menuHeader} ${styles[animationClass]}`}>
-        <div className={styles.menuTitle}>Меню пользователя</div>
+        <div className={styles.menuTitle}>Личный кабинет</div>
         {userRole && (
           <div className={styles.userRole}>Роль: {userRole}</div>
         )}
