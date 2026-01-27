@@ -761,3 +761,67 @@
     margin-right: max(0px, env(safe-area-inset-right) - 8px);
   }
 }
+/* ===== МОБИЛЬНЫЕ ВЕРСИИ КНОПОК ===== */
+.mobileAvatarButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(var(--color-accent-rgb), 0.1);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+}
+
+.mobileAvatarButton:hover {
+  background: rgba(var(--color-accent-rgb), 0.15);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.mobileAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobileLoginButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg,
+    rgba(var(--color-accent-rgb), 0.15) 0%,
+    rgba(var(--color-accent-rgb), 0.08) 100%);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.3);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+}
+
+.mobileLoginButton:hover {
+  background: linear-gradient(135deg,
+    rgba(var(--color-accent-rgb), 0.25) 0%,
+    rgba(var(--color-accent-rgb), 0.15) 100%);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.mobileLoginIcon {
+  font-size: 1.2rem;
+  color: var(--color-accent);
+}
+
+/* Для мобильной версии скрываем десктопные кнопки */
+@media (max-width: 768px) {
+  .navigation:not(.mobileAvatarButton):not(.mobileLoginButton) {
+    display: none;
+  }
+}
