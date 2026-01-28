@@ -20,14 +20,14 @@ const LoginForm: React.FC<LoginFormProps> = ({
     <div className="card-front">
       <div className="center-wrap">
         <div className="section text-center">
-          <h4 className="mb-4 pb-3">Log In</h4>
+          <h4 className="mb-4 pb-3">Войти</h4>
           <form onSubmit={onSubmit}>
             <div className="form-group">
               <input 
                 type="text" // Изменено с email на text, чтобы убрать встроенную валидацию
                 name="loginEmail" 
                 className="form-style"
-                placeholder="Your Email" 
+                placeholder="Ваш email" 
                 id="logemail" 
                 autoComplete="off"
                 value={formData.loginEmail}
@@ -41,7 +41,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 type="password" 
                 name="loginPassword" 
                 className="form-style"
-                placeholder="Your Password" 
+                placeholder="Введите пароль" 
                 id="logpass" 
                 autoComplete="off"
                 value={formData.loginPassword}
@@ -59,7 +59,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             </button>
           </form>
           <p className="mb-0 mt-4 text-center">
-            <a href="#0" className="link">Forgot your password?</a>
+            <a href="#0" className="link">Забыли пароль?</a>
           </p>
         </div>
       </div>

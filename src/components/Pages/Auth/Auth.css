@@ -303,7 +303,7 @@
   height: auto; /* Автоматическая высота */
   min-height: 100%; /* Минимальная высота равна родителю */
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(50px);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   position: absolute;
@@ -396,7 +396,7 @@
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 200ms linear;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(50px);
   font-family: 'Poppins', sans-serif;
 }
 

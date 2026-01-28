@@ -194,9 +194,7 @@ const Auth: React.FC = () => {
   return (
     <div className="auth-container">
       
-      <a href="https://front.codes/" className="logo" target="_blank" rel="noopener noreferrer">
-        <img src="https://assets.codepen.io/1462889/fcy.png" alt="Front Codes" />
-      </a>
+      
 
       <div className="section">
         <div className="container">
