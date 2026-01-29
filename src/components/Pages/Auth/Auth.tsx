@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom'; // Добавлен useNavigate
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { useNotifications } from '../../../contexts/NotificationContext';
 import { VALIDATION_RULES, VALIDATION_MESSAGES } from '../../../constants/validation';
 import LoginForm from './Log';
 import SignupForm from './Reg';
-
 
 const Auth: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -14,7 +13,8 @@ const Auth: React.FC = () => {
   const { login, signup } = useAuth();
   const { showError, showSuccess } = useNotifications();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate(); // Добавлен хук для навигации
+  const [isTelegramLoading, setIsTelegramLoading] = useState(false); // Добавлено состояние для Telegram
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLogin(mode !== 'register');
@@ -43,14 +43,13 @@ const Auth: React.FC = () => {
     }));
   };
 
-  // Функция валидации пароля с использованием VALIDATION_RULES
+  // Функция валидации пароля
   const validatePassword = useCallback((password: string): { isValid: boolean; errors: string[] } => {
     const errors: string[] = [];
     
     if (!password.trim()) {
       errors.push(VALIDATION_MESSAGES.PASSWORD_REQUIRED);
     } else {
-      // Проверка длины
       if (password.length < VALIDATION_RULES.MIN_PASSWORD_LENGTH) {
         errors.push(VALIDATION_MESSAGES.PASSWORD_TOO_SHORT);
       }
@@ -59,7 +58,6 @@ const Auth: React.FC = () => {
         errors.push(VALIDATION_MESSAGES.PASSWORD_TOO_LONG);
       }
       
-      // Проверка по регулярному выражению
       if (!VALIDATION_RULES.PASSWORD_REGEX.test(password)) {
         errors.push(VALIDATION_MESSAGES.PASSWORD_WEAK);
       }
@@ -74,14 +72,12 @@ const Auth: React.FC = () => {
   const validateLoginForm = (): boolean => {
     const errors: string[] = [];
 
-    // Email валидация
     if (!formData.loginEmail.trim()) {
       errors.push(VALIDATION_MESSAGES.EMAIL_REQUIRED);
     } else if (!VALIDATION_RULES.EMAIL_REGEX.test(formData.loginEmail)) {
       errors.push(VALIDATION_MESSAGES.EMAIL_INVALID);
     }
 
-    // Пароль валидация
     const passwordValidation = validatePassword(formData.loginPassword);
     if (!passwordValidation.isValid) {
       errors.push(...passwordValidation.errors);
@@ -98,7 +94,6 @@ const Auth: React.FC = () => {
   const validateSignupForm = (): boolean => {
     const errors: string[] = [];
 
-    // Имя валидация
     if (!formData.signupName.trim()) {
       errors.push(VALIDATION_MESSAGES.NAME_REQUIRED);
     } else if (formData.signupName.length < VALIDATION_RULES.MIN_USERNAME_LENGTH) {
@@ -107,20 +102,17 @@ const Auth: React.FC = () => {
       errors.push(VALIDATION_MESSAGES.NAME_TOO_LONG);
     }
 
-    // Email валидация
     if (!formData.signupEmail.trim()) {
       errors.push(VALIDATION_MESSAGES.EMAIL_REQUIRED);
     } else if (!VALIDATION_RULES.EMAIL_REGEX.test(formData.signupEmail)) {
       errors.push(VALIDATION_MESSAGES.EMAIL_INVALID);
     }
 
-    // Пароль валидация
     const passwordValidation = validatePassword(formData.signupPassword);
     if (!passwordValidation.isValid) {
       errors.push(...passwordValidation.errors);
     }
 
-    // Подтверждение пароля
     if (!formData.confirmPassword.trim()) {
       errors.push('Подтвердите пароль');
     } else if (formData.signupPassword !== formData.confirmPassword) {
@@ -152,9 +144,7 @@ const Auth: React.FC = () => {
       });
       
       showSuccess('Успешный вход', 'Вы успешно вошли в систему');
-      
-      // ДОБАВЛЕНО: Редирект на главную страницу
-      navigate('/'); // или navigate('/dashboard') если нужен другой путь
+      navigate('/');
       
     } catch (error) {
       showError('Ошибка входа', 'Неверный email или пароль');
@@ -180,8 +170,6 @@ const Auth: React.FC = () => {
       });
       
       showSuccess('Успешная регистрация', 'Вы успешно зарегистрировались');
-      
-      // ДОБАВЛЕНО: Редирект на главную страницу и после регистрации
       navigate('/');
       
     } catch (error) {
@@ -191,11 +179,51 @@ const Auth: React.FC = () => {
     }
   };
 
+  // Функция для обработки входа через Telegram
+  const handleTelegramLogin = async () => {
+    setIsTelegramLoading(true);
+    
+    try {
+      // Здесь будет реализация входа через Telegram
+      // Например:
+      // 1. Открытие OAuth окна Telegram
+      // 2. Получение данных пользователя
+      // 3. Авторизация на сервере
+      
+      // Временная имитация
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Тестовые данные для демонстрации
+      const telegramUser = {
+        id: '123456789',
+        username: 'telegram_user',
+        first_name: 'Telegram',
+        last_name: 'User',
+        photo_url: 'https://ui-avatars.com/api/?name=Telegram+User&background=random&color=fff&size=32&bold=true',
+        auth_date: Date.now(),
+        hash: 'test_hash'
+      };
+      
+      // Авторизация пользователя через Telegram
+      login({
+        avatar: telegramUser.photo_url,
+        email: `${telegramUser.username}@telegram.com`,
+        name: `${telegramUser.first_name} ${telegramUser.last_name || ''}`.trim()
+      });
+      
+      showSuccess('Успешный вход', 'Вы вошли через Telegram');
+      navigate('/');
+      
+    } catch (error) {
+      showError('Ошибка Telegram входа', 'Не удалось войти через Telegram. Попробуйте еще раз.');
+      console.error('Telegram login error:', error);
+    } finally {
+      setIsTelegramLoading(false);
+    }
+  };
+
   return (
     <div className="auth-container">
-      
-      
-
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
@@ -222,7 +250,9 @@ const Auth: React.FC = () => {
                       formData={formData}
                       onInputChange={handleInputChange}
                       onSubmit={handleLoginSubmit}
+                      onTelegramLogin={handleTelegramLogin} // ДОБАВЛЕНО
                       isSubmitting={isSubmitting}
+                      isTelegramLoading={isTelegramLoading} // ДОБАВЛЕНО
                     />
                     <SignupForm 
                       formData={formData}

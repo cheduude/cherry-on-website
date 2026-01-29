@@ -391,7 +391,7 @@
   width: 100%;
   font-weight: 500;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 22px;
   letter-spacing: 0.5px;
   outline: none;
@@ -769,4 +769,162 @@
   .auth-layout .form-style {
     font-size: 16px;
   }
+}
+
+.auth-layout .btn-telegram {
+  border-radius: 12px;
+  height: 44px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 200ms linear;
+  padding: 0 30px;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  background: linear-gradient(135deg, #229ED9 0%, #1A93C9 100%);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  box-shadow: 
+    0 8px 32px rgba(34, 158, 217, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.auth-layout .btn-telegram::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #34AADF 0%, #229ED9 100%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 200ms linear;
+}
+
+.auth-layout .btn-telegram:hover {
+  background: linear-gradient(135deg, #34AADF 0%, #229ED9 100%);
+  color: #fff;
+  box-shadow: 
+    0 12px 40px rgba(34, 158, 217, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 3px 12px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.auth-layout .btn-telegram:active,
+.auth-layout .btn-telegram:focus {
+  background: linear-gradient(135deg, #1A93C9 0%, #229ED9 100%);
+  color: #fff;
+  box-shadow: 
+    0 4px 20px rgba(34, 158, 217, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 4px rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
+  outline: none;
+}
+
+/* Иконка Telegram в кнопке */
+.auth-layout .btn-telegram .telegram-icon {
+  margin-right: 10px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 200ms ease;
+  margin-bottom: 1px;
+}
+
+.auth-layout .btn-telegram:hover .telegram-icon {
+  transform: scale(1.1);
+}
+
+/* Telegram иконка SVG стиль */
+.auth-layout .btn-telegram .telegram-icon svg {
+  width: 18px;
+  height: 18px;
+  margin-top: 1rem;
+  fill: currentColor;
+}
+
+/* Анимация для эффекта нажатия */
+.auth-layout .btn-telegram:active .telegram-icon {
+  transform: scale(0.95);
+}
+
+
+
+/* Контейнер для кнопки Telegram в форме */
+.auth-layout .telegram-auth-container {
+  margin-top: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-layout .telegram-text {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 8px;
+  text-align: center;
+  line-height: 1.4;
+  max-width: 300px;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 767px) {
+  .auth-layout .btn-telegram {
+    height: 44px;
+    font-size: 12px;
+    padding: 0 20px;
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  
+  .auth-layout .btn-telegram .telegram-icon {
+    font-size: 16px;
+    margin-right: 8px;
+  }
+  
+ 
+  
+  .auth-layout .telegram-auth-container {
+    margin-top: 1.2rem;
+  }
+  
+  .auth-layout .telegram-text {
+    font-size: 11px;
+    padding: 0 10px;
+  }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+  .auth-layout .btn-telegram {
+    height: 42px;
+    /*font-size: 11px;*/
+    padding: 0 16px;
+  }
+  
+  .auth-layout .btn-telegram .telegram-icon {
+    font-size: 15px;
+    margin-right: 6px;
+  }
+  
+ 
 }
