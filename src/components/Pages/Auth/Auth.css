@@ -6,6 +6,8 @@
   overflow: visible !important;
   margin: 0 !important;
   padding: 0 !important;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .auth-layout body.auth-page-isolated .app-wrapper {
@@ -27,7 +29,7 @@
 }
 
 .auth-layout .auth-container {
-  position: fixed; /* Изменено с relative на fixed */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -36,7 +38,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
+  padding: 20px;
+  overflow-y: auto;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
@@ -47,7 +50,7 @@
   margin-bottom: 1rem;
 }
 
-.auth-layout  {
+.auth-layout {
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
   font-size: 15px;
@@ -67,7 +70,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
+  padding: 20px;
 }
 
 /* Liquid glass effect overlay */
@@ -83,7 +86,6 @@
     rgba(255, 255, 255, 0.1) 0%,
     rgba(255, 255, 255, 0.05) 100%
   );
-  
   z-index: -1;
 }
 
@@ -155,11 +157,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px 0;
 }
 
 .auth-layout .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 100%;
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
@@ -170,7 +173,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-right: -15px;
-  margin-left: -15px;
+  /*margin-left: -15px;*/
   width: 100%;
 }
 
@@ -279,13 +282,13 @@
 .auth-layout .card-3d-wrap {
   position: relative;
   width: 440px;
-  max-width: 90%;
-  height: auto; /* Изменено с фиксированной высоты на auto */
-  min-height: 420px; /* Минимальная высота */
+  max-width: 100%;
+  height: auto;
+  min-height: 420px;
   transform-style: preserve-3d;
   perspective: 800px;
   margin: 40px auto 0 auto;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Плавная анимация */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .auth-layout .card-3d-wrapper {
@@ -300,8 +303,8 @@
 
 .auth-layout .card-front, .auth-layout .card-back {
   width: 100%;
-  height: auto; /* Автоматическая высота */
-  min-height: 100%; /* Минимальная высота равна родителю */
+  height: auto;
+  min-height: 100%;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(50px);
   border-radius: 20px;
@@ -316,7 +319,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     inset 0 -1px 0 rgba(255, 255, 255, 0.1);
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Плавная анимация */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Glass refraction effect */
@@ -345,9 +348,9 @@
 
 /* Контейнер для центрирования контента */
 .auth-layout .center-wrap {
-  position: relative; /* Изменено с absolute на relative */
+  position: relative;
   width: 100%;
-  padding: 30px; /* Увеличен padding */
+  padding: 30px;
   transform: translate3d(0, 0, 35px) perspective(100px);
   z-index: 20;
   display: block;
@@ -376,7 +379,7 @@
 }
 
 .auth-layout .password-strength-container.visible {
-  max-height: 200px; /* Максимальная высота для плавного раскрытия */
+  max-height: 200px;
   opacity: 1;
   margin-top: 8px;
 }
@@ -418,7 +421,6 @@
   text-align: left;
   color: #fff;
   transition: all 50ms linear;
-  
 }
 
 .auth-layout .form-group input::placeholder {
@@ -518,74 +520,205 @@
   animation: liquidShift 8s ease-in-out infinite;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* МОБИЛЬНАЯ АДАПТАЦИЯ */
+
+/* Для экранов меньше 768px */
+@media screen and (max-width: 767px) {
   .auth-layout .auth-container {
-    padding: 20px;
+    padding: 16px;
+    align-items: flex-start;
+    padding-top: 60px;
   }
   
   .auth-layout .card-3d-wrap {
     width: 100%;
-    max-width: 400px;
-    height: 380px;
-    margin-top: 30px;
+    max-width: 100%;
+    min-height: 380px;
+    margin-top: 20px;
   }
   
   .auth-layout .center-wrap {
-    padding: 0 20px;
+    padding: 20px;
   }
   
   .auth-layout .logo {
     position: relative;
-    top: auto;
-    right: auto;
-    margin: 20px auto;
+    top: 0;
+    right: 0;
+    margin: 0 auto 20px auto;
     text-align: center;
   }
   
-  .auth-layout .full-height {
-    min-height: calc(100vh - 40px);
+  .auth-layout .logo img {
+    height: 22px;
   }
   
-  .auth-layout .py-5 {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .auth-layout .card-3d-wrap {
-    height: 400px;
-  }
-  
-  .auth-layout .center-wrap {
-    padding: 0 15px;
+  .auth-layout h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
   }
   
   .auth-layout h6 span {
-    padding: 0 10px;
-    font-size: 14px;
+    padding: 0 12px;
+    font-size: 0.9rem;
   }
   
   .auth-layout .form-style {
-    padding: 12px 15px;
-    padding-left: 50px;
+    padding: 12px 16px;
+    padding-left: 48px;
+    height: 44px;
     font-size: 13px;
+    border-radius: 10px;
   }
   
   .auth-layout .input-icon {
-    left: 15px;
+    left: 16px;
     font-size: 20px;
+    height: 44px;
+    line-height: 44px;
   }
   
   .auth-layout .btn {
+    height: 44px;
+    font-size: 12px;
+    padding: 0 20px;
     max-width: 100%;
+    border-radius: 10px;
+  }
+  
+  .auth-layout .full-height {
+    padding: 0;
+    min-height: auto;
+  }
+  
+  .auth-layout .py-5 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .auth-layout .form-group {
+    margin-bottom: 0.75rem;
+  }
+  
+  .auth-layout .checkbox:checked + label,
+  .auth-layout .checkbox:not(:checked) + label {
+    width: 50px;
+    height: 14px;
+    border-radius: 7px;
+  }
+  
+  .auth-layout .checkbox:checked + label:before,
+  .auth-layout .checkbox:not(:checked) + label:before {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    line-height: 28px;
+    top: -7px;
+    left: -7px;
+  }
+  
+  .auth-layout .checkbox:checked + label:before {
+    transform: translateX(36px) rotate(-270deg);
+  }
+  
+  .auth-layout .card-front, .auth-layout .card-back {
+    border-radius: 16px;
+    backdrop-filter: blur(30px);
+  }
+  
+  /* Отключаем анимацию на мобильных для производительности */
+  @media (prefers-reduced-motion: reduce) {
+    .auth-layout .card-front, .auth-layout .card-back {
+      animation: none;
+    }
   }
 }
 
-@media (min-width: 576px) {
-  .auth-layout .pt-sm-2 {
-    padding-top: 2rem;
+/* Для очень маленьких экранов (до 360px) */
+@media screen and (max-width: 360px) {
+  .auth-layout .auth-container {
+    padding: 12px;
+  }
+  
+  .auth-layout .card-3d-wrap {
+    min-height: 360px;
+  }
+  
+  .auth-layout .center-wrap {
+    padding: 16px;
+  }
+  
+  .auth-layout .form-style {
+    padding: 10px 14px;
+    padding-left: 44px;
+    height: 42px;
+    font-size: 12px;
+  }
+  
+  .auth-layout .input-icon {
+    left: 14px;
+    font-size: 18px;
+    height: 42px;
+    line-height: 42px;
+  }
+  
+  .auth-layout .btn {
+    height: 42px;
+    font-size: 11px;
+  }
+}
+
+/* Для планшетов (от 768px до 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .auth-layout .auth-container {
+    padding: 24px;
+  }
+  
+  .auth-layout .card-3d-wrap {
+    max-width: 400px;
+  }
+}
+
+/* Для горизонтальной ориентации на мобильных */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+  .auth-layout .auth-container {
+    align-items: flex-start;
+    padding-top: 60px;
+  }
+  
+  .auth-layout .full-height {
+    min-height: auto;
+    padding: 20px 0;
+  }
+  
+  .auth-layout .card-3d-wrap {
+    min-height: 320px;
+    margin-top: 20px;
+  }
+  
+  .auth-layout .center-wrap {
+    padding: 20px;
+  }
+  
+  .auth-layout .form-group {
+    margin-bottom: 0.5rem;
+  }
+  
+  .auth-layout .logo {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    margin: 0;
+  }
+}
+
+/* Поддержка iOS safe areas */
+@supports (padding: max(0px)) {
+  .auth-layout .auth-container {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
   }
 }
 
@@ -606,4 +739,34 @@
 .auth-layout .form-group:hover .input-icon {
   transform: scale(1.1);
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+/* Оптимизация для мобильных устройств */
+@media screen and (max-width: 767px) {
+  .auth-layout * {
+    margin-bottom: 0.75rem;
+  }
+  
+  .auth-layout p {
+    font-size: 13px;
+  }
+}
+
+/* Улучшение отзывчивости формы */
+.auth-layout .form-style {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Улучшение производительности анимаций */
+.auth-layout .card-front,
+.auth-layout .card-back {
+  will-change: transform;
+}
+
+/* Убираем стандартный zoom на iOS при фокусе */
+@media screen and (max-width: 767px) {
+  .auth-layout .form-style {
+    font-size: 16px;
+  }
 }
