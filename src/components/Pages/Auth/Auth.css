@@ -33,7 +33,7 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  /*height: 100vh;*/
   z-index: 10000;
   display: flex;
   justify-content: center;
@@ -259,7 +259,7 @@
   height: 36px;
   border-radius: 50%;
   color: #fff;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+  background: rgba(22, 22, 22, 0.7);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   font-family: 'unicons';
@@ -305,7 +305,7 @@
   width: 100%;
   height: auto;
   min-height: 100%;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(22, 22, 22, 0.7);
   backdrop-filter: blur(50px);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
