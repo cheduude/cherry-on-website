@@ -1,264 +1,387 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
-import CoolButtons from './CoolButtons/CoolButtons'; // Импорт компонента
 import type { HomeProps } from '../../../types/index';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from '@studio-freight/lenis';
 
+// Регистрируем плагин ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
+
 const Home: React.FC<HomeProps> = ({ isMobile }) => {
-  const imageMotionRef = useRef<HTMLDivElement>(null);
-  const section3Ref = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const testimonialRef = useRef<HTMLDivElement>(null);
+  const lenisRef = useRef<Lenis | null>(null);
+  const ctaSectionRef = useRef<HTMLDivElement>(null);
+  
+  // Избранные услуги для тизера
+  const featuredServices = [
+    {
+      id: 'certificates',
+      title: 'Цифровые Сертификаты',
+      description: 'Безопасное и анонимное подключение с гарантией конфиденциальности. Поддержка всех устройств.',
+      features: ['Анонимность', 'Шифрование трафика', 'Все устройства', '24/7 поддержка'],
+      color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      delay: 0.1
+    },
+    {
+      id: 'vps',
+      title: 'VPS',
+      description: 'Виртуальные серверы с мощным железом и низкой задержкой. Полный root доступ.',
+      features: ['Root доступ', 'SSD/NVMe', 'Linux/Windows', 'DDoS защита'],
+      color: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+      delay: 0.2
+    },
+    {
+      id: 'router',
+      title: 'Настройка роутера',
+      description: 'Настройка сетевых параметров устройства + VPN сертификат на год. Оптимизация для игр и стриминга.',
+      features: ['Прошивка', 'Сертификат на год', 'Настройка', 'Гарантия'],
+      color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+      delay: 0.3
+    }
+  ];
+
+  // Демо отзывы
+  const demoTestimonials = [
+    {
+      id: 1,
+      name: 'Александр К.',
+      role: 'IT-специалист',
+      text: 'Отличный сервис! Цифровые сертификаты работают безупречно уже полгода. Поддержка отвечает быстро и помогает решить любые вопросы.',
+      rating: 5
+    },
+    {
+      id: 2,
+      name: 'Мария С.',
+      role: 'Дизайнер',
+      text: 'Настроили роутер и подключили VPN за 2 часа. Теперь могу работать с зарубежными заказчиками без проблем. Рекомендую!',
+      rating: 5
+    },
+    {
+      id: 3,
+      name: 'Дмитрий П.',
+      role: 'Геймер',
+      text: 'Низкий пинг на игровых серверах после настройки сетевых параметров. Техподдержка помогла с оптимизацией под мой ПК.',
+      rating: 4
+    }
+  ];
 
   useEffect(() => {
-    if (isMobile) return;
-  
-    const lenis = new Lenis({
-      duration: 0.8,
+    // Инициализация Lenis для плавного скролла
+    lenisRef.current = new Lenis({
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
       smooth: true,
       smoothTouch: false,
-      touchMultiplier: 1,
-      gestureDirection: 'vertical',
+      touchMultiplier: 2,
     });
 
-    // Сохраняем экземпляр Lenis в window для использования в ScrollToTop
-    (window as any).lenis = lenis;
-    gsap.registerPlugin(ScrollTrigger);
+    // Связываем Lenis с GSAP ScrollTrigger
+    lenisRef.current?.on('scroll', ScrollTrigger.update);
 
- if (imageMotionRef.current) {
-  // Начальное состояние - нормальное
-  gsap.set(imageMotionRef.current, {
-    transform: 'rotateX(90deg)',  // Начинаем с 0 градусов
-  });
-
-  // Анимация вращения при скролле
-  gsap.to(imageMotionRef.current, {
-    transform: 'rotateX(0deg)',  // Полный оборот на 360 градусов
-    scrollTrigger: {
-      trigger: `.${styles.section2}`,
-      start: 'top bottom',     // Когда верх секции достигнет низа экрана
-      end: 'bottom top',       // Когда низ секции достигнет верха экрана
-      scrub: true,               // Плавное следование за скроллом (2 секунды)
-      markers: false,
-    },
-  });
-}
-
-    // Анимации для секции 3
-    const titleElement = section3Ref.current?.querySelector(`.${styles.title}`);
-    const subtitleElement = section3Ref.current?.querySelector(`.${styles.subtitle}`);
-    const textElements = section3Ref.current?.querySelectorAll(`.${styles.text}`);
-    const featureElements = section3Ref.current?.querySelectorAll(`.${styles.feature}`);
-
-    if (titleElement) {
-      gsap.fromTo(titleElement, 
-        { opacity: 0, y: 50 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 1, 
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: `.${styles.section3}`,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse',
-          }
-        }
-      );
-    }
-
-    if (subtitleElement) {
-      gsap.fromTo(subtitleElement, 
-        { opacity: 0, y: 30 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 0.8, 
-          delay: 0.3,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: `.${styles.section3}`,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse',
-          }
-        }
-      );
-    }
-
-    if (textElements) {
-      gsap.fromTo(textElements, 
-        { opacity: 0, y: 30 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          stagger: 0.2,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: `.${styles.textContent}`,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse',
-          }
-        }
-      );
-    }
-
-    if (featureElements) {
-      gsap.fromTo(featureElements, 
-        { opacity: 0, y: 50, scale: 0.9 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          scale: 1,
-          stagger: 0.2,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: `.${styles.features}`,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse',
-          }
-        }
-      );
-    }
-
-    // Интеграция Lenis с GSAP
-    const raf = (time: number) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+    // Функция для анимации на каждом кадре
+    const animate = (time: number) => {
+      lenisRef.current?.raf(time);
+      requestAnimationFrame(animate);
     };
-    
-    requestAnimationFrame(raf);
-    gsap.ticker.add(raf);
-    gsap.ticker.lagSmoothing(0);
+    requestAnimationFrame(animate);
+
+    // Анимации для героя
+    if (!isMobile) {
+      const heroTl = gsap.timeline();
+      heroTl
+        .fromTo('.hero-title',
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
+        )
+        .fromTo('.hero-subtitle',
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+          '-=0.5'
+        )
+        .fromTo('.hero-cta',
+          { opacity: 0, scale: 0.9 },
+          { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.7)' },
+          '-=0.3'
+        );
+    }
+
+    // Анимации для тизера услуг (scrollytelling)
+    featuredServices.forEach((service, index) => {
+      gsap.fromTo(`.service-card-${index}`,
+        {
+          opacity: 0,
+          x: index % 2 === 0 ? -100 : 100,
+          rotationY: 15
+        },
+        {
+          opacity: 1,
+          x: 0,
+          rotationY: 0,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: `.service-card-${index}`,
+            start: 'top 80%',
+            end: 'top 30%',
+            toggleActions: 'play none none reverse',
+            markers: false
+          }
+        }
+      );
+
+      // Анимация появления фич услуги
+      gsap.fromTo(`.feature-${index}`,
+        {
+          opacity: 0,
+          y: 20,
+          scale: 0.8
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: `.service-card-${index}`,
+            start: 'top 70%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    });
+
+    // Анимация для отзывов
+    gsap.fromTo('.testimonial-card',
+      {
+        opacity: 0,
+        y: 50
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: '.testimonials-section',
+          start: 'top 70%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    );
+
+    // Параллакс эффект для героя
+    if (!isMobile) {
+      gsap.to('.hero-background', {
+        yPercent: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero-section',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    }
+
+    // Анимация для контента CTA секции (только контент, не сама секция)
+    if (ctaSectionRef.current) {
+      // Анимация для внутреннего содержимого CTA
+      gsap.fromTo(`.${styles.ctaContent} > *`,
+        {
+          opacity: 0,
+          y: 30
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: ctaSectionRef.current,
+            start: 'top 70%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    }
 
     return () => {
-      lenis.destroy();
-      delete (window as any).lenis; // Очищаем при размонтировании
-      // Восстанавливаем нормальный скролл
-      
-      document.body.style.height = 'auto';
-      document.body.style.position = 'static';
-      document.documentElement.style.overflow = 'auto';
-      document.documentElement.style.height = 'auto';
+      lenisRef.current?.destroy();
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      gsap.ticker.remove(raf);
-      // Дополнительная очистка
-      if (document.body.classList.contains('lenis')) {
-        document.body.classList.remove('lenis');
-      }
-      if (document.body.classList.contains('lenis-smooth')) {
-        document.body.classList.remove('lenis-smooth');
-      }
     };
   }, [isMobile]);
 
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }).map((_, index) => (
+      <span
+        key={index}
+        className={styles.star}
+        style={{ color: index < rating ? '#FFD700' : '#e0e0e0' }}
+      >
+        ★
+      </span>
+    ));
+  };
+
   return (
-    <div className={`${styles.homeContainer} ${isMobile ? styles.mobile : ''}`}>
-      {/* СЕКЦИЯ 1: Вступительная с заголовком и кнопками */}
-      <section 
-        className={styles.section1} 
-        style={{ '--bg': 'black' } as React.CSSProperties}
-      >
-        <div className={styles.section1Container}>
-          <h1 className={styles.mainTitle}>
-            П0ПКИ
+    <div className={styles.container}>
+      {/* Герой секция */}
+      <section ref={heroRef} className={`${styles.hero} hero-section`}>
+        <div className={`${styles.heroBackground} hero-background`} />
+        <div className={styles.heroContent}>
+          <h1 className={`${styles.heroTitle} hero-title`}>
+            Сетевые решения
+            <span className={styles.gradientText}> нового поколения</span>
           </h1>
-          <p className={styles.heroSubtitle}>
-            Ваш портал в цифровую свободу
+          <p className={`${styles.heroSubtitle} hero-subtitle`}>
+            Безопасность, анонимность и высокая скорость для вашего цифрового мира
           </p>
-          
-          {/* CoolButtons прямо на вступительной секции */}
-          <div className={styles.coolButtonsWrapper}>
-            <CoolButtons />
-          </div>
-          
-          <div className={styles.scrollIndicator}>
-            
-            
-          </div>
-        </div>
-      </section>
-
-      {/* СЕКЦИЯ 2: Анимированное изображение */}
-      <section className={styles.section2} style={{ '--bg': 'black' } as React.CSSProperties}>
-        <div ref={imageMotionRef} className={styles.imageMotion}>
-          <picture>
-            <img 
-              src="https://i.postimg.cc/1ztkf4hX/moveimage.png" 
-              alt="Technology background"
-              loading="lazy"
-            />
-          </picture>
-        </div>
-      </section>
-
-      {/* СЕКЦИЯ 3: Текст и фичи */}
-      <section 
-        ref={section3Ref} 
-        style={{ '--bg': 'black' } as React.CSSProperties} 
-        className={styles.section3}
-      >
-        <div className={styles.container}>
-          <h1 className={styles.title}>Наши услуги</h1>
-          <p className={styles.subtitle}>Digital Freedom Zone</p>
-          
-          <div className={styles.textContent}>
-            <p className={styles.text}>
-              Откройте мир безграничных возможностей с нашими премиум услугами. 
-              Мы предоставляем доступ к лучшим технологиям и сервисам со всего мира.
-            </p>
-            <p className={styles.text}>
-              Наша платформа объединяет все необходимые инструменты для современной цифровой жизни:
-              от <strong>защищённого доступа</strong> на основе цифровых сертификатов до эксклюзивных подписок и облачных решений.
-            </p>
-            <p className={styles.text}>
-              Присоединяйтесь к тысячам довольных клиентов, которые уже выбрали свободу 
-              и безопасность в цифровом мире.
-            </p>
-          </div>
-
-          <div className={styles.features}>
-            {[
-              {
-              title: "Защищенный доступ",
-              description: "Легальное шифрование трафика цифровым сертификатом",
-              icon: "🛡️"
-              },
-              {
-                title: 'Прошивка роутеров',
-                description: 'Максимальная производительность вашей сети',
-                icon: '📶'
-              },
-              {
-                title: 'Международные заказы',
-                description: 'Товары со всего мира с доставкой к вам',
-                icon: '🌍'
-              }
-            ].map((feature, index) => (
-              <div key={index} className={styles.feature}>
-                <span className={styles.featureIcon}>{feature.icon}</span>
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className={styles.ctaSection}>
-            <Link to="/services">
-              <button className={styles.ctaButton}>
-                Посмотреть все услуги
-              </button>
+          <div className={`${styles.heroButtons} hero-cta`}>
+            <Link to="/services" className={styles.primaryButton}>
+              Смотреть все услуги
             </Link>
-            <button className={styles.secondaryButton}>
-              Получить консультацию
-            </button>
+            <Link to="/auth/register" className={styles.secondaryButton}>
+              Начать бесплатно
+            </Link>
+          </div>
+        </div>
+        
+        {/* Анимированные элементы */}
+        {!isMobile && (
+          <>
+            <div className={styles.floatingCircle1} />
+            <div className={styles.floatingCircle2} />
+            <div className={styles.floatingCircle3} />
+          </>
+        )}
+      </section>
+
+      {/* Тизер услуг с scrollytelling */}
+      <section ref={servicesRef} className={styles.services}>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>
+            Популярные <span className={styles.gradientText}>услуги</span>
+          </h2>
+          <p className={styles.sectionSubtitle}>
+            Выберите решение, которое подходит именно вам
+          </p>
+        </div>
+
+        <div className={styles.servicesGrid}>
+          {featuredServices.map((service, index) => (
+            <div
+              key={service.id}
+              className={`${styles.serviceCard} service-card-${index}`}
+              style={{
+                background: service.color,
+                animationDelay: `${service.delay}s`
+              }}
+            >
+              <div className={styles.serviceCardInner}>
+                <h3 className={styles.serviceTitle}>{service.title}</h3>
+                <p className={styles.serviceDescription}>{service.description}</p>
+                <div className={styles.features}>
+                  {service.features.map((feature, featureIndex) => (
+                    <span
+                      key={featureIndex}
+                      className={`${styles.feature} feature-${index}`}
+                    >
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+                <Link 
+                  to={`/services#${service.id}`}
+                  className={styles.serviceLink}
+                >
+                  Подробнее →
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.seeAllContainer}>
+          <Link to="/services" className={styles.seeAllButton}>
+            Все услуги ({featuredServices.length}+)
+          </Link>
+        </div>
+      </section>
+
+      {/* Демо отзывы */}
+      <section ref={testimonialRef} className={`${styles.testimonials} testimonials-section`}>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>
+            Что говорят <span className={styles.gradientText}>клиенты</span>
+          </h2>
+          <p className={styles.sectionSubtitle}>
+            Наши пользователи делятся своим опытом
+          </p>
+        </div>
+
+        <div className={styles.testimonialsGrid}>
+          {demoTestimonials.map((testimonial) => (
+            <div key={testimonial.id} className={`${styles.testimonialCard} testimonial-card`}>
+              <div className={styles.testimonialHeader}>
+                <div className={styles.avatar}>
+                  {testimonial.name.charAt(0)}
+                </div>
+                <div className={styles.testimonialInfo}>
+                  <h4 className={styles.testimonialName}>{testimonial.name}</h4>
+                  <p className={styles.testimonialRole}>{testimonial.role}</p>
+                </div>
+                <div className={styles.rating}>
+                  {renderStars(testimonial.rating)}
+                </div>
+              </div>
+              <p className={styles.testimonialText}>"{testimonial.text}"</p>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.testimonialsFooter}>
+          <Link to="/testimonials" className={styles.allReviewsButton}>
+            Читать все отзывы
+          </Link>
+          <Link to="/add-testimonial" className={styles.addReviewButton}>
+            Оставить отзыв
+          </Link>
+        </div>
+      </section>
+
+      {/* CTA секция */}
+      <section 
+        ref={ctaSectionRef} 
+        className={`${styles.ctaSection}`}
+      >
+        <div className={styles.ctaDecorations}>
+          <div className={styles.ctaCircle}></div>
+          <div className={styles.ctaCircle}></div>
+          <div className={styles.ctaCircle}></div>
+        </div>
+        
+        <div className={styles.ctaContent}>
+          <h2 className={styles.ctaTitle}>
+            Готовы улучшить свою <span className={styles.gradientText}>сеть</span>?
+          </h2>
+          <p className={styles.ctaText}>
+            Присоединяйтесь к тысячам довольных клиентов по всему миру
+          </p>
+          <div className={styles.ctaButtons}>
+            <Link to="/auth/register" className={styles.ctaPrimary}>
+              Начать сейчас
+            </Link>
+            <Link to="/contact" className={styles.ctaSecondary}>
+              Связаться с нами
+            </Link>
           </div>
         </div>
       </section>
