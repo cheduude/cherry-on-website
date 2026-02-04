@@ -12,6 +12,7 @@ const Services = React.lazy(() => import('./components/Pages/Services/Services')
 const Auth = React.lazy(() => import('./components/Pages/Auth/Auth'));
 const OrdersPage = React.lazy(() => import('./components/Pages/Orders/OrdersPage'));
 const SupportPage = React.lazy(() => import('./components/Pages/Support/SupportPage'));
+const TestimonialsPage = React.lazy(() => import('./components/Pages/Home/TestimonialsPage'));
 
 const App: React.FC = () => {
   return (
@@ -34,7 +35,7 @@ const App: React.FC = () => {
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/admin" element={<AdminAccessPage />} />
             <Route path="/support" element={<SupportPage />} />
-            
+            <Route path="/testimonials" element={<TestimonialsPage />} />
           </Route>
 
           {/* REDIRECT ALL UNKNOWN */}
