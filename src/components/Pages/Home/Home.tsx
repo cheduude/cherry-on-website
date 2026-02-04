@@ -376,10 +376,10 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
             Присоединяйтесь к тысячам довольных клиентов по всему миру
           </p>
           <div className={styles.ctaButtons}>
-            <Link to="/auth/register" className={styles.ctaPrimary}>
+            <Link to="/auth" className={styles.ctaPrimary}>
               Начать сейчас
             </Link>
-            <Link to="/contact" className={styles.ctaSecondary}>
+            <Link to="/support" className={styles.ctaSecondary}>
               Связаться с нами
             </Link>
           </div>
