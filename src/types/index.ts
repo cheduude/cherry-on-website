@@ -107,3 +107,13 @@ export interface UserAvatarProps {
   isExpanded: boolean;
   onClick: () => void;
 }
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  role: string;
+  text: string;
+  rating: number;
+  date: string;
+  avatar?: string;
+}
