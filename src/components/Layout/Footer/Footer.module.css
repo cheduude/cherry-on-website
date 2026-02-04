@@ -1,15 +1,428 @@
-/* src/components/Layout/Footer/Footer.module.css (Локальные для футера) */
+/* Основной стиль футера */
 .footer {
-  background: var(--color-surface);
-  padding: 2rem 0;
+  background: linear-gradient(
+    135deg,
+    var(--color-surface) 0%,
+    var(--color-surface-alt) 50%,
+    var(--color-surface) 100%
+  );
+  padding: 3rem 0 1.5rem;
   margin-top: auto;
+  border-top: 1px solid var(--color-glass-border);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
 }
+
+[data-theme="dark"] .footer {
+  background: linear-gradient(
+    135deg,
+    var(--color-surface) 0%,
+    rgba(30, 30, 46, 0.8) 50%,
+    var(--color-surface) 100%
+  );
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Декоративный элемент */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent) 0%,
+    var(--color-accent-hover) 50%,
+    var(--color-accent) 100%
+  );
+  opacity: 0.7;
+}
+
+/* Контейнер */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Верхняя часть футера */
+.footerTop {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Общие стили для секций */
+.navigationSection,
+.contactsSection,
+.documentsSection,
+.socialSection {
+  padding: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-accent);
+  display: inline-block;
+}
+
+/* Карта сайта */
 .sitemap {
   list-style: none;
-  display: flex;
-  gap: 1rem;
+  padding: 0;
+  margin: 0;
 }
-.sitemap a {
+
+.sitemapItem {
+  margin-bottom: 0.8rem;
+}
+
+.sitemapLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.4rem 0;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  padding-left: 0.5rem;
+}
+
+.sitemapLink:hover {
+  color: var(--color-accent);
+  transform: translateX(5px);
+  background: var(--color-glass-hover);
+  padding-left: 0.8rem;
+}
+
+.linkIcon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.sitemapLink:hover .linkIcon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Контакты */
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contactIcon {
+  font-size: 1rem;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.contactLink {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.contactLink:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+.contactText {
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Документы */
+.documentsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.documentItem {
+  margin-bottom: 0.8rem;
+}
+
+.documentLink {
   color: var(--color-text-muted);
   text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.3rem 0;
+  display: block;
+  transition: all 0.3s ease;
+  border-left: 2px solid transparent;
+  padding-left: 0.5rem;
+}
+
+.documentLink:hover {
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+  padding-left: 0.8rem;
+}
+
+/* Социальные сети */
+.socialLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: var(--color-surface);
+  border: 1px solid var(--color-glass-border);
+}
+
+.socialLink:hover {
+  background: var(--color-glass-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(77, 171, 247, 0.1);
+  border-color: var(--color-accent);
+}
+
+.socialIcon {
+  font-size: 1.1rem;
+}
+
+.socialText {
+  font-weight: 500;
+}
+
+/* Средняя часть с разделителем */
+.footerMiddle {
+  margin: 1.5rem 0;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-glass-border) 50%,
+    transparent 100%
+  );
+}
+
+/* Нижняя часть футера */
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-top: 1rem;
+}
+
+/* Копирайт */
+.copyright {
+  flex: 1;
+}
+
+.copyrightText {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.disclaimer {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Кнопка "Наверх" */
+.scrollTopButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-surface);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 25px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(77, 171, 247, 0.1);
+}
+
+.scrollTopButton:hover {
+  background: var(--color-accent);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(77, 171, 247, 0.2);
+}
+
+.scrollTopIcon {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.scrollTopButton:hover .scrollTopIcon {
+  transform: translateY(-2px);
+}
+
+.scrollTopText {
+  display: none;
+}
+
+/* Адаптивность */
+
+/* Планшеты и небольшие экраны */
+@media (max-width: 992px) {
+  .footerTop {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .footer {
+    padding: 2rem 0 1.5rem;
+  }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+  .footerTop {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .footerBottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .scrollTopButton {
+    width: 100%;
+    max-width: 200px;
+    justify-content: center;
+  }
+  
+  .scrollTopText {
+    display: inline;
+  }
+  
+  .navigationSection,
+  .contactsSection,
+  .documentsSection,
+  .socialSection {
+    padding: 1rem 0;
+  }
+  
+  .container {
+    padding: 0 15px;
+  }
+}
+
+/* Мелкие мобильные устройства */
+@media (max-width: 480px) {
+  .footer {
+    padding: 1.5rem 0 1rem;
+  }
+  
+  .footerTop {
+    gap: 1rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .sitemapLink,
+  .contactLink,
+  .contactText,
+  .documentLink,
+  .socialText {
+    font-size: 0.9rem;
+  }
+  
+  .copyrightText {
+    font-size: 0.85rem;
+  }
+  
+  .disclaimer {
+    font-size: 0.75rem;
+  }
+}
+
+/* Улучшение touch-событий для мобильных */
+@media (hover: none) and (pointer: coarse) {
+  .sitemapLink:active,
+  .contactLink:active,
+  .documentLink:active,
+  .socialLink:active {
+    transform: scale(0.98);
+  }
+  
+  .scrollTopButton:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Темная тема улучшения */
+[data-theme="dark"] .sitemapLink:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .socialLink:hover {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .scrollTopButton {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .scrollTopButton:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.footer {
+  animation: fadeInUp 0.6s ease-out;
 }
