@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { useNotifications } from '../../../contexts/NotificationContext';
@@ -8,20 +8,68 @@ import SignupForm from './Reg';
 
 const Auth: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const mode = searchParams.get('mode');
-  const [isLogin, setIsLogin] = useState(mode !== 'register');
+  const formParam = searchParams.get('form');
+  const [isLogin, setIsLogin] = useState(true);
   const { login, signup } = useAuth();
   const { showError, showSuccess } = useNotifications();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isTelegramLoading, setIsTelegramLoading] = useState(false); // Добавлено состояние для Telegram
+  const [isTelegramLoading, setIsTelegramLoading] = useState(false);
+  const [shouldShowRegister, setShouldShowRegister] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const navigate = useNavigate();
+  const checkboxRef = useRef<HTMLInputElement>(null);
+  const animationTimeoutRef = useRef<number | null>(null);
+  const initTimerRef = useRef<number | null>(null);
 
+  // Автоматически показываем регистрацию при наличии параметра form=register
   useEffect(() => {
-    setIsLogin(mode !== 'register');
-  }, [mode]);
+    const isRegisterMode = formParam === 'register';
+    
+    if (isRegisterMode && !shouldShowRegister) {
+      // Сначала устанавливаем состояние
+      setShouldShowRegister(true);
+      setIsLogin(false);
+      
+      // Добавляем небольшую задержку для инициализации компонента
+      initTimerRef.current = window.setTimeout(() => {
+        if (checkboxRef.current) {
+          // Запускаем анимацию переворота
+          setIsAnimating(true);
+          checkboxRef.current.checked = true;
+          
+          // Очищаем параметр из URL чтобы при перезагрузке не срабатывало снова
+          navigate('/auth', { replace: true });
+          
+          // Завершаем анимацию
+          animationTimeoutRef.current = window.setTimeout(() => {
+            setIsAnimating(false);
+          }, 800); // Длительность анимации
+        }
+      }, 100);
+    } else if (!isRegisterMode) {
+      setShouldShowRegister(false);
+      setIsLogin(true);
+    }
+    
+    return () => {
+      if (initTimerRef.current) {
+        clearTimeout(initTimerRef.current);
+      }
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+    };
+  }, [formParam, shouldShowRegister, navigate]);
 
+  // Очистка таймеров
   useEffect(() => {
     return () => {
+      if (initTimerRef.current) {
+        clearTimeout(initTimerRef.current);
+      }
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
       document.body.classList.remove('auth-page-isolated');
     };
   }, []);
@@ -184,16 +232,8 @@ const Auth: React.FC = () => {
     setIsTelegramLoading(true);
     
     try {
-      // Здесь будет реализация входа через Telegram
-      // Например:
-      // 1. Открытие OAuth окна Telegram
-      // 2. Получение данных пользователя
-      // 3. Авторизация на сервере
-      
-      // Временная имитация
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Тестовые данные для демонстрации
       const telegramUser = {
         id: '123456789',
         username: 'telegram_user',
@@ -204,7 +244,6 @@ const Auth: React.FC = () => {
         hash: 'test_hash'
       };
       
-      // Авторизация пользователя через Telegram
       login({
         avatar: telegramUser.photo_url,
         email: `${telegramUser.username}@telegram.com`,
@@ -222,6 +261,13 @@ const Auth: React.FC = () => {
     }
   };
 
+  // Обработчик переключения форм
+  const handleFormToggle = () => {
+    if (isAnimating) return; // Не позволяем переключать во время анимации
+    
+    setIsLogin(!isLogin);
+  };
+
   return (
     <div className="auth-container">
       <div className="section">
@@ -235,12 +281,13 @@ const Auth: React.FC = () => {
                 </h6>
                 
                 <input 
-                  className="checkbox" 
+                  ref={checkboxRef}
+                  className={`checkbox ${isAnimating ? 'animate-on-load' : ''}`} 
                   type="checkbox" 
                   id="reg-log" 
                   name="reg-log"
                   checked={!isLogin}
-                  onChange={() => setIsLogin(!isLogin)}
+                  onChange={handleFormToggle}
                 />
                 <label htmlFor="reg-log"></label>
                 
@@ -250,9 +297,9 @@ const Auth: React.FC = () => {
                       formData={formData}
                       onInputChange={handleInputChange}
                       onSubmit={handleLoginSubmit}
-                      onTelegramLogin={handleTelegramLogin} // ДОБАВЛЕНО
+                      onTelegramLogin={handleTelegramLogin}
                       isSubmitting={isSubmitting}
-                      isTelegramLoading={isTelegramLoading} // ДОБАВЛЕНО
+                      isTelegramLoading={isTelegramLoading}
                     />
                     <SignupForm 
                       formData={formData}
