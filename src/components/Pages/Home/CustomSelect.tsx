@@ -36,22 +36,38 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       
       const target = event.target as Node;
       
-      // Проверяем, кликнули ли мы на кнопку или в список
+      // Проверяем, кликнули ли мы на кнопку
       const isClickOnButton = buttonRef.current?.contains(target);
+      // Проверяем, кликнули ли мы в список
       const isClickOnList = listRef.current?.contains(target);
+      // Проверяем, кликнули ли мы вообще в контейнер
       const isClickOnContainer = containerRef.current?.contains(target);
       
-      // Если клик был вне контейнера или на кнопке (когда список уже открыт)
-      if (!isClickOnContainer || (isClickOnButton && isOpen)) {
+      // Если клик был на кнопку - она сама обработает открытие/закрытие
+      if (isClickOnButton) {
+        return;
+      }
+      
+      // Если клик был вне контейнера, закрываем список
+      if (!isClickOnContainer) {
+        setIsOpen(false);
+        return;
+      }
+      
+      // Если клик был внутри контейнера, но не на кнопку и не в список, закрываем
+      if (isClickOnContainer && !isClickOnButton && !isClickOnList) {
         setIsOpen(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside as any);
+    
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside as any);
     };
-  }, [isOpen]);
+  }, []);
 
   // Обновление выбранной опции при изменении value извне
   useEffect(() => {
@@ -64,6 +80,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     
     e.preventDefault();
     e.stopPropagation();
+    // Закрываем список, если он открыт, или открываем, если закрыт
     setIsOpen(!isOpen);
   };
 
@@ -132,7 +149,6 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           className={styles.optionsList} 
           role="listbox"
           ref={listRef}
-          onClick={(e) => e.stopPropagation()} // Предотвращаем всплытие
         >
           {options.map((option) => (
             <button
