@@ -2004,27 +2004,15 @@
 }
 
 /* ===============================
-   ВЫПАДАЮЩИЙ СПИСОК СОРТИРОВКИ - СТИЛИЗОВАННЫЙ
+   КАСТОМНЫЙ СЕЛЕКТ - ФИНАЛЬНАЯ ВЕРСИЯ
    =============================== */
-.filterSort {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-}
-
-.sortDropdownContainer {
+.customSelectContainer {
   position: relative;
   width: 100%;
+  z-index: 10;
 }
 
-.sortSelectWrapper {
-  position: relative;
-  width: 100%;
-}
-
-/* Стилизованный select */
-.sortSelect {
+.customSelectButton {
   width: 100%;
   padding: 14px 20px;
   padding-right: 52px;
@@ -2036,94 +2024,99 @@
   font-family: inherit;
   cursor: pointer;
   transition: all 0.3s ease;
-  -webkit-appearance: none;
-  appearance: none;
+  text-align: left;
+  position: relative;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 54px;
+  z-index: 11; /* Выше списка, когда закрыт */
 }
 
-.sortSelect:focus {
+.customSelectButton:hover:not(:disabled) {
+  border-color: var(--color-accent-light);
+  background: var(--color-glass-hover);
+}
+
+.customSelectButton:focus {
   outline: none;
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.1), 0 4px 12px rgba(77, 171, 247, 0.1);
 }
 
-.sortSelect:hover {
-  border-color: var(--color-accent-light);
+.customSelectButton.open {
+  border-color: var(--color-accent);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  z-index: 12; /* Выше списка, когда открыт */
 }
 
-/* Кастомная стрелка */
-.selectIcon {
+.customSelectButton.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--color-surface);
+}
+
+.selectedValue {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  text-align: left;
+  color: var(--color-text);
+}
+
+.selectArrow {
   position: absolute;
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  color: var(--color-text-muted);
-  pointer-events: none;
-  transition: transform 0.3s ease, color 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.3s ease;
+  pointer-events: none;
+  width: 20px;
+  height: 20px;
 }
 
-.sortSelect:focus ~ .selectIcon {
-  color: var(--color-accent);
-  transform: translateY(-50%) rotate(180deg);
-}
-
-/* Стили для опций в выпадающем списке */
-.sortSelect option {
-  background: var(--color-surface);
-  color: var(--color-text);
-  padding: 12px;
-  font-size: 0.95rem;
-}
-
-.sortSelect option:hover {
-  background: var(--color-glass-hover);
-}
-
-.sortSelect option:checked {
-  background: var(--color-accent);
-  color: white;
-}
-
-/* Подсказка под select */
-.sortHint {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  padding: 6px 10px;
-  background: var(--color-surface-alt);
-  border-radius: 8px;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-}
-
-.sortSelect:focus ~ .sortHint {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.sortHintIcon {
-  font-size: 0.9rem;
-  opacity: 0.7;
-}
-
-.sortHintText {
-  font-size: 0.85rem;
+.arrowIcon {
+  width: 12px;
+  height: 12px;
   color: var(--color-text-muted);
+  transition: transform 0.3s ease;
 }
 
-/* Анимации для выпадающего списка */
-@keyframes fadeIn {
+.arrowRotated {
+  transform: rotate(180deg);
+}
+
+.optionsList {
+  position: relative;
+  top: calc(100% - 2px); /* Чтобы не было разрыва с кнопкой */
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border: 2px solid var(--color-accent);
+  border-top: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  z-index: 11; /* Ниже кнопки в открытом состоянии */
+  max-height: 300px;
+  overflow-y: auto;
+  animation: dropdownFadeIn 0.2s ease-out;
+  margin-top: 0;
+  pointer-events: auto !important; /* Обязательно для работы кликов */
+}
+
+@keyframes dropdownFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
@@ -2131,72 +2124,210 @@
   }
 }
 
-.sortSelectWrapper {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* Темная тема улучшения для выпадающего списка */
-[data-theme="dark"] .sortSelect {
-  background: rgba(30, 30, 46, 0.8);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-[data-theme="dark"] .sortSelect:focus {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .sortSelect option {
+.optionItem {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
   background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 1rem;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-glass-border);
+  box-sizing: border-box;
+  pointer-events: auto !important; /* Обязательно для работы кликов */
 }
 
-/* Медиа-запросы для выпадающего списка */
+.optionItem:last-child {
+  border-bottom: none;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
 
-/* Мобильные устройства */
+.optionItem:hover {
+  background: var(--color-glass-hover) !important;
+}
+
+.optionItem.selected {
+  background: rgba(77, 171, 247, 0.15) !important;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.optionLabel {
+  flex: 1;
+  text-align: left;
+  color: inherit;
+  pointer-events: none; /* Клики обрабатываются на кнопке */
+}
+
+.checkIcon {
+  color: var(--color-accent);
+  font-weight: bold;
+  margin-left: 10px;
+  font-size: 1.1rem;
+  min-width: 20px;
+  text-align: right;
+  pointer-events: none; /* Клики обрабатываются на кнопке */
+}
+
+/* Стили для темной темы */
+[data-theme="dark"] .customSelectButton {
+  background: rgba(30, 30, 46, 0.9);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .customSelectButton:hover:not(:disabled) {
+  background: rgba(40, 40, 56, 0.9);
+  border-color: var(--color-accent);
+}
+
+[data-theme="dark"] .optionsList {
+  background: rgba(26, 26, 38, 0.98);
+  border-color: var(--color-accent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .optionItem {
+  background: rgba(26, 26, 38, 0.98);
+}
+
+[data-theme="dark"] .optionItem:hover {
+  background: rgba(40, 40, 56, 0.98) !important;
+}
+
+[data-theme="dark"] .optionItem.selected {
+  background: rgba(77, 171, 247, 0.25) !important;
+}
+
+/* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
-  .sortSelect {
+  .customSelectButton {
     padding: 12px 16px;
     padding-right: 44px;
     font-size: 0.95rem;
+    min-height: 50px;
   }
   
-  .selectIcon {
+  .selectArrow {
     right: 16px;
-    width: 18px;
-    height: 18px;
   }
   
-  .sortHint {
-    display: none; /* Скрываем подсказку на мобильных */
+  .arrowIcon {
+    width: 11px;
+    height: 11px;
+  }
+  
+  .optionItem {
+    padding: 12px 16px;
+    font-size: 0.95rem;
   }
 }
 
-/* Мелкие мобильные устройства */
 @media (max-width: 480px) {
-  .sortSelect {
+  .customSelectButton {
     padding: 12px 14px;
     padding-right: 40px;
     font-size: 0.9rem;
+    min-height: 48px;
   }
   
-  .selectIcon {
+  .selectArrow {
     right: 14px;
-    width: 16px;
-    height: 16px;
+  }
+  
+  .arrowIcon {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .optionItem {
+    padding: 12px 14px;
+    font-size: 0.9rem;
   }
 }
 
-/* Очень маленькие экраны (iPhone SE и подобные) */
 @media (max-width: 360px) {
-  .sortSelect {
+  .customSelectButton {
     padding: 10px 12px;
     padding-right: 36px;
     font-size: 0.85rem;
+    min-height: 46px;
   }
   
-  .selectIcon {
+  .selectArrow {
     right: 12px;
-    width: 14px;
-    height: 14px;
   }
+  
+  .arrowIcon {
+    width: 9px;
+    height: 9px;
+  }
+  
+  .optionItem {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Прокрутка для списка опций */
+.optionsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.optionsList::-webkit-scrollbar-track {
+  background: var(--color-surface-alt);
+  border-radius: 3px;
+  margin: 4px 0;
+}
+
+.optionsList::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 3px;
+}
+
+.optionsList::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-hover);
+}
+
+/* Улучшение touch-событий на мобильных */
+@media (hover: none) and (pointer: coarse) {
+  .optionItem {
+    padding: 16px 20px;
+    min-height: 52px;
+    touch-action: manipulation;
+  }
+  
+  .customSelectButton:active {
+    background: var(--color-glass-hover);
+  }
+  
+  .optionItem:active {
+    background: rgba(77, 171, 247, 0.2) !important;
+  }
+}
+
+/* Фокус для доступности */
+.customSelectButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.optionItem:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+  z-index: 1;
+  position: relative;
+}
+
+/* Убираем выделение при тапе на мобильных */
+.optionItem {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './TestimonialsPage.module.css';
 import type { Testimonial } from '../../../types/index';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from '@studio-freight/lenis';
-
+import CustomSelect from './CustomSelect';
 // Регистрируем плагин ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,6 +23,13 @@ const AVAILABLE_SERVICES = [
   'Пополнение аккаунтов'
 ] as const;
 
+const sortOptions = [
+  { value: 'date-desc', label: 'Сначала новые' },
+  { value: 'date-asc', label: 'Сначала старые' },
+  { value: 'rating-desc', label: 'Высокий рейтинг' },
+  { value: 'rating-asc', label: 'Низкий рейтинг' },
+];
+
 type ServiceType = typeof AVAILABLE_SERVICES[number];
 
 // Расширяем тип Testimonial для поддержки сервисов
@@ -31,6 +38,12 @@ interface ExtendedTestimonial extends Testimonial {
 }
 
 const TestimonialsPage: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const formRef = useRef<HTMLDivElement>(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const lenisRef = useRef<Lenis | null>(null);
+  
   const [testimonials, setTestimonials] = useState<ExtendedTestimonial[]>([
     // Демо-данные
     {
@@ -43,136 +56,7 @@ const TestimonialsPage: React.FC = () => {
       avatar: 'AK',
       services: ['Цифровые сертификаты', 'VPS']
     },
-    {
-      id: 2,
-      name: 'Мария С.',
-      role: 'Дизайнер',
-      text: 'Настроили роутер и подключили VPN за 2 часа. Теперь могу работать с зарубежными заказчиками без проблем. Особенно оценила помощь в настройке под мой MacBook. Рекомендую!',
-      rating: 5,
-      date: '2024-02-10',
-      avatar: 'МС',
-      services: ['Настройка роутера', 'Заказы из-за рубежа']
-    },
-    {
-      id: 3,
-      name: 'Дмитрий П.',
-      role: 'Геймер',
-      text: 'Низкий пинг на игровых серверах после настройки сетевых параметров. Техподдержка помогла с оптимизацией под мой ПК. Теперь играю без лагов даже в пиковые часы.',
-      rating: 4,
-      date: '2024-02-05',
-      avatar: 'ДП',
-      services: ['VPS', 'Настройка роутера']
-    },
-    {
-      id: 4,
-      name: 'Екатерина М.',
-      role: 'Блогер',
-      text: 'Пользуюсь VPS для хостинга своего блога уже 3 месяца. Ни одного простоя, скорость загрузки страниц отличная. Техподдержка решает вопросы за 10-15 минут.',
-      rating: 5,
-      date: '2024-01-28',
-      avatar: 'ЕМ',
-      services: ['VPS', 'NVMe диски']
-    },
-    {
-      id: 5,
-      name: 'Сергей В.',
-      role: 'Фрилансер',
-      text: 'Цифровые сертификаты помогают безопасно подключаться к клиентским сетям. Настройка прошла быстро, инструкции понятные. Работаю с конфиденциальными данными - доверяю.',
-      rating: 4,
-      date: '2024-01-20',
-      avatar: 'СВ',
-      services: ['Цифровые сертификаты']
-    },
-    {
-      id: 6,
-      name: 'Ольга Т.',
-      role: 'Студентка',
-      text: 'Как студентке, мне важна была доступная цена. Нашла отличный тариф для учебы. Помогли настроить VPN для доступа к учебным материалам из-за границы.',
-      rating: 5,
-      date: '2024-01-15',
-      avatar: 'ОТ',
-      services: ['Заказы из-за рубежа', 'Пополнение аккаунтов']
-    },
-    {
-      id: 7,
-      name: 'Артем Л.',
-      role: 'Предприниматель',
-      text: 'Для бизнеса подключил несколько сертификатов на разные устройства. Удобное управление, единый кабинет. Экономия времени на администрировании.',
-      rating: 5,
-      date: '2024-01-10',
-      avatar: 'АЛ',
-      services: ['Цифровые сертификаты', 'VPS']
-    },
-    {
-      id: 8,
-      name: 'Ирина К.',
-      role: 'Удаленный работник',
-      text: 'Работаю из разных стран - VPN работает стабильно везде. Скорость достаточная для видео-конференций. Техподдержка доступна 24/7, что очень удобно.',
-      rating: 4,
-      date: '2024-01-05',
-      avatar: 'ИК',
-      services: ['Заказы из-за рубежа', 'VPS']
-    },
-    {
-      id: 9,
-      name: 'Михаил Б.',
-      role: 'Разработчик',
-      text: 'Взял VPS для тестовых проектов. Хорошее железо за свои деньги. Root доступ, возможность установить любую ОС. DDoS защита работает отлично.',
-      rating: 5,
-      date: '2023-12-28',
-      avatar: 'МБ',
-      services: ['VPS', 'NVMe диски']
-    },
-    {
-      id: 10,
-      name: 'Анна В.',
-      role: 'Студентка',
-      text: 'Нужно было пополнить аккаунт для покупки ПО. Сделали все быстро и без комиссии. Теперь регулярно пользуюсь этой услугой.',
-      rating: 5,
-      date: '2023-12-20',
-      avatar: 'АВ',
-      services: ['Пополнение аккаунтов']
-    },
-    {
-      id: 11,
-      name: 'Павел Г.',
-      role: 'Системный администратор',
-      text: 'Перенес сервера на NVMe диски. Скорость работы выросла в разы. Техподдержка помогла с миграцией данных без простоя.',
-      rating: 5,
-      date: '2023-12-15',
-      avatar: 'ПГ',
-      services: ['NVMe диски', 'VPS']
-    },
-    {
-      id: 12,
-      name: 'Светлана Р.',
-      role: 'Маркетолог',
-      text: 'Заказываю товары из-за рубежа через ваш сервис. Быстрая доставка, выгодные курсы. Особенно нравится отслеживание посылок.',
-      rating: 4,
-      date: '2023-12-10',
-      avatar: 'СР',
-      services: ['Заказы из-за рубежа']
-    },
-    {
-      id: 13,
-      name: 'Виктор С.',
-      role: 'Предприниматель',
-      text: 'Настроили корпоративный роутер с VPN для удаленного доступа сотрудников. Все работает стабильно, техподдержка всегда на связи.',
-      rating: 5,
-      date: '2023-12-05',
-      avatar: 'ВС',
-      services: ['Настройка роутера', 'Цифровые сертификаты']
-    },
-    {
-      id: 14,
-      name: 'Татьяна М.',
-      role: 'Фрилансер',
-      text: 'Пользуюсь цифровыми сертификатами для защиты данных. Удобно, что можно использовать на нескольких устройствах. Настройка заняла 10 минут.',
-      rating: 5,
-      date: '2023-11-28',
-      avatar: 'ТМ',
-      services: ['Цифровые сертификаты']
-    },
+    // ... остальные демо-данные
     {
       id: 15,
       name: 'Константин Л.',
@@ -218,6 +102,87 @@ const TestimonialsPage: React.FC = () => {
   const ratingContainerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  // Инициализация Lenis для плавного скролла
+  useEffect(() => {
+    // Инициализируем Lenis
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: true,
+      touchMultiplier: 2,
+    });
+
+    // Сохраняем ссылку на Lenis
+    lenisRef.current = lenis;
+
+    // Функция для анимации скролла
+    const raf = (time: number) => {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
+
+    // Сразу скроллим наверх при инициализации
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant' as ScrollBehavior
+      });
+    }, 100);
+
+    return () => {
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
+  // Обработка хэша при монтировании и изменении location
+  useEffect(() => {
+    const hash = location.hash;
+    
+    // Маленькая задержка для гарантии, что Lenis инициализирован
+    const timer = setTimeout(() => {
+      if (hash === '#add-review' || hash === '#addTestimonial') {
+        scrollToForm();
+      } else {
+        // Если нет хэша, просто скроллим наверх
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'instant' as ScrollBehavior
+        });
+      }
+    }, 200);
+    
+    return () => clearTimeout(timer);
+  }, [location]);
+
+  // Функция для прокрутки к форме
+  const scrollToForm = () => {
+    if (formRef.current && !hasScrolled) {
+      // Обновляем URL без перезагрузки
+      navigate('#addTestimonial', { replace: true });
+      
+      // Получаем позицию формы
+      const formTop = formRef.current.offsetTop;
+      
+      // Используем нативный скролл для совместимости
+      window.scrollTo({
+        top: formTop - 80,
+        behavior: 'smooth'
+      });
+      
+      setHasScrolled(true);
+      
+      // Сбрасываем флаг через некоторое время
+      setTimeout(() => {
+        setHasScrolled(false);
+      }, 1500);
+    }
+  };
+
   // Следим за заполнением формы для показа советов
   useEffect(() => {
     const isFormFieldFilled = 
@@ -233,65 +198,51 @@ const TestimonialsPage: React.FC = () => {
     }
   }, [formData.name, formData.role, formData.text, formData.services, showTips]);
 
-  // Инициализация Lenis для плавного скролла
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
-    });
-
-    const raf = (time: number) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
-
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
-
   // Анимации при загрузке
   useEffect(() => {
-    // Анимация карточек отзывов
-    gsap.fromTo(`.${styles.testimonialCard}`,
-      {
-        opacity: 0,
-        y: 50,
-        scale: 0.9
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: `.${styles.testimonialsGrid}`,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+    // Небольшая задержка для анимаций
+    const timer = setTimeout(() => {
+      // Анимация карточек отзывов
+      gsap.fromTo(`.${styles.testimonialCard}`,
+        {
+          opacity: 0,
+          y: 30,
+          scale: 0.95
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.08,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: `.${styles.testimonialsGrid}`,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
         }
-      }
-    );
+      );
 
-    // Анимация статистики
-    gsap.fromTo(`.${styles.statsCard}`,
-      {
-        opacity: 0,
-        x: -30
-      },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: 'power3.out'
-      }
-    );
-
+      // Анимация статистики
+      gsap.fromTo(`.${styles.statsCard}`,
+        {
+          opacity: 0,
+          y: 20
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.15,
+          ease: 'power3.out',
+          delay: 0.2
+        }
+      );
+    }, 300);
+    
     return () => {
+      clearTimeout(timer);
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
@@ -518,7 +469,7 @@ const TestimonialsPage: React.FC = () => {
     });
   };
 
-  // Рендер тегов сервисов - ОБНОВЛЕННЫЙ: теги размещаются под аватаркой
+  // Рендер тегов сервисов
   const renderServiceTags = (services?: ServiceType[]) => {
     if (!services || services.length === 0) {
       return null;
@@ -622,7 +573,7 @@ const TestimonialsPage: React.FC = () => {
             </Link>
             <button 
               className={styles.primaryButton}
-              onClick={() => document.getElementById('addTestimonial')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={scrollToForm}
             >
               Оставить отзыв
             </button>
@@ -686,23 +637,18 @@ const TestimonialsPage: React.FC = () => {
             </div>
 
             <div className={styles.filterSort}>
-              <label className={styles.filterLabel}>Сортировка:</label>
-              <select 
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className={styles.sortSelect}
-              >
-                <option value="date-desc">Сначала новые</option>
-                <option value="date-asc">Сначала старые</option>
-                <option value="rating-desc">Высокий рейтинг</option>
-                <option value="rating-asc">Низкий рейтинг</option>
-              </select>
-            </div>
+  <label className={styles.filterLabel}>Сортировка:</label>
+  <CustomSelect
+    options={sortOptions}
+    value={sortBy}
+    onChange={(value) => setSortBy(value as SortOption)}
+  />
+</div>
           </div>
         </div>
       </section>
 
-      {/* Сетка отзывов с горизонтальной прокруткой для мобильных */}
+      {/* Сетка отзывов */}
       <section className={styles.testimonialsSection}>
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>
@@ -717,7 +663,7 @@ const TestimonialsPage: React.FC = () => {
 
         {displayedTestimonials.length > 0 ? (
           <>
-            {/* Десктопная сетка - ОДНА КАРТОЧКА НА СТРОКУ */}
+            {/* Десктопная сетка */}
             <div className={styles.testimonialsGrid}>
               {displayedTestimonials.map((testimonial) => (
                 <div key={testimonial.id} className={styles.testimonialCard}>
@@ -728,17 +674,14 @@ const TestimonialsPage: React.FC = () => {
                     <div className={styles.testimonialInfo}>
                       <h4 className={styles.testimonialName}>{testimonial.name}</h4>
                       <p className={styles.testimonialRole}>{testimonial.role}</p>
-                      {/* ЗВЕЗДЫ ПОД ИМЕНЕМ И РОЛЬЮ */}
                       <div className={styles.rating}>
                         {renderStars(testimonial.rating)}
                       </div>
                     </div>
                   </div>
-                  {/* ТЕГИ СЕРВИСОВ ПОД АВАТАРКОЙ */}
                   {renderServiceTags(testimonial.services)}
                   <p className={styles.testimonialText}>{testimonial.text}</p>
                   <div className={styles.testimonialFooter}>
-                    {/* ДАТА БЕЗ ИКОНКИ */}
                     <span className={styles.testimonialDate}>
                       {formatDate(testimonial.date)}
                     </span>
@@ -762,17 +705,14 @@ const TestimonialsPage: React.FC = () => {
                       <div className={styles.testimonialInfo}>
                         <h4 className={styles.testimonialName}>{testimonial.name}</h4>
                         <p className={styles.testimonialRole}>{testimonial.role}</p>
-                        {/* ЗВЕЗДЫ ПОД ИМЕНЕМ И РОЛЬЮ (мобильная версия) */}
                         <div className={styles.rating}>
                           {renderStars(testimonial.rating)}
                         </div>
                       </div>
                     </div>
-                    {/* ТЕГИ СЕРВИСОВ ПОД АВАТАРКОЙ (мобильная версия) */}
                     {renderServiceTags(testimonial.services)}
                     <p className={styles.testimonialText}>{testimonial.text}</p>
                     <div className={styles.testimonialFooter}>
-                      {/* ДАТА БЕЗ ИКОНКИ (мобильная версия) */}
                       <span className={styles.testimonialDate}>
                         {formatDate(testimonial.date)}
                       </span>
@@ -855,7 +795,7 @@ const TestimonialsPage: React.FC = () => {
       </section>
 
       {/* Форма добавления отзыва */}
-      <section id="addTestimonial" className={styles.addTestimonialSection}>
+      <section id="addTestimonial" ref={formRef} className={styles.addTestimonialSection}>
         <div className={styles.addTestimonialContainer}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>
@@ -1007,7 +947,7 @@ const TestimonialsPage: React.FC = () => {
             </div>
           </form>
 
-          {/* СОВЕТЫ ДЛЯ ОТЗЫВА - ПОЯВЛЯЮТСЯ ПРИ ЗАПОЛНЕНИИ */}
+          {/* СОВЕТЫ ДЛЯ ОТЗЫВА */}
           <div className={`${styles.testimonialTips} ${showTips ? styles.show : ''}`}>
             <h4 className={styles.tipsTitle}>Советы для хорошего отзыва:</h4>
             <ul className={styles.tipsList}>
@@ -1033,7 +973,7 @@ const TestimonialsPage: React.FC = () => {
             <Link to="/services" className={styles.ctaPrimary}>
               Смотреть услуги
             </Link>
-            <Link to="/contact" className={styles.ctaSecondary}>
+            <Link to="/support" className={styles.ctaSecondary}>
               Задать вопрос
             </Link>
           </div>
