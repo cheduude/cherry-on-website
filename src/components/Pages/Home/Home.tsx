@@ -248,7 +248,7 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
             <Link to="/services" className={styles.primaryButton}>
               Смотреть все услуги
             </Link>
-            <Link to="/auth/register" className={styles.secondaryButton}>
+            <Link to="/auth?form=register" className={styles.secondaryButton}>
               Начать бесплатно
             </Link>
           </div>
@@ -351,7 +351,7 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
           <Link to="/testimonials" className={styles.allReviewsButton}>
             Читать все отзывы
           </Link>
-          <Link to="/add-testimonial" className={styles.addReviewButton}>
+          <Link to="/testimonials#addTestimonial" className={styles.addReviewButton}>
             Оставить отзыв
           </Link>
         </div>
