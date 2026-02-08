@@ -6,6 +6,7 @@ import MainLayout from './components/Layout/MainLayout/MainLayout';
 import AuthLayout from './components/Layout/AuthLayout/AuthLayout';
 import ScrollToTop from './components/Pages/Home/ScrollToTop';
 import AdminAccessPage from './components/Pages/Admin';
+
 import './styles/themes.css';
 const Home = React.lazy(() => import('./components/Pages/Home/Home'));
 const Services = React.lazy(() => import('./components/Pages/Services/Services'));
@@ -25,6 +26,7 @@ const App: React.FC = () => {
           {/* AUTH LAYOUT */}
           <Route element={<AuthLayout />}>
             <Route path="/auth" element={<Auth />} />
+            
           </Route>
           
           {/* MAIN LAYOUT */}

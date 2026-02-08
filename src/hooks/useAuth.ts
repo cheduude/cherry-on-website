@@ -18,7 +18,7 @@ export const useAuth = (): UseAuthReturn => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
-    
+   
     if (token && savedUser) {
       try {
         const parsedUser = JSON.parse(savedUser) as User;
@@ -37,7 +37,7 @@ export const useAuth = (): UseAuthReturn => {
       ...userData,
       displayName: userData.displayName || userData.name || userData.username || 'Пользователь',
     };
-    
+   
     setIsAuthenticated(true);
     setUser(userWithDisplayName);
     localStorage.setItem('token', 'dummy-token');
@@ -49,7 +49,7 @@ export const useAuth = (): UseAuthReturn => {
       ...userData,
       displayName: userData.displayName || userData.name || userData.username || 'Пользователь',
     };
-    
+   
     setIsAuthenticated(true);
     setUser(userWithDisplayName);
     localStorage.setItem('token', 'dummy-token');
