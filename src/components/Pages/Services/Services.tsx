@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 import purify from 'dompurify';
 import styles from './Services.module.css';
 import type { ServicesProps } from '../../../types';
@@ -17,8 +18,6 @@ import {
   Zap,
   Globe,
   Lock,
-  Cloud,
-  CreditCard,
   X
 } from 'lucide-react';
 
@@ -30,58 +29,180 @@ const services = [
     desc: 'Безопасное и анонимное подключение с гарантией конфиденциальности. Поддержка всех устройств.',
     icon: Shield,
     features: ['Анонимность', 'Шифрование трафика', 'Все устройства', '24/7 поддержка'],
-    price: 'от 499 ₽/мес'
+    price: 'от 499 ₽/мес',
+    id: 0
   },
   {
     name: 'VPS',
     desc: 'Виртуальные серверы с мощным железом и низкой задержкой. Полный root доступ.',
     icon: Server,
     features: ['Root доступ', 'SSD/NVMe', 'Linux/Windows', 'DDoS защита'],
-    price: 'от 890 ₽/мес'
+    price: 'от 890 ₽/мес',
+    id: 1
   },
   {
     name: 'NVMe Диски',
     desc: 'Облачное хранилище на быстрых NVMe накопителях. Аналог Google Диска с повышенной скоростью.',
     icon: HardDrive,
     features: ['Высокая скорость', 'Резервное копирование', 'Общий доступ', 'Шифрование'],
-    price: 'от 299 ₽/100 ГБ'
+    price: 'от 299 ₽/100 ГБ',
+    id: 2
   },
   {
     name: 'Настройка роутера',
     desc: 'Настройка сетевых параметров устройства + VPN сертификат на год. Оптимизация для игр и стриминга.',
     icon: Router,
     features: ['Прошивка', 'Сертификат на год', 'Настройка', 'Гарантия'],
-    price: 'от 2 490 ₽'
+    price: 'от 2 490 ₽',
+    id: 3
   },
   {
     name: 'Пополнение аккаунтов',
     desc: 'Steam, ChatGPT, Spotify, Grok и другие сервисы. Моментальное пополнение.',
     icon: ShoppingCart,
     features: ['Моментально', 'Без комиссии', 'Поддержка', 'Безопасно'],
-    price: 'курс +0%'
+    price: 'курс +0%',
+    id: 4
   },
   {
     name: 'Заказы из-за рубежа',
     desc: 'Поможем заказать любой товар из США, Европы, Китая. Доставка под ключ.',
     icon: Package,
     features: ['Поиск товара', 'Доставка', 'Таможня', 'Страховка'],
-    price: 'услуги + доставка'
+    price: 'услуги + доставка',
+    id: 5
   }
 ];
 
 const Services = ({ isAuthenticated }: ServicesProps) => {
+  const location = useLocation();
   useLenisCleanup();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [hasAutoOpened, setHasAutoOpened] = useState(false);
   const isFirstRender = useRef(true);
   const heroRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const scrollTriggers = useRef<ScrollTrigger[]>([]);
+  const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lastAutoOpenId = useRef<string | null>(null);
 
-  // Инициализация GSAP анимаций
+  // Инициализируем массив refs для услуг
+  useEffect(() => {
+    serviceRefs.current = serviceRefs.current.slice(0, services.length);
+  }, []);
+
+  // Функция для плавной прокрутки к элементу
+  const scrollToElement = useCallback((elementId: string) => {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    // Добавляем небольшую задержку для гарантии рендеринга
+    setTimeout(() => {
+      const elementRect = element.getBoundingClientRect();
+      const absoluteElementTop = elementRect.top + window.pageYOffset;
+      
+      // Определяем высоту заголовка для отступа
+      const headerHeight = document.querySelector('header')?.clientHeight || 80;
+      
+      // Отступ сверху (включая заголовок и небольшой дополнительный отступ)
+      const offset = headerHeight + 40;
+      
+      // Прокручиваем с учетом отступа
+      window.scrollTo({
+        top: absoluteElementTop - offset,
+        behavior: 'smooth'
+      });
+
+      // Если элемент все еще не виден полностью после прокрутки, делаем дополнительную корректировку
+      setTimeout(() => {
+        const checkRect = element.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const isFullyVisible = checkRect.top >= offset && 
+                               checkRect.bottom <= viewportHeight;
+        
+        if (!isFullyVisible) {
+          // Если элемент не полностью виден, прокручиваем чтобы он был в центре
+          const centerPosition = absoluteElementTop - (viewportHeight / 2) + (checkRect.height / 2);
+          window.scrollTo({
+            top: centerPosition - 100, // Дополнительный отступ от центра
+            behavior: 'smooth'
+          });
+        }
+      }, 300);
+    }, 100);
+  }, []);
+
+  // Функция для автоматического открытия услуги
+  const autoOpenService = useCallback(() => {
+    if (hasAutoOpened) return;
+
+    try {
+      // Пытаемся получить ID услуги из sessionStorage
+      const serviceIdStr = sessionStorage.getItem('autoOpenServiceId');
+      const timestampStr = sessionStorage.getItem('autoOpenTimestamp');
+      
+      if (serviceIdStr && timestampStr) {
+        const serviceId = parseInt(serviceIdStr, 10);
+        const timestamp = parseInt(timestampStr, 10);
+        const currentTime = Date.now();
+        
+        // Проверяем, что ID валиден и запрос "свежий" (не старше 5 секунд)
+        const isRecent = currentTime - timestamp < 5000;
+        const isNewRequest = lastAutoOpenId.current !== `${serviceId}-${timestamp}`;
+        
+        if (!isNaN(serviceId) && serviceId >= 0 && serviceId < services.length && isRecent && isNewRequest) {
+          // Сохраняем ID запроса для предотвращения повторного открытия
+          lastAutoOpenId.current = `${serviceId}-${timestamp}`;
+          
+          // Устанавливаем активный индекс
+          setActiveIndex(serviceId);
+          setHasAutoOpened(true);
+          
+          // Очищаем sessionStorage
+          sessionStorage.removeItem('autoOpenServiceId');
+          sessionStorage.removeItem('autoOpenTimestamp');
+          
+          // Прокручиваем к услуге после задержки для рендеринга
+          setTimeout(() => {
+            scrollToElement(`service-${serviceId}`);
+          }, 300);
+          
+          return true;
+        }
+      }
+    } catch (error) {
+      console.error('Ошибка при автоматическом открытии услуги:', error);
+    }
+    
+    return false;
+  }, [hasAutoOpened, scrollToElement]);
+
+  // Оптимизированная функция переключения
+  const toggleService = useCallback((index: number) => {
+    setActiveIndex(prev => {
+      const newIndex = prev === index ? null : index;
+      
+      // Если открываем новую услугу, прокручиваем к ней
+      if (newIndex !== null && newIndex !== prev) {
+        setTimeout(() => {
+          scrollToElement(`service-${newIndex}`);
+        }, 10);
+      }
+      
+      return newIndex;
+    });
+  }, [scrollToElement]);
+
+  // Оптимизированная инициализация GSAP
   useEffect(() => {
     if (isFirstRender.current) {
-      const timer = setTimeout(() => {
-        // Анимация для героя
+      const initAnimations = () => {
+        // Очищаем предыдущие триггеры
+        scrollTriggers.current.forEach(trigger => trigger.kill());
+        scrollTriggers.current = [];
+
+        // Герой анимация - без скролл-триггера
         const heroTl = gsap.timeline();
         heroTl
           .fromTo(`.${styles.heroTitle}`,
@@ -94,7 +215,7 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
             '-=0.5'
           );
 
-        // Анимация для статистики
+        // Анимация статистики
         gsap.fromTo(`.${styles.stat}`,
           {
             opacity: 0,
@@ -110,76 +231,133 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
           }
         );
 
-        // Анимация для элементов списка
-        gsap.fromTo(`.${styles.item}`,
-          {
-            opacity: 0,
-            y: 30
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: `.${styles.list}`,
-              start: 'top 80%',
-              toggleActions: 'play none none reverse',
-              markers: false
-            }
-          }
-        );
-
-        // Анимация для CTA секции - упрощенная версия
-        const ctaElement = document.querySelector(`.${styles.ctaSection}`);
-        if (ctaElement) {
-          gsap.fromTo(ctaElement,
-            {
-              opacity: 0,
-              y: 50
-            },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: ctaElement,
-                start: 'top 80%',
-                toggleActions: 'play none none reverse',
-                markers: false
+        // Анимация элементов списка - оптимизированная
+        const listTrigger = ScrollTrigger.create({
+          trigger: `.${styles.list}`,
+          start: 'top 80%',
+          onEnter: () => {
+            gsap.fromTo(`.${styles.item}`,
+              {
+                opacity: 0,
+                y: 30
+              },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: 'power3.out',
+                clearProps: "y"
               }
-            }
-          );
-        }
+            );
+          },
+          once: true
+        });
 
-        isFirstRender.current = false;
-      }, 300);
+        scrollTriggers.current.push(listTrigger);
+
+        // Анимация CTA секции
+        const ctaTrigger = ScrollTrigger.create({
+          trigger: `.${styles.ctaSection}`,
+          start: 'top 85%',
+          onEnter: () => {
+            gsap.fromTo(`.${styles.ctaSection}`,
+              {
+                opacity: 0,
+                y: 30
+              },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out',
+                clearProps: "y"
+              }
+            );
+          },
+          once: true
+        });
+
+        scrollTriggers.current.push(ctaTrigger);
+      };
+
+      // Небольшая задержка для гарантии отрисовки DOM
+      const timer = setTimeout(() => {
+        initAnimations();
+        // После инициализации анимаций пытаемся открыть услугу
+        autoOpenService();
+      }, 100);
       
       return () => {
         clearTimeout(timer);
+        // Очищаем все триггеры
+        scrollTriggers.current.forEach(trigger => trigger.kill());
         ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       };
     }
-  }, []);
+  }, [autoOpenService]);
 
-  const toggleService = (index: number) => {
-    setActiveIndex(prev => (prev === index ? null : index));
-  };
+  // Обновляем ScrollTrigger при изменении активного индекса
+  useEffect(() => {
+    if (activeIndex !== null) {
+      // Небольшая задержка для завершения анимации раскрытия
+      const timer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 300);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [activeIndex]);
 
-  const handleOrder = (serviceName: string) => {
+  // Также пытаемся открыть услугу при каждом переходе на страницу
+  useEffect(() => {
+    if (!hasAutoOpened) {
+      const timer = setTimeout(() => {
+        autoOpenService();
+      }, 200);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [location.pathname, hasAutoOpened, autoOpenService]);
+
+  // Обработчик изменения размера окна для корректировки позиции
+  useEffect(() => {
+    const handleResize = () => {
+      if (activeIndex !== null) {
+        // При изменении размера окна перепроверяем видимость открытой услуги
+        setTimeout(() => {
+          const element = document.getElementById(`service-${activeIndex}`);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const headerHeight = document.querySelector('header')?.clientHeight || 80;
+            const offset = headerHeight + 40;
+            
+            // Если элемент не виден после изменения размера, корректируем позицию
+            if (rect.top < offset || rect.bottom > viewportHeight) {
+              scrollToElement(`service-${activeIndex}`);
+            }
+          }
+        }, 100);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [activeIndex, scrollToElement]);
+
+  const handleOrder = useCallback((serviceName: string) => {
     console.log(`Заказ услуги: ${serviceName}`);
     alert(`Заказ услуги "${serviceName}" отправлен в обработку`);
-  };
+  }, []);
 
-  const handleContactSupport = () => {
+  const handleContactSupport = useCallback(() => {
     window.location.href = '/support';
-  };
+  }, []);
 
-  const handleLeaveRequest = () => {
+  const handleLeaveRequest = useCallback(() => {
     window.location.href = '/contact';
-  };
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -230,6 +408,10 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
             return (
               <div
                 key={service.name}
+                id={`service-${index}`}
+                ref={el => {
+                  serviceRefs.current[index] = el;
+                }}
                 className={`${styles.item} ${isOpen ? styles.open : ''}`}
                 onClick={() => !isOpen && toggleService(index)}
                 style={{ 
@@ -283,13 +465,19 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
                       {isAuthenticated ? (
                         <button
                           className={styles.order}
-                          onClick={() => handleOrder(service.name)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleOrder(service.name);
+                          }}
                         >
                           <ShoppingCart className={styles.buttonIcon} />
                           Заказать
                         </button>
                       ) : (
-                        <button className={styles.auth}>
+                        <button 
+                          className={styles.auth}
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           <Lock className={styles.buttonIcon} />
                           Войдите для заказа
                         </button>

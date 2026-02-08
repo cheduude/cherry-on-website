@@ -16,7 +16,7 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
   const lenisRef = useRef<Lenis | null>(null);
   const ctaSectionRef = useRef<HTMLDivElement>(null);
   
-  // Избранные услуги для тизера
+  // Избранные услуги для тизера - добавляем serviceId для сопоставления
   const featuredServices = [
     {
       id: 'certificates',
@@ -24,7 +24,8 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
       description: 'Безопасное и анонимное подключение с гарантией конфиденциальности. Поддержка всех устройств.',
       features: ['Анонимность', 'Шифрование трафика', 'Все устройства', '24/7 поддержка'],
       color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      delay: 0.1
+      delay: 0.1,
+      serviceId: 0 // ID для автоматического открытия на странице услуг
     },
     {
       id: 'vps',
@@ -32,7 +33,8 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
       description: 'Виртуальные серверы с мощным железом и низкой задержкой. Полный root доступ.',
       features: ['Root доступ', 'SSD/NVMe', 'Linux/Windows', 'DDoS защита'],
       color: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      delay: 0.2
+      delay: 0.2,
+      serviceId: 1
     },
     {
       id: 'router',
@@ -40,7 +42,8 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
       description: 'Настройка сетевых параметров устройства + VPN сертификат на год. Оптимизация для игр и стриминга.',
       features: ['Прошивка', 'Сертификат на год', 'Настройка', 'Гарантия'],
       color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-      delay: 0.3
+      delay: 0.3,
+      serviceId: 3 // Индекс 3 соответствует 4-й услуге в общем списке
     }
   ];
 
@@ -232,6 +235,14 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
     ));
   };
 
+  // Функция для обработки перехода на страницу услуг
+  const handleServiceClick = (serviceId: number) => {
+    // Сохраняем ID услуги для автоматического открытия
+    sessionStorage.setItem('autoOpenServiceId', serviceId.toString());
+    // Дополнительно сохраняем таймштамп для предотвращения конфликтов
+    sessionStorage.setItem('autoOpenTimestamp', Date.now().toString());
+  };
+
   return (
     <div className={styles.container}>
       {/* Герой секция */}
@@ -300,7 +311,8 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
                   ))}
                 </div>
                 <Link 
-                  to={`/services#${service.id}`}
+                  to="/services" 
+                  onClick={() => handleServiceClick(service.serviceId)}
                   className={styles.serviceLink}
                 >
                   Подробнее →
