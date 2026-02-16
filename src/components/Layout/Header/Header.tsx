@@ -6,11 +6,11 @@ import styles from './Header.module.css';
 import type { HeaderProps } from '../../../types';
 import CherryLogo from '../../CherryLogo/CherryLogo';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
-import { useAuth } from '../../../hooks/useAuth'; // Добавляем useAuth
-import { MENU_CONFIG } from '../../../constants/menu'; // Добавляем конфиг меню
+import { useAuth } from '../../../hooks/useAuth';
+import { MENU_CONFIG } from '../../../constants/menu';
 
 const Header: React.FC<HeaderProps> = ({ isMobile }) => {
-  const { isAuthenticated, user, logout } = useAuth(); // Получаем данные аутентификации
+  const { isAuthenticated, user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   const toggleMenu = () => {
@@ -120,7 +120,7 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
         </div>
       </div>
       
-      {/* Мобильное меню */}
+      {/* Мобильное меню (остается без изменений) */}
       {isMobile && (
         <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.open : ''}`}>
           <div className={styles.mobileMenuContent}>
@@ -134,7 +134,6 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                   <span className={styles.mobileMenuSubtitle}>Авантюрный щитпост</span>
                 </div>
               </div>
-
             </div>
             
             {/* Блок информации о пользователе (если авторизован) */}
@@ -142,7 +141,9 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
               <div className={styles.userInfoSection}>
                 <div className={styles.userInfoHeader}>
                   <img 
-                    src={user.avatar || 'https://ui-avatars.com/api/?name=User&background=random&color=fff&size=64&bold=true'} 
+                    src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                      user.displayName || user.name || user.username || 'User'
+                    )}&background=7C3AED&color=fff&size=64&bold=true`}
                     alt="Аватар" 
                     className={styles.userAvatar}
                   />

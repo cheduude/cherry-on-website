@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+/* src/components/Layout/Header/MenuAuth.module.css */
 
 /* ===== ОСНОВНЫЕ СТИЛИ ===== */
 .navigation {
@@ -44,8 +44,8 @@
   background: var(--color-surface);
   border-color: var(--color-accent);
   box-shadow: 
-    0 4px 20px rgba(var(--color-accent-rgb, 77, 171, 247), 0.15),
-    0 0 0 1px rgba(var(--color-accent-rgb, 77, 171, 247), 0.1),
+    0 4px 20px rgba(var(--color-accent-rgb, 124, 58, 237), 0.15),
+    0 0 0 1px rgba(var(--color-accent-rgb, 124, 58, 237), 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
   transform: translateY(-2px);
 }
@@ -69,12 +69,12 @@
   transform: translateY(-50%) scale(1.08);
   border-color: var(--color-accent);
   box-shadow: 
-    0 6px 24px rgba(var(--color-accent-rgb, 77, 171, 247), 0.25),
-    0 0 0 1px rgba(var(--color-accent-rgb, 77, 171, 247), 0.15);
+    0 6px 24px rgba(var(--color-accent-rgb, 124, 58, 237), 0.25),
+    0 0 0 1px rgba(var(--color-accent-rgb, 124, 58, 237), 0.15);
 }
 
 /* Контент кнопки */
-.loginButton:not(:has(.userName)) .buttonContent {
+.loginButton .buttonContent {
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -85,7 +85,9 @@
   will-change: opacity, width;
 }
 
-.loginButton:not(:has(.userName)):hover .buttonContent {
+.loginButton .buttonContent.visible,
+.loginButton:not(:has(.userName)):hover .buttonContent,
+.loginButton.expanded .buttonContent {
   opacity: 1;
   width: calc(100% - 52px);
 }
@@ -106,7 +108,7 @@
   transform: translateX(0);
 }
 
-/* ===== АВТОРИЗОВАННАЯ КНОПКА ===== */
+/* Авторизованная кнопка */
 .loginButton:has(.userName) {
   width: 48px;
   background: linear-gradient(
@@ -121,29 +123,10 @@
   background: var(--color-surface);
   border-color: var(--color-accent);
   box-shadow: 
-    0 8px 32px rgba(var(--color-accent-rgb, 77, 171, 247), 0.2),
-    0 0 0 1px rgba(var(--color-accent-rgb, 77, 171, 247), 0.15),
+    0 8px 32px rgba(var(--color-accent-rgb, 124, 58, 237), 0.2),
+    0 0 0 1px rgba(var(--color-accent-rgb, 124, 58, 237), 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transform: translateY(-2px);
-}
-
-.loginButton:has(.userName) .buttonContent {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  overflow: hidden;
-  min-width: 0;
-  opacity: 0;
-  width: 0;
-  padding-left: 12px;
-  padding-right: 16px;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, width;
-}
-
-.loginButton.expanded .buttonContent {
-  opacity: 1;
-  width: calc(100% - 52px);
 }
 
 .userName {
@@ -166,602 +149,7 @@
   transform: translateX(0);
 }
 
-.arrowIcon {
-  font-size: 0.7rem;
-  color: var(--color-text-muted);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-left: 8px;
-  opacity: 0.7;
-}
-
-.loginButton.expanded .arrowIcon {
-  transform: rotate(180deg);
-  opacity: 1;
-  color: var(--color-accent);
-}
-
-/* Контейнер */
-.authContainer {
-  position: relative;
-  display: inline-block;
-}
-
-/* ===== ВЫПАДАЮЩИЙ СПИСОК ===== */
-.dropdownMenu {
-  position: absolute;
-  /*top: calc(100% + 12px);*/
-  /*right: 0;*/
-  
-  /* стеклянный эффект */
-  background: linear-gradient(
-    152deg,
-    rgba(255, 255, 255, 0.12) 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0.04) 100%
-  );
-  backdrop-filter: saturate(200%) blur(32px);
-  -webkit-backdrop-filter: saturate(200%) blur(32px);
-  
-  border-radius: 20px;
-  /*border: 1px solid var(--color-glass-border);
-  min-width: 300px;*/
-  
-  /* Многослойные тени */
-  box-shadow: 
-    0 1px 0 0 rgba(255, 255, 255, 0.03),
-    0 2px 4px -1px rgba(0, 0, 0, 0.12),
-    0 8px 32px -4px rgba(0, 0, 0, 0.25),
-    0 32px 64px -12px rgba(0, 0, 0, 0.35),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  
-  z-index: 1000;
-  overflow: hidden;
-  transform-origin: top right;
-}
-
-/* Анимации */
-.dropdownMenu.appearing {
-  animation: premiumAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
-  transform: translateY(-8px) scale(0.98);
-}
-
-.dropdownMenu.disappearing {
-  animation: premiumDisappear 0.3s cubic-bezier(0.7, 0, 0.84, 0) forwards;
-}
-
-@keyframes premiumAppear {
-  0% {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes premiumDisappear {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.98);
-    visibility: hidden;
-  }
-}
-
-/* ===== ЗАГОЛОВОК МЕНЮ ===== */
-.menuHeader {
-  padding: 14px 24px 0px;
-  /*background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0.02) 100%
-  );*/
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  position: relative;
-}
-
-.menuHeader::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 24px;
-  right: 24px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
-}
-
-.menuTitle {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.menuTitle::before {
-  content: '';
-  display: block;
-  width: 6px;
-  height: 6px;
-  background: var(--color-accent);
-  border-radius: 50%;
-  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb, 77, 171, 247), 0.2);
-}
-
-.userRole {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  color: var(--color-accent);
-  text-transform: uppercase;
-  background: rgba(var(--color-accent-rgb, 77, 171, 247), 0.12);
-  padding: 8px 14px;
-  border-radius: 12px;
-  display: inline-block;
-  border: 1px solid rgba(var(--color-accent-rgb, 77, 171, 247), 0.2);
-  backdrop-filter: blur(10px);
-}
-
-/* ===== ЭЛЕМЕНТЫ МЕНЮ ===== */
-.menuItems {
-  padding: 12px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.menuItem {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 20px;
-  color: var(--color-text);
-  text-decoration: none;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  
-  margin: 0 8px;
-  text-align: left;
-  
-  font-size: 0.9375rem;
-  font-weight: 500;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  
-  border-radius: 14px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  
-  /* Градиентная обводка при наведении */
-  border: 1px solid transparent;
-}
-
-/* Фон при наведении */
-.menuItem:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0.04) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transform: translateX(4px);
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-  padding-left: 22px;
-}
-
-/* Иконки */
-.menuIcon {
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 1.1rem;
-  color: var(--color-text-muted);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.menuItem:hover .menuIcon {
-  color: var(--color-accent);
-  transform: translateY(-1px) scale(1.15);
-}
-
-/* Текст */
-.menuLabel {
-  flex: 1;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: all 0.3s ease;
-}
-
-.menuItem:hover .menuLabel {
-  color: var(--color-accent);
-  background: linear-gradient(
-    90deg,
-    var(--color-accent) 0%,
-    color-mix(in srgb, var(--color-accent) 70%, white) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Бейдж админа */
-.adminBadge {
-  font-size: 0.6875rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(
-    135deg,
-    var(--color-danger) 0%,
-    color-mix(in srgb, var(--color-danger) 60%, #ff8e8e) 100%
-  );
-  padding: 6px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 
-    0 4px 12px rgba(255, 107, 107, 0.25),
-    0 0 0 1px rgba(255, 107, 107, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Разделитель */
-.menuDivider {
-  height: 1px;
-  margin: 16px 20px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 20%,
-    rgba(255, 255, 255, 0.1) 80%,
-    transparent 100%
-  );
-  position: relative;
-  overflow: hidden;
-}
-
-.menuDivider::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  animation: dividerShine 4s infinite;
-}
-
-@keyframes dividerShine {
-  0% { left: -100%; }
-  50% { left: 100%; }
-  100% { left: 100%; }
-}
-
-/* Кнопка выхода */
-.logoutItem {
-  color: var(--color-text);
-}
-
-.logoutItem:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 107, 107, 0.12) 0%,
-    rgba(255, 107, 107, 0.06) 100%
-  );
-  border: 1px solid rgba(255, 107, 107, 0.25);
-}
-
-.logoutItem:hover .menuIcon {
-  color: var(--color-danger);
-  transform: rotate(15deg) translateY(-1px);
-}
-
-.logoutItem:hover .menuLabel {
-  color: var(--color-danger);
-  background: linear-gradient(
-    90deg,
-    var(--color-danger) 0%,
-    color-mix(in srgb, var(--color-danger) 70%, white) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ===== АНИМАЦИИ ДЛЯ ЭЛЕМЕНТОВ ===== */
-.menuHeader.appearing,
-.menuItem.appearing,
-.menuDivider.appearing {
-  animation: slideInFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
-  transform: translateX(-20px);
-}
-
-.menuHeader.appearing { animation-delay: 0.1s; }
-.menuItem.appearing:nth-child(1) { animation-delay: 0.15s; }
-.menuItem.appearing:nth-child(2) { animation-delay: 0.2s; }
-.menuItem.appearing:nth-child(3) { animation-delay: 0.25s; }
-.menuItem.appearing:nth-child(4) { animation-delay: 0.3s; }
-.menuDivider.appearing { animation-delay: 0.35s; }
-.logoutItem.appearing { animation-delay: 0.4s; }
-
-.menuHeader.disappearing,
-.menuItem.disappearing,
-.menuDivider.disappearing {
-  animation: slideOutFade 0.25s ease forwards;
-}
-
-@keyframes slideInFade {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideOutFade {
-  to {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-}
-
-/* ===== СВЕТЛАЯ ТЕМА ===== */
-[data-theme="light"] .dropdownMenu {
-  background: linear-gradient(
-    152deg,
-    rgba(255, 255, 255, 0.98) 0%,
-    rgba(255, 255, 255, 0.95) 50%,
-    rgba(255, 255, 255, 0.92) 100%
-  );
-  backdrop-filter: saturate(200%) blur(28px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 
-    0 1px 0 0 rgba(255, 255, 255, 0.8),
-    0 2px 6px -1px rgba(0, 0, 0, 0.1),
-    0 12px 40px -4px rgba(0, 0, 0, 0.15),
-    0 32px 72px -12px rgba(0, 0, 0, 0.2);
-}
-
-[data-theme="light"] .menuHeader {
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.02) 0%,
-    transparent 100%
-  );
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="light"] .menuHeader::after {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 0, 0, 0.06),
-    transparent
-  );
-}
-
-[data-theme="light"] .userRole {
-  background: rgba(var(--color-accent-rgb, 25, 113, 194), 0.1);
-  border: 1px solid rgba(var(--color-accent-rgb, 25, 113, 194), 0.15);
-}
-
-[data-theme="light"] .menuItem:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.03) 0%,
-    rgba(0, 0, 0, 0.01) 100%
-  );
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
-}
-
-[data-theme="light"] .menuDivider {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(0, 0, 0, 0.06) 20%,
-    rgba(0, 0, 0, 0.06) 80%,
-    transparent 100%
-  );
-}
-
-[data-theme="light"] .menuDivider::after {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 0, 0, 0.1),
-    transparent
-  );
-}
-
-[data-theme="light"] .logoutItem:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(224, 49, 49, 0.1) 0%,
-    rgba(224, 49, 49, 0.05) 100%
-  );
-  border: 1px solid rgba(224, 49, 49, 0.15);
-}
-
-[data-theme="light"] .loginButton {
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="light"] .loginButton:not(:has(.userName)) {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.02) 0%,
-    transparent 100%
-  );
-}
-
-[data-theme="light"] .loginButton:not(:has(.userName)):hover,
-[data-theme="light"] .loginButton.expanded {
-  background: white;
-  border-color: var(--color-accent);
-  box-shadow: 
-    0 8px 32px rgba(25, 113, 194, 0.15),
-    0 0 0 1px rgba(25, 113, 194, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
-[data-theme="light"] .loginButton .avatar {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.9);
-}
-
-/* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
-@media (max-width: 768px) {
-  .navigation {
-    margin-right: 12px;
-  }
-
-  .loginButton {
-    min-height: 44px;
-  }
-
-  .loginButton:not(:has(.userName)),
-  .loginButton:has(.userName),
-  .loginButton.expanded {
-    width: 44px !important;
-  }
-
-  .loginButton .avatar {
-    width: 28px;
-    height: 28px;
-    left: 8px;
-  }
-
-  .loginButton:not(:has(.userName)):hover .buttonContent,
-  .loginButton.expanded .buttonContent {
-    display: none;
-  }
-
-  .dropdownMenu {
-    position: fixed;
-    top: 70px;
-    right: 16px;
-    left: 16px;
-    max-width: none;
-    min-width: auto;
-    width: auto;
-    border-radius: 24px;
-  }
-
-  .dropdownMenu.appearing {
-    animation: mobileAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .dropdownMenu.disappearing {
-    animation: mobileDisappear 0.3s cubic-bezier(0.7, 0, 0.84, 0) forwards;
-  }
-
-  @keyframes mobileAppear {
-    0% {
-      opacity: 0;
-      transform: translateY(-12px) scale(0.96);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  @keyframes mobileDisappear {
-    0% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(-12px) scale(0.96);
-      visibility: hidden;
-    }
-  }
-
-  .menuItem {
-    margin: 0 12px;
-    width: calc(100% - 24px);
-    padding: 16px 20px;
-  }
-}
-
-/* Маленькие экраны */
-@media (max-width: 375px) {
-  .navigation {
-    margin-right: 8px;
-  }
-
-  .dropdownMenu {
-    right: 12px;
-    left: 12px;
-  }
-
-  .menuItem {
-    padding: 14px 18px;
-  }
-}
-
-/* Планшеты */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .dropdownMenu {
-    min-width: 280px;
-  }
-}
-
-/* Улучшения для касаний */
-@media (hover: none) and (pointer: coarse) {
-  .menuItem:active {
-    background: rgba(255, 255, 255, 0.08);
-    transform: scale(0.98);
-  }
-
-  .loginButton:active {
-    transform: scale(0.98);
-  }
-}
-
-/* Безопасные зоны */
-@supports (padding: max(0px)) {
-  .dropdownMenu {
-    margin-right: max(0px, env(safe-area-inset-right) - 8px);
-  }
-}
-/* ===== МОБИЛЬНЫЕ ВЕРСИИ КНОПОК ===== */
+/* ===== МОБИЛЬНЫЕ СТИЛИ ===== */
 .mobileAvatarButton {
   display: inline-flex;
   align-items: center;
@@ -769,15 +157,17 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: rgba(var(--color-accent-rgb), 0.1);
-  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+  background: rgba(var(--color-accent-rgb, 124, 58, 237), 0.1);
+  border: 1px solid rgba(var(--color-accent-rgb, 124, 58, 237), 0.2);
   transition: all 0.3s ease;
   text-decoration: none;
+  cursor: pointer;
   position: relative;
+  padding: 0;
 }
 
 .mobileAvatarButton:hover {
-  background: rgba(var(--color-accent-rgb), 0.15);
+  background: rgba(var(--color-accent-rgb, 124, 58, 237), 0.15);
   border-color: var(--color-accent);
   transform: translateY(-2px);
 }
@@ -798,9 +188,9 @@
   height: 44px;
   border-radius: 12px;
   background: linear-gradient(135deg,
-    rgba(var(--color-accent-rgb), 0.15) 0%,
-    rgba(var(--color-accent-rgb), 0.08) 100%);
-  border: 1px solid rgba(var(--color-accent-rgb), 0.3);
+    rgba(var(--color-accent-rgb, 124, 58, 237), 0.15) 0%,
+    rgba(var(--color-accent-rgb, 124, 58, 237), 0.08) 100%);
+  border: 1px solid rgba(var(--color-accent-rgb, 124, 58, 237), 0.3);
   transition: all 0.3s ease;
   text-decoration: none;
   position: relative;
@@ -808,8 +198,8 @@
 
 .mobileLoginButton:hover {
   background: linear-gradient(135deg,
-    rgba(var(--color-accent-rgb), 0.25) 0%,
-    rgba(var(--color-accent-rgb), 0.15) 100%);
+    rgba(var(--color-accent-rgb, 124, 58, 237), 0.25) 0%,
+    rgba(var(--color-accent-rgb, 124, 58, 237), 0.15) 100%);
   border-color: var(--color-accent);
   transform: translateY(-2px);
 }
@@ -819,9 +209,153 @@
   color: var(--color-accent);
 }
 
-/* Для мобильной версии скрываем десктопные кнопки */
-@media (max-width: 768px) {
-  .navigation:not(.mobileAvatarButton):not(.mobileLoginButton) {
-    display: none;
+/* Светлая тема для мобильных кнопок */
+[data-theme="light"] .mobileAvatarButton {
+  background: rgba(var(--color-accent-rgb, 124, 58, 237), 0.05);
+  border-color: rgba(var(--color-accent-rgb, 124, 58, 237), 0.1);
+}
+
+[data-theme="light"] .mobileAvatarButton:hover {
+  background: rgba(var(--color-accent-rgb, 124, 58, 237), 0.1);
+}
+
+[data-theme="light"] .mobileLoginButton {
+  background: linear-gradient(135deg,
+    rgba(var(--color-accent-rgb, 124, 58, 237), 0.1) 0%,
+    rgba(var(--color-accent-rgb, 124, 58, 237), 0.05) 100%);
+}
+
+[data-theme="light"] .mobileLoginButton:hover {
+  background: linear-gradient(135deg,
+    rgba(var(--color-accent-rgb, 124, 58, 237), 0.15) 0%,
+    rgba(var(--color-accent-rgb, 124, 58, 237), 0.1) 100%);
+}
+
+/* Светлая тема */
+[data-theme="light"] .loginButton {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .loginButton:not(:has(.userName)) {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.02) 0%,
+    transparent 100%
+  );
+}
+
+[data-theme="light"] .loginButton:not(:has(.userName)):hover,
+[data-theme="light"] .loginButton.expanded {
+  background: white;
+  border-color: var(--color-accent);
+  box-shadow: 
+    0 8px 32px rgba(124, 58, 237, 0.15),
+    0 0 0 1px rgba(124, 58, 237, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .loginButton .avatar {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .mobileAvatar {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Улучшения для касаний */
+@media (hover: none) and (pointer: coarse) {
+  .mobileAvatarButton:active,
+  .mobileLoginButton:active {
+    transform: scale(0.96);
   }
+}
+
+/* Маленькие экраны */
+@media (max-width: 375px) {
+  .navigation {
+    margin-right: 8px;
+  }
+  
+  .mobileAvatarButton,
+  .mobileLoginButton {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .mobileAvatar {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .mobileLoginIcon {
+    font-size: 1.1rem;
+  }
+}
+
+/* Безопасные зоны */
+@supports (padding: max(0px)) {
+  .navigation {
+    margin-right: max(20px, env(safe-area-inset-right) - 8px);
+  }
+}
+/* Fallback для аватарки в кнопке */
+.avatarFallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7C3AED, #C026D3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Стили для видео в кнопке */
+.loginButton video {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 2px solid transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.loginButton:not(:has(.userName)):hover video {
+  transform: translateY(-50%) scale(1.08);
+  border-color: var(--color-accent);
+  box-shadow: 
+    0 6px 24px rgba(var(--color-accent-rgb, 124, 58, 237), 0.25),
+    0 0 0 1px rgba(var(--color-accent-rgb, 124, 58, 237), 0.15);
+}
+
+/* Для мобильной версии */
+.mobileAvatarButton video {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobileAvatarButton .avatarFallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* Светлая тема */
+[data-theme="light"] .avatarFallback {
+  background: linear-gradient(135deg, #7C3AED, #C026D3);
+  color: white;
 }

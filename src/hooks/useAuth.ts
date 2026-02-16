@@ -1,5 +1,5 @@
 // src/hooks/useAuth.ts
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { User } from '../types';
 
 interface UseAuthReturn {
@@ -11,72 +11,181 @@ interface UseAuthReturn {
   updateUser: (userData: Partial<User>) => void;
 }
 
-export const useAuth = (): UseAuthReturn => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+// Глобальная переменная для синхронизации между всеми вызовами useAuth
+let globalAuthState = {
+  isAuthenticated: false,
+  user: null as User | null
+};
 
+// Список всех компонентов, которые слушают изменения
+const listeners = new Set<(state: typeof globalAuthState) => void>();
+
+// Функция для уведомления всех компонентов
+const notifyListeners = () => {
+  listeners.forEach(listener => listener(globalAuthState));
+};
+
+// Функция для обновления состояния везде
+const updateGlobalAuthState = (newState: typeof globalAuthState) => {
+  globalAuthState = newState;
+  notifyListeners();
+};
+
+export const useAuth = (): UseAuthReturn => {
+  // Локальное состояние для каждого компонента
+  const [localState, setLocalState] = useState(() => globalAuthState);
+
+  // Подписываемся на глобальные изменения
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
+    const handleGlobalChange = (newState: typeof globalAuthState) => {
+      setLocalState(newState);
+    };
+
+    listeners.add(handleGlobalChange);
     
-    if (token && savedUser) {
-      try {
-        const parsedUser = JSON.parse(savedUser) as User;
-        setIsAuthenticated(true);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error('Ошибка парсинга user:', error);
-        setIsAuthenticated(false);
-        setUser(null);
+    // При монтировании загружаем из localStorage
+    const loadFromStorage = () => {
+      const token = localStorage.getItem('token');
+      const savedUser = localStorage.getItem('user');
+      
+      if (token && savedUser) {
+        try {
+          const parsedUser = JSON.parse(savedUser) as User;
+          const newState = {
+            isAuthenticated: true,
+            user: parsedUser
+          };
+          updateGlobalAuthState(newState);
+        } catch (error) {
+          console.error('Ошибка парсинга user:', error);
+        }
       }
-    }
+    };
+
+    loadFromStorage();
+
+    return () => {
+      listeners.delete(handleGlobalChange);
+    };
   }, []);
 
-  const login = (userData: User) => {
-    const userWithDisplayName = {
+  // Слушаем события от других вкладок
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'token' || event.key === 'user') {
+        const token = localStorage.getItem('token');
+        const savedUser = localStorage.getItem('user');
+        
+        if (token && savedUser) {
+          try {
+            const parsedUser = JSON.parse(savedUser) as User;
+            updateGlobalAuthState({
+              isAuthenticated: true,
+              user: parsedUser
+            });
+          } catch (error) {
+            updateGlobalAuthState({
+              isAuthenticated: false,
+              user: null
+            });
+          }
+        } else {
+          updateGlobalAuthState({
+            isAuthenticated: false,
+            user: null
+          });
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const login = useCallback((userData: User) => {
+    console.log('🔐 LOGIN вызван с данными:', userData);
+    
+    // Добавляем обязательные поля
+    const userWithDefaults = {
       ...userData,
       displayName: userData.displayName || userData.name || userData.username || 'Пользователь',
+      role: userData.role || 'user',
+      username: userData.username || userData.email?.split('@')[0] || 'user'
     };
     
-    setIsAuthenticated(true);
-    setUser(userWithDisplayName);
-    localStorage.setItem('token', 'dummy-token');
-    localStorage.setItem('user', JSON.stringify(userWithDisplayName));
-  };
+    // Сохраняем в localStorage
+    localStorage.setItem('token', 'telegram-auth-token');
+    localStorage.setItem('user', JSON.stringify(userWithDefaults));
+    
+    console.log('✅ Данные сохранены в localStorage');
+    
+    // Обновляем глобальное состояние
+    updateGlobalAuthState({
+      isAuthenticated: true,
+      user: userWithDefaults
+    });
+    
+    // Триггерим событие для синхронизации
+    window.dispatchEvent(new Event('auth-state-changed'));
+    
+    return Promise.resolve();
+  }, []);
 
-  const signup = (userData: User) => {
-    const userWithDisplayName = {
+  const signup = useCallback((userData: User) => {
+    const userWithDefaults = {
       ...userData,
       displayName: userData.displayName || userData.name || userData.username || 'Пользователь',
+      role: userData.role || 'user',
+      username: userData.username || userData.email?.split('@')[0] || 'user'
     };
     
-    setIsAuthenticated(true);
-    setUser(userWithDisplayName);
-    localStorage.setItem('token', 'dummy-token');
-    localStorage.setItem('user', JSON.stringify(userWithDisplayName));
-  };
+    localStorage.setItem('token', 'telegram-auth-token');
+    localStorage.setItem('user', JSON.stringify(userWithDefaults));
+    
+    updateGlobalAuthState({
+      isAuthenticated: true,
+      user: userWithDefaults
+    });
+    
+    window.dispatchEvent(new Event('auth-state-changed'));
+    
+    return Promise.resolve();
+  }, []);
 
-  const logout = () => {
-    setIsAuthenticated(false);
-    setUser(null);
+  const logout = useCallback(() => {
+    console.log('🚪 LOGOUT вызван');
+    
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-  };
+    
+    updateGlobalAuthState({
+      isAuthenticated: false,
+      user: null
+    });
+    
+    window.dispatchEvent(new Event('auth-state-changed'));
+  }, []);
 
-  const updateUser = (userData: Partial<User>) => {
-    if (user) {
-      const updatedUser = { ...user, ...userData };
-      setUser(updatedUser);
+  const updateUser = useCallback((userData: Partial<User>) => {
+    if (localState.user) {
+      const updatedUser = { ...localState.user, ...userData };
       localStorage.setItem('user', JSON.stringify(updatedUser));
+      
+      updateGlobalAuthState({
+        isAuthenticated: true,
+        user: updatedUser
+      });
+      
+      window.dispatchEvent(new Event('auth-state-changed'));
     }
-  };
+  }, [localState.user]);
 
   return {
-    isAuthenticated,
-    user,
+    isAuthenticated: localState.isAuthenticated,
+    user: localState.user,
     login,
-    signup,
     logout,
+    signup,
     updateUser,
   };
 };

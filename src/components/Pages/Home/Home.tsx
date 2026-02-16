@@ -85,6 +85,7 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
     });
 
     // Связываем Lenis с GSAP ScrollTrigger
+    //@ts-ignore
     lenisRef.current?.on('scroll', ScrollTrigger.update);
 
     // Функция для анимации на каждом кадре

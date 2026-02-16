@@ -1,0 +1,476 @@
+/* src/components/Layout/Header/ProfilePanel.module.css */
+
+/* ===== УЛУЧШЕННЫЙ ОВЕРЛЕЙ ===== */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+}
+
+.overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Панель */
+.panel {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 380px;
+  max-width: calc(100vw - 40px);
+  height: 100vh;
+  background: linear-gradient(
+    165deg,
+    rgba(30, 30, 40, 0.98) 0%,
+    rgba(25, 25, 35, 0.98) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    -8px 0 32px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  z-index: 1000;
+  overflow-y: auto;
+  transition: right 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  padding: 24px 20px;
+  color: #fff;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  border-radius: 10px 0 0 10px;
+}
+
+.panel.open {
+  right: 0;
+}
+
+/* Стилизация скроллбара */
+.panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Кнопка закрытия */
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.closeButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== ШАПКА ПРОФИЛЯ (ОБНОВЛЕНО) ===== */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-top: 20px;
+}
+
+.avatarWrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+/* Основной аватар - убран бордер, hover эффект и трансформация */
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 30px;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: none; /* Убрана анимация */
+}
+
+/* Убран hover эффект для аватара */
+.avatarWrapper:hover .avatar {
+  /* Все стили удалены */
+}
+
+/* Убран бейдж с молнией/короной */
+.roleBadge {
+  display: none; /* Скрываем бейдж */
+}
+
+/* Информация о пользователе */
+.userInfo {
+  text-align: center;
+}
+
+.userName {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, #fff, #e0e0e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.userRole {
+  display: inline-block;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(192, 38, 211, 0.2));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Секции */
+.sectionTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
+  padding-left: 4px;
+}
+
+/* Меню */
+.menuSection {
+  margin-bottom: 32px;
+}
+
+.menuNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.menuItem:hover {
+  background: rgba(124, 58, 237, 0.1);
+  border-color: rgba(124, 58, 237, 0.2);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+}
+
+.menuIcon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+}
+
+.menuItem:hover .menuIcon {
+  color: #7C3AED;
+  transform: scale(1.1);
+}
+
+.menuLabel {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.menuItem:hover .menuLabel {
+  color: #7C3AED;
+}
+
+/* Бейдж админа */
+.adminBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+  border-radius: 6px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* Кнопка выхода */
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 24px;
+}
+
+.logoutButton:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2);
+}
+
+.logoutIcon {
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.logoutButton:hover .logoutIcon {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.logoutText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #EF4444;
+  transition: all 0.3s ease;
+}
+
+/* Версия */
+.version {
+  text-align: center;
+  padding: 16px 0 8px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ===== СТИЛИ ДЛЯ ВИДЕО АВАТАРА (ОБНОВЛЕНО) ===== */
+.avatar video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+  transition: none; /* Убрана анимация */
+}
+
+/* Убран hover эффект для видео */
+.avatar video:hover {
+  /* Все стили удалены */
+}
+
+/* Fallback для аватара при ошибке загрузки */
+.avatarFallback {
+  width: 100px;
+  height: 100px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #7C3AED, #C026D3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Для маленькой аватарки в кнопке */
+.avatar.small,
+.avatar.small video,
+.avatarFallback.small {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* ===== СВЕТЛАЯ ТЕМА ===== */
+[data-theme="light"] .panel {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(250, 250, 255, 0.98) 100%
+  );
+  box-shadow: 
+    -8px 0 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05) inset;
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .closeButton {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+[data-theme="light"] .closeButton:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .userName {
+  background: linear-gradient(135deg, #333, #666);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .userRole {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(192, 38, 211, 0.1));
+  border-color: rgba(124, 58, 237, 0.2);
+  color: #4B5563;
+}
+
+[data-theme="light"] .sectionTitle {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .menuItem {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+[data-theme="light"] .menuItem:hover {
+  background: rgba(124, 58, 237, 0.05);
+  border-color: rgba(124, 58, 237, 0.2);
+}
+
+[data-theme="light"] .menuIcon {
+  color: #666;
+}
+
+[data-theme="light"] .menuItem:hover .menuIcon {
+  color: #7C3AED;
+}
+
+[data-theme="light"] .menuItem:hover .menuLabel {
+  color: #7C3AED;
+}
+
+[data-theme="light"] .version {
+  color: rgba(0, 0, 0, 0.3);
+  border-top-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+@media (max-width: 768px) {
+  .panel {
+    width: 100%;
+    max-width: 100%;
+    right: -100%;
+    padding: 20px 16px;
+    border-radius: 0;
+  }
+  
+  .panel.open {
+    right: 0;
+  }
+  
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 24px;
+  }
+  
+  .avatar video {
+    border-radius: 24px;
+  }
+  
+  .avatarFallback {
+    width: 80px;
+    height: 80px;
+    border-radius: 24px;
+    font-size: 2rem;
+  }
+  
+  .userName {
+    font-size: 1.2rem;
+  }
+  
+  .menuItem {
+    padding: 16px;
+  }
+  
+  .closeButton {
+    top: 16px;
+    right: 16px;
+  }
+}
+
+/* ===== АНИМАЦИЯ ДЛЯ ПУНКТОВ МЕНЮ ===== */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.menuItem {
+  animation: slideIn 0.3s ease forwards;
+  opacity: 0;
+}
+
+.menuItem:nth-child(1) { animation-delay: 0.05s; }
+.menuItem:nth-child(2) { animation-delay: 0.1s; }
+.menuItem:nth-child(3) { animation-delay: 0.15s; }
+.menuItem:nth-child(4) { animation-delay: 0.2s; }
+.menuItem:nth-child(5) { animation-delay: 0.25s; }
+.menuItem:nth-child(6) { animation-delay: 0.3s; }
+.menuItem:nth-child(7) { animation-delay: 0.35s; }
+.menuItem:nth-child(8) { animation-delay: 0.4s; }

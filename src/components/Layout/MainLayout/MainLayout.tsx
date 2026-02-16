@@ -4,15 +4,15 @@ import { Outlet } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import { useDeviceDetect } from '../../../hooks/useDeviceDetect';
-import { useAuth } from '../../../hooks/useAuth';
+// УДАЛИТЬ импорт useAuth отсюда!
 
 const MainLayout: React.FC = () => {
   const { isMobile } = useDeviceDetect();
-  const { isAuthenticated } = useAuth();
 
   return (
     <div className="site-wrapper">
-      <Header isMobile={isMobile} isAuthenticated={isAuthenticated} />
+      {/* Header сам берет useAuth внутри себя */}
+      <Header isMobile={isMobile} />
       <main className="main-content">
         <Outlet />
       </main>

@@ -38,3 +38,4 @@
 body.auth-page-isolated .app-wrapper > *:not(.auth-layout) {
   display: none !important;
 }
+
