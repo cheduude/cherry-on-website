@@ -68,7 +68,6 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      
     } else {
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
@@ -92,7 +91,8 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen, onClose]);
 
-  if (!isOpen || !user) return null;
+  // Если пользователя нет — не рендерим ничего (панель не показывается даже при isOpen)
+  if (!user) return null;
 
   // Разделяем пункты меню на основные и дополнительные
   const mainMenuItems = menuItems.slice(0, 4);
@@ -161,14 +161,14 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
 
   return (
     <>
-      {/* Оверлей */}
+      {/* Оверлей всегда в DOM, видимость через класс visible */}
       <div
         ref={overlayRef}
         className={`${styles.overlay} ${isOpen ? styles.visible : ''}`}
         aria-hidden="true"
       />
 
-      {/* Панель */}
+      {/* Панель всегда в DOM, видимость через класс open */}
       <div
         ref={panelRef}
         className={`${styles.panel} ${isOpen ? styles.open : ''}`}
@@ -196,21 +196,16 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
         <div className={styles.header}>
           <div className={styles.avatarWrapper}>
             {renderAvatar()}
-            {user.role && (
-              <span className={styles.roleBadge}>
-                {user.role === 'admin' ? '👑' : '⚡'}
-              </span>
-            )}
+            {/* Бейдж скрыт по дизайну, можно не трогать */}
           </div>
 
           <div className={styles.userInfo}>
             <h2 className={styles.userName}>
               {user.displayName || user.name || user.username || 'Пользователь'}
             </h2>
-            {user.role && (
-              <span className={styles.userRole}>
-                {user.role === 'admin' ? 'Администратор' : 'Пользователь'}
-              </span>
+            {/* Отображаем роль только для администратора */}
+            {user.role === 'admin' && (
+              <span className={styles.userRole}>Администратор</span>
             )}
           </div>
         </div>

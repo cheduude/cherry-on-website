@@ -50,18 +50,12 @@ html, body {
   z-index: 1;
   margin: 0;
   
-  /* Полупрозрачный оверлей для контраста текста */
-  background: linear-gradient(
-    rgba(0, 0, 0, 0.2),
-    rgba(0, 0, 0, 0.1)
-  );
+  /* Убираем собственный фон, чтобы просвечивал градиент контейнера */
+  background: none;
 }
 
 [data-theme="light"] .hero {
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0.2)
-  );
+  background: none;
 }
 
 .heroBackground {
@@ -70,13 +64,14 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
+  /*background: 
     radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.15) 0%, transparent 50%);
+    radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.15) 0%, transparent 50%);*/
   z-index: -1;
   width: 100%;
   height: 100%;
+  pointer-events: none; /* чтобы не мешать кликам */
 }
 
 [data-theme="light"] .heroBackground {
@@ -280,30 +275,12 @@ html, body {
   width: 100%;
   z-index: 1;
   margin: 0;
+  background: none; /* прозрачный фон */
 }
 
-/* Полупрозрачный оверлей для секции услуг */
+/* Убираем оверлей, который создавал границу */
 .services::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 10, 15, 0.3) 0%,
-    rgba(16, 16, 16, 0.3) 100%
-  );
-  z-index: -1;
-}
-
-[data-theme="light"] .services::before {
-  background: linear-gradient(
-    to bottom,
-    rgba(245, 247, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.3) 100%
-  );
+  display: none;
 }
 
 .servicesGrid {
@@ -512,30 +489,12 @@ html, body {
   position: relative;
   z-index: 1;
   margin: 0;
+  background: none;
 }
 
-/* Полупрозрачный оверлей для секции отзывов */
+/* Убираем оверлей */
 .testimonials::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(15, 15, 15, 0.3) 0%,
-    rgba(22, 22, 22, 0.3) 100%
-  );
-  z-index: -1;
-}
-
-[data-theme="light"] .testimonials::before {
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(248, 249, 255, 0.3) 100%
-  );
+  display: none;
 }
 
 .testimonialsGrid {
@@ -707,32 +666,12 @@ html, body {
   align-items: center;
   justify-content: center;
   margin: 0;
+  background: none;
 }
 
-/* Затемнение для CTA секции */
+/* Убираем затемнение */
 .ctaSection::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(26, 26, 46, 0.8) 0%,
-    rgba(22, 33, 62, 0.8) 50%,
-    rgba(15, 52, 96, 0.8) 100%
-  );
-  z-index: 1;
-}
-
-[data-theme="light"] .ctaSection::before {
-  background: linear-gradient(
-    135deg,
-    rgba(227, 242, 253, 0.8) 0%,
-    rgba(187, 222, 251, 0.8) 50%,
-    rgba(144, 202, 249, 0.8) 100%
-  );
+  display: none;
 }
 
 .ctaContent {
@@ -840,7 +779,7 @@ html, body {
   width: 200px;
   height: 200px;
   background: var(--color-cta-button-bg);
-  top: -50px;
+  top: 40px;
   left: 10%;
   animation-delay: 0s;
   animation-duration: 25s;
@@ -849,8 +788,8 @@ html, body {
 .ctaCircle:nth-child(2) {
   width: 150px;
   height: 150px;
-  background: var(--color-cta-end);
-  bottom: -30px;
+  background: var(--color-cta-button-bg);
+  bottom: 10px;
   right: 15%;
   animation-delay: 5s;
   animation-duration: 20s;
@@ -860,7 +799,7 @@ html, body {
 .ctaCircle:nth-child(3) {
   width: 100px;
   height: 100px;
-  background: var(--color-cta-start);
+  background: var(--color-cta-button-bg);
   top: 30%;
   right: 5%;
   animation-delay: 10s;

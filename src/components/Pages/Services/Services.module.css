@@ -51,10 +51,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
+  /*background: 
     radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.2) 0%, transparent 50%);*/
   z-index: -1;
   width: 100%;
   height: 100%;

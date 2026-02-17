@@ -1,5 +1,3 @@
-/* src/components/Layout/Header/ProfilePanel.module.css */
-
 /* ===== УЛУЧШЕННЫЙ ОВЕРЛЕЙ ===== */
 .overlay {
   position: fixed;
@@ -16,18 +14,20 @@
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
               visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: default;
+  pointer-events: none; /* не перехватывает клики, когда скрыт */
 }
 
 .overlay.visible {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto; /* активируем перехват, когда видим */
 }
 
 /* Панель */
 .panel {
   position: fixed;
   top: 0;
-  right: -400px;
+  right: -400px; /* скрыта за экраном */
   width: 380px;
   max-width: calc(100vw - 40px);
   height: 100vh;
@@ -103,7 +103,7 @@
   height: 18px;
 }
 
-/* ===== ШАПКА ПРОФИЛЯ (ОБНОВЛЕНО) ===== */
+/* ===== ШАПКА ПРОФИЛЯ ===== */
 .header {
   display: flex;
   flex-direction: column;
@@ -117,24 +117,14 @@
   margin-bottom: 16px;
 }
 
-/* Основной аватар - убран бордер, hover эффект и трансформация */
+/* Основной аватар */
 .avatar {
   width: 100px;
   height: 100px;
   border-radius: 30px;
   object-fit: cover;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: none; /* Убрана анимация */
-}
-
-/* Убран hover эффект для аватара */
-.avatarWrapper:hover .avatar {
-  /* Все стили удалены */
-}
-
-/* Убран бейдж с молнией/короной */
-.roleBadge {
-  display: none; /* Скрываем бейдж */
+  transition: none;
 }
 
 /* Информация о пользователе */
@@ -202,11 +192,12 @@
   overflow: hidden;
 }
 
+/* Синий цвет при наведении на обычные пункты меню */
 .menuItem:hover {
-  background: rgba(124, 58, 237, 0.1);
-  border-color: rgba(124, 58, 237, 0.2);
+  background: rgba(59, 130, 246, 0.1);   /* синий фон */
+  border-color: rgba(59, 130, 246, 0.3);  /* синяя обводка */
   transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); /* синяя тень */
 }
 
 .menuIcon {
@@ -221,7 +212,7 @@
 }
 
 .menuItem:hover .menuIcon {
-  color: #7C3AED;
+  color: #3B82F6; /* синяя иконка */
   transform: scale(1.1);
 }
 
@@ -233,7 +224,7 @@
 }
 
 .menuItem:hover .menuLabel {
-  color: #7C3AED;
+  color: #3B82F6; /* синий текст */
 }
 
 /* Бейдж админа */
@@ -249,42 +240,49 @@
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
-/* Кнопка выхода */
+/* Кнопка выхода — серая в обычном состоянии */
 .logoutButton {
   display: flex;
   align-items: center;
   gap: 16px;
   width: 100%;
   padding: 16px 20px;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(255, 255, 255, 0.02);   /* серый фон как у menuItem */
+  border: 1px solid rgba(255, 255, 255, 0.03); /* серая обводка */
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-bottom: 24px;
 }
 
-.logoutButton:hover {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.4);
-  transform: translateX(4px);
-  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2);
-}
-
 .logoutIcon {
   font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7); /* серая иконка */
   transition: all 0.3s ease;
-}
-
-.logoutButton:hover .logoutIcon {
-  transform: rotate(15deg) scale(1.1);
 }
 
 .logoutText {
   font-size: 1rem;
   font-weight: 600;
-  color: #EF4444;
+  color: rgba(255, 255, 255, 0.7); /* серый текст */
   transition: all 0.3s ease;
+}
+
+/* Красное свечение и цвет только при наведении */
+.logoutButton:hover {
+  background: rgba(239, 68, 68, 0.1);   /* красный фон */
+  border-color: rgba(239, 68, 68, 0.3);  /* красная обводка */
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2); /* красная тень */
+}
+
+.logoutButton:hover .logoutIcon {
+  color: #EF4444; /* красная иконка */
+  transform: rotate(15deg) scale(1.1);
+}
+
+.logoutButton:hover .logoutText {
+  color: #EF4444; /* красный текст */
 }
 
 /* Версия */
@@ -296,18 +294,13 @@
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* ===== СТИЛИ ДЛЯ ВИДЕО АВАТАРА (ОБНОВЛЕНО) ===== */
+/* ===== СТИЛИ ДЛЯ ВИДЕО АВАТАРА ===== */
 .avatar video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 30px;
-  transition: none; /* Убрана анимация */
-}
-
-/* Убран hover эффект для видео */
-.avatar video:hover {
-  /* Все стили удалены */
+  transition: none;
 }
 
 /* Fallback для аватара при ошибке загрузки */
@@ -383,8 +376,9 @@
 }
 
 [data-theme="light"] .menuItem:hover {
-  background: rgba(124, 58, 237, 0.05);
-  border-color: rgba(124, 58, 237, 0.2);
+  background: rgba(59, 130, 246, 0.05); /* синий фон для светлой темы */
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
 }
 
 [data-theme="light"] .menuIcon {
@@ -392,11 +386,32 @@
 }
 
 [data-theme="light"] .menuItem:hover .menuIcon {
-  color: #7C3AED;
+  color: #3B82F6; /* синяя иконка */
 }
 
 [data-theme="light"] .menuItem:hover .menuLabel {
-  color: #7C3AED;
+  color: #3B82F6; /* синий текст */
+}
+
+[data-theme="light"] .logoutButton {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .logoutIcon,
+[data-theme="light"] .logoutText {
+  color: #666;
+}
+
+[data-theme="light"] .logoutButton:hover {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.2);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+}
+
+[data-theme="light"] .logoutButton:hover .logoutIcon,
+[data-theme="light"] .logoutButton:hover .logoutText {
+  color: #EF4444;
 }
 
 [data-theme="light"] .version {
@@ -405,7 +420,7 @@
 }
 
 /* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .panel {
     width: 100%;
     max-width: 100%;
