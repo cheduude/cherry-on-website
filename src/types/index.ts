@@ -25,7 +25,7 @@ export interface DropdownMenuProps {
 
 export interface HeaderProps {
   isMobile: boolean;
-  isAuthenticated: boolean;
+  
 }
 
 export interface MenuAuthProps {

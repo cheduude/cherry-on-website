@@ -3,50 +3,35 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { MENU_CONFIG } from '../../../constants/menu';
-import DropdownMenu from './DropdownMenu';
+import ProfilePanel from './ProfilePanel';
 import styles from './MenuAuth.module.css';
 import type { MenuAuthProps, MenuItem } from '../../../types';
 
 const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
   const { isAuthenticated, user, logout } = useAuth();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isLoginExpanded, setIsLoginExpanded] = useState(false);
-  const [isAuthExpanded, setIsAuthExpanded] = useState(false);
-  const authContainerRef = useRef<HTMLDivElement>(null);
+  const [avatarError, setAvatarError] = useState(false);
+  const [mediaType, setMediaType] = useState<'image' | 'video' | 'gif' | 'unknown'>('image');
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const loginLinkRef = useRef<HTMLAnchorElement>(null);
-  
-  // Для мобильной версии показываем только компактную кнопку
-  if (isMobile) {
-    if (isAuthenticated && user) {
-      return (
-        <div className={styles.navigation}>
-          <Link
-            to="/profile"
-            className={styles.mobileAvatarButton}
-          >
-            <img 
-              src={user.avatar || 'https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true'} 
-              alt="Avatar" 
-              className={styles.mobileAvatar}
-            />
-          </Link>
-        </div>
-      );
-    }
-    
-    return (
-      <div className={styles.navigation}>
-        <Link
-          to="/auth"
-          className={styles.mobileLoginButton}
-        >
-          <span className={styles.mobileLoginIcon}>🔐</span>
-        </Link>
-      </div>
-    );
-  }
 
-  // Десктопная версия (остается без изменений)
+  // Определяем тип медиа по URL аватара
+  useEffect(() => {
+    if (user?.avatar) {
+      const url = user.avatar.toLowerCase();
+      if (url.endsWith('.gif') || url.includes('.gif?')) {
+        setMediaType('gif');
+      } else if (url.endsWith('.mp4') || url.endsWith('.webm') || url.endsWith('.ogg') || 
+                 url.includes('.mp4?') || url.includes('.webm?') || url.includes('.ogg?')) {
+        setMediaType('video');
+      } else {
+        setMediaType('image');
+      }
+    }
+  }, [user?.avatar]);
+
+  // Функция для фильтрации пунктов меню
   const getFilteredMenuItems = (): MenuItem[] => {
     if (!isAuthenticated || !user) return [];
 
@@ -68,74 +53,129 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
     }));
   };
 
-  const handleMenuItemClick = (item: MenuItem) => {
-    if (item.id === 'logout') {
-      logout();
-    }
-    closeAuthMenu();
+  // Обработчик выхода
+  const handleLogout = () => {
+    logout();
+    setIsPanelOpen(false);
   };
 
-  const openAuthMenu = () => {
-    setIsAuthExpanded(true);
-    setIsMenuOpen(true);
-  };
-
-  const closeAuthMenu = () => {
-    setIsMenuOpen(false);
-    setIsAuthExpanded(false);
-  };
-
-  const toggleAuthMenu = () => {
-    if (isMenuOpen) {
-      closeAuthMenu();
-    } else {
-      openAuthMenu();
-    }
-  };
-
-  const closeLoginButton = () => {
-    setIsLoginExpanded(false);
-  };
-
-  // Закрытие меню при клике вне его области
+  // Закрытие при клике вне кнопки (для неавторизованного состояния)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       
-      if (authContainerRef.current && !authContainerRef.current.contains(target)) {
-        closeAuthMenu();
-      }
-      
       if (loginLinkRef.current && !loginLinkRef.current.contains(target)) {
-        closeLoginButton();
+        setIsLoginExpanded(false);
       }
     };
 
-    if (isMenuOpen || isLoginExpanded) {
+    if (isLoginExpanded) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isMenuOpen, isLoginExpanded]);
+  }, [isLoginExpanded]);
 
+  // Функция для рендера аватара в кнопке
+  const renderAvatar = (size: 'small' | 'medium' = 'medium') => {
+    if (!user) return null;
+
+    const avatarUrl = user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(
+      user.displayName || user.name || user.username || 'User'
+    )}&background=7C3AED&color=fff&size=${size === 'small' ? 32 : 120}&bold=true`;
+
+    const avatarClass = size === 'small' ? styles.avatar : styles.avatar;
+
+    if (avatarError) {
+      return (
+        <div className={`${avatarClass} ${styles.avatarFallback}`}>
+          {user.displayName?.[0] || user.name?.[0] || user.username?.[0] || 'U'}
+        </div>
+      );
+    }
+
+    switch (mediaType) {
+      case 'video':
+        return (
+          <video
+            className={avatarClass}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onError={() => setAvatarError(true)}
+          >
+            <source src={avatarUrl} type="video/mp4" />
+            <source src={avatarUrl} type="video/webm" />
+            <source src={avatarUrl} type="video/ogg" />
+          </video>
+        );
+      
+      case 'gif':
+      default:
+        return (
+          <img
+            className={avatarClass}
+            src={avatarUrl}
+            alt={user.displayName || user.name || user.username || 'User'}
+            onError={() => setAvatarError(true)}
+          />
+        );
+    }
+  };
+
+  // Для мобильной версии
+  if (isMobile) {
+    if (isAuthenticated && user) {
+      return (
+        <div className={styles.navigation}>
+          <button
+            onClick={() => setIsPanelOpen(true)}
+            className={styles.mobileAvatarButton}
+            aria-label="Открыть профиль"
+          >
+            {renderAvatar('small')}
+          </button>
+          
+          <ProfilePanel
+            isOpen={isPanelOpen}
+            onClose={() => setIsPanelOpen(false)}
+            user={user}
+            menuItems={getFilteredMenuItems()}
+            onLogout={handleLogout}
+          />
+        </div>
+      );
+    }
+    
+    return (
+      <div className={styles.navigation}>
+        <Link
+          to="/auth"
+          className={styles.mobileLoginButton}
+          aria-label="Войти"
+        >
+          <span className={styles.mobileLoginIcon}>🔐</span>
+        </Link>
+      </div>
+    );
+  }
+
+  // Десктопная версия
   return (
     <div className={styles.navigation}>
       {isAuthenticated && user ? (
-        <div 
-          className={styles.authContainer} 
-          ref={authContainerRef}
-        >
+        <>
           <button
-            className={`${styles.loginButton} ${isAuthExpanded ? styles.expanded : ''}`}
-            onClick={toggleAuthMenu}
+            ref={buttonRef}
+            className={`${styles.loginButton} ${isPanelOpen ? styles.expanded : ''}`}
+            onClick={() => setIsPanelOpen(true)}
+            aria-label="Открыть профиль"
+            aria-expanded={isPanelOpen}
           >
-            <img 
-              src={user.avatar || 'https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true'} 
-              alt="Avatar" 
-              className={styles.avatar}
-            />
+            {renderAvatar('small')}
             <div className={styles.buttonContent}>
               <div className={`${styles.buttonText} ${styles.userName}`}>
                 {user.displayName || user.name || user.username || 'Пользователь'}
@@ -143,14 +183,14 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
             </div>
           </button>
           
-          <DropdownMenu
-            isOpen={isMenuOpen}
-            items={getFilteredMenuItems()}
-            userRole={user?.role}
-            onItemClick={handleMenuItemClick}
-            onLogout={logout}
+          <ProfilePanel
+            isOpen={isPanelOpen}
+            onClose={() => setIsPanelOpen(false)}
+            user={user}
+            menuItems={getFilteredMenuItems()}
+            onLogout={handleLogout}
           />
-        </div>
+        </>
       ) : (
         <Link
           to="/auth"
@@ -161,7 +201,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
         >
           <div className={styles.avatarPlaceholder}>
             <img 
-              src="https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true" 
+              src="https://ui-avatars.com/api/?name=User&background=7C3AED&color=fff&size=32&bold=true" 
               alt="Avatar" 
               className={styles.avatar}
             />

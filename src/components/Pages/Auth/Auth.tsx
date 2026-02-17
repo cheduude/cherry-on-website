@@ -9,108 +9,90 @@ import SignupForm from './Reg';
 const Auth: React.FC = () => {
   const [searchParams] = useSearchParams();
   const formParam = searchParams.get('form');
-  const telegramData = searchParams.get('tgAuth');
   const [isLogin, setIsLogin] = useState(true);
   const { login, signup } = useAuth();
   const { showError, showSuccess } = useNotifications();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [shouldShowRegister, setShouldShowRegister] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const checkboxRef = useRef<HTMLInputElement>(null);
   const animationTimeoutRef = useRef<number | null>(null);
   const initTimerRef = useRef<number | null>(null);
-  const telegramProcessedRef = useRef(false);
 
-  // Обработка данных от Telegram из URL (для мобильных с редиректом)
+  // Определяем мобильное устройство
   useEffect(() => {
-    const processTelegramAuth = async () => {
-      if (telegramData && !telegramProcessedRef.current) {
-        telegramProcessedRef.current = true;
-        
-        try {
-          // Декодируем данные из base64
-          const decodedData = JSON.parse(atob(telegramData));
-          
-          // Проверяем наличие обязательных полей
-          if (!decodedData.id || !decodedData.hash) {
-            throw new Error('Invalid Telegram data');
-          }
-
-          setIsSubmitting(true);
-          
-          // Отправляем данные на сервер
-          const response = await fetch("/api/auth/telegram", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(decodedData)
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-
-          const data = await response.json();
-          
-          // Создаем пользователя из данных Telegram
-          const name = `${data.first_name || ''} ${data.last_name || ''}`.trim() || 
-                      data.username || 
-                      `User${data.id}`;
-          
-          const email = data.username ? 
-                       `${data.username}@telegram.com` : 
-                       `id${data.id}@telegram.com`;
-          
-          const avatar = data.photo_url || 
-                        `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=32&bold=true`;
-
-          // Логиним пользователя
-          login({
-            avatar,
-            email,
-            name,
-          });
-          
-          showSuccess('Успешный вход', 'Вы вошли через Telegram');
-          
-          // Убираем параметры из URL
-          navigate('/', { replace: true });
-          
-        } catch (error) {
-          console.error('Telegram auth error:', error);
-          showError(
-            'Ошибка Telegram входа', 
-            'Не удалось войти через Telegram. Попробуйте еще раз.'
-          );
-        } finally {
-          setIsSubmitting(false);
-        }
+    const checkMobile = () => {
+      const isMobileDevice = window.innerWidth <= 767;
+      setIsMobile(isMobileDevice);
+      
+      // Добавляем класс для CSS оптимизации
+      if (isMobileDevice) {
+        document.body.classList.add('auth-mobile');
+      } else {
+        document.body.classList.remove('auth-mobile');
       }
     };
-
-    processTelegramAuth();
-  }, [telegramData, login, navigate, showError, showSuccess]);
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      document.body.classList.remove('auth-mobile');
+    };
+  }, []);
+  
+  useEffect(() => {
+  // Включаем аппаратное ускорение для всех карточек на мобильных
+  if (isMobile) {
+    const style = document.createElement('style');
+    style.textContent = `
+      .card-front, .card-back {
+        -webkit-transform: translateZ(0);
+        -moz-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        -o-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-perspective: 1000;
+        perspective: 1000;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }
+}, [isMobile]);
 
   // Автоматически показываем регистрацию при наличии параметра form=register
   useEffect(() => {
     const isRegisterMode = formParam === 'register';
    
     if (isRegisterMode && !shouldShowRegister) {
+      // Сначала устанавливаем состояние
       setShouldShowRegister(true);
       setIsLogin(false);
      
+      // Добавляем небольшую задержку для инициализации компонента
       initTimerRef.current = window.setTimeout(() => {
         if (checkboxRef.current) {
+          // Запускаем анимацию переворота
           setIsAnimating(true);
           checkboxRef.current.checked = true;
          
+          // Очищаем параметр из URL чтобы при перезагрузке не срабатывало снова
           navigate('/auth', { replace: true });
          
+          // Завершаем анимацию - на мобильных короче
+          const animationDuration = isMobile ? 400 : 800;
           animationTimeoutRef.current = window.setTimeout(() => {
             setIsAnimating(false);
-          }, 800);
+          }, animationDuration);
         }
       }, 100);
     } else if (!isRegisterMode) {
@@ -119,20 +101,29 @@ const Auth: React.FC = () => {
     }
    
     return () => {
-      if (initTimerRef.current) clearTimeout(initTimerRef.current);
-      if (animationTimeoutRef.current) clearTimeout(animationTimeoutRef.current);
+      if (initTimerRef.current) {
+        clearTimeout(initTimerRef.current);
+      }
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
     };
-  }, [formParam, shouldShowRegister, navigate]);
+  }, [formParam, shouldShowRegister, navigate, isMobile]);
 
   // Очистка таймеров
   useEffect(() => {
     return () => {
-      if (initTimerRef.current) clearTimeout(initTimerRef.current);
-      if (animationTimeoutRef.current) clearTimeout(animationTimeoutRef.current);
+      if (initTimerRef.current) {
+        clearTimeout(initTimerRef.current);
+      }
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
       document.body.classList.remove('auth-page-isolated');
     };
   }, []);
 
+  
   const [formData, setFormData] = useState({
     loginEmail: '',
     loginPassword: '',
@@ -279,27 +270,25 @@ const Auth: React.FC = () => {
   // Функция обработки данных Telegram
   const handleTelegramAuth = useCallback(async (userData: any) => {
     console.log('📱 Processing Telegram auth:', userData);
-    
+   
     if (!userData || !userData.id) {
       showError('Ошибка авторизации', 'Не получены данные от Telegram');
       return;
     }
-
     setIsSubmitting(true);
-
     try {
       // Создаем объект пользователя
-      const name = `${userData.first_name || ''} ${userData.last_name || ''}`.trim() || 
-                  userData.username || 
+      const name = `${userData.first_name || ''} ${userData.last_name || ''}`.trim() ||
+                  userData.username ||
                   `User${userData.id}`;
-      
-      const email = userData.username ? 
-                   `${userData.username}@telegram.com` : 
-                   `id${userData.id}@telegram.com`;
-      
-      const avatar = userData.photo_url || 
+     
+      const email = userData.username ?
+                  `${userData.username}@telegram.com` :
+                  `id${userData.id}@telegram.com`;
+     
+      const avatar = userData.photo_url ||
                     `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=128&bold=true`;
-      
+     
       const userForLogin = {
         id: userData.id.toString(),
         name,
@@ -311,30 +300,30 @@ const Auth: React.FC = () => {
         auth_date: userData.auth_date,
         hash: userData.hash
       };
-      
+     
       console.log('🔐 Logging in user:', userForLogin);
-      
+     
       // Вызываем login из useAuth
       await login(userForLogin);
-      
+     
       // Ждем сохранения
       await new Promise(resolve => setTimeout(resolve, 300));
-      
+     
       console.log('✅ Auth completed. Checking localStorage:');
       console.log('   Token:', localStorage.getItem('token') ? '✅ exists' : '❌ missing');
       console.log('   User:', localStorage.getItem('user') ? '✅ exists' : '❌ missing');
-      
+     
       if (localStorage.getItem('user')) {
         console.log('   User data:', JSON.parse(localStorage.getItem('user')!));
       }
-      
+     
       showSuccess('Успешный вход', 'Вы вошли через Telegram');
-      
+     
       // Переходим на главную с задержкой
       setTimeout(() => {
         navigate('/', { replace: true });
       }, 800);
-      
+     
     } catch (error) {
       console.error('❌ Telegram auth error:', error);
       showError('Ошибка авторизации', 'Попробуйте еще раз');
@@ -343,11 +332,13 @@ const Auth: React.FC = () => {
     }
   }, [login, navigate, showError, showSuccess]);
 
+  
+
   // Обработчик сообщений от Telegram OAuth popup и widget
   useEffect(() => {
     const handleTelegramMessage = (event: MessageEvent) => {
       console.log('📨 Message from:', event.origin);
-      
+     
       // Проверяем origin для безопасности
       const allowedOrigins = [
         'https://oauth.telegram.org',
@@ -355,19 +346,19 @@ const Auth: React.FC = () => {
         'https://web.telegram.org',
         window.location.origin
       ];
-      
+     
       if (!allowedOrigins.includes(event.origin)) {
         console.log('Ignored message from unknown origin:', event.origin);
         return;
       }
-      
+     
       // Обрабатываем данные от Telegram OAuth (десктоп)
       if (event.data && event.data.event === 'auth_result') {
         console.log('Telegram OAuth success:', event.data.result);
         handleTelegramAuth(event.data.result);
         return;
       }
-      
+     
       // Обрабатываем данные от Telegram Widget (мобильные)
       let userData;
       if (typeof event.data === 'string') {
@@ -382,26 +373,26 @@ const Auth: React.FC = () => {
       } else {
         return;
       }
-      
+     
       // Проверяем, что это данные авторизации Telegram
       if (!userData.id || !userData.hash) {
         console.log('Not Telegram auth data:', userData);
         return;
       }
-      
+     
       console.log('Processing Telegram widget auth:', userData.id);
       handleTelegramAuth(userData);
     };
-    
+   
     // Глобальная функция для Telegram Widget (мобильные)
     (window as any).onTelegramAuth = (user: any) => {
       console.log('onTelegramAuth called (widget):', user);
       handleTelegramAuth(user);
     };
-    
+   
     // Добавляем обработчик сообщений
     window.addEventListener('message', handleTelegramMessage);
-    
+   
     // Очистка
     return () => {
       window.removeEventListener('message', handleTelegramMessage);
@@ -410,13 +401,26 @@ const Auth: React.FC = () => {
   }, [handleTelegramAuth]);
 
   // Обработчик переключения форм
-  const handleFormToggle = () => {
+  const handleFormToggle = useCallback(() => {
     if (isAnimating) return;
+    
+    setIsAnimating(true);
     setIsLogin(!isLogin);
-  };
+    
+    // На мобильных делаем анимацию короче
+    const animationDuration = isMobile ? 300 : 600;
+    
+    if (animationTimeoutRef.current) {
+      clearTimeout(animationTimeoutRef.current);
+    }
+    
+    animationTimeoutRef.current = window.setTimeout(() => {
+      setIsAnimating(false);
+    }, animationDuration);
+  }, [isAnimating, isLogin, isMobile]);
 
   return (
-    <div className="auth-container">
+    <div className={`auth-container ${isMobile ? 'auth-mobile-view' : ''}`}>
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
@@ -429,7 +433,7 @@ const Auth: React.FC = () => {
                
                 <input
                   ref={checkboxRef}
-                  className={`checkbox ${isAnimating ? 'animate-on-load' : ''}`}
+                  className={`checkbox ${isAnimating ? 'animate-on-load' : ''} ${isMobile ? 'mobile-checkbox' : ''}`}
                   type="checkbox"
                   id="reg-log"
                   name="reg-log"
@@ -438,8 +442,8 @@ const Auth: React.FC = () => {
                 />
                 <label htmlFor="reg-log"></label>
                
-                <div className="card-3d-wrap mx-auto">
-                  <div className="card-3d-wrapper">
+                <div className={`card-3d-wrap mx-auto ${isMobile ? 'mobile-card-3d' : ''}`}>
+                  <div className={`card-3d-wrapper ${isMobile ? 'mobile-card-wrapper' : ''}`}>
                     <LoginForm
                       formData={formData}
                       onInputChange={handleInputChange}
