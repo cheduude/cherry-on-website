@@ -6,9 +6,10 @@ type TabType = 'nginx' | 'haproxy' | 'monitor' | 'panel' | 'mail' | 'cloud' | 'l
 interface SidebarProps {
   activeTab: TabType;
   onTabChange: (tab: TabType) => void;
+  isVisible: boolean;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
+const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isVisible }) => {
   const menuItems = [
     { id: 'nginx', label: 'Nginx', icon: 'fas fa-server', color: '#ff6b6b' },
     { id: 'haproxy', label: 'HAProxy', icon: 'fas fa-exchange-alt', color: '#4ecdc4' },
@@ -22,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   ];
 
   return (
-    <aside className="sidebar admin-sidebar">
+    <aside className={`admin-sidebar ${isVisible ? '' : 'hidden'}`}>
       <div className="sidebar-header">
         <div className="logo">
           <i className="fas fa-cloud"></i>
