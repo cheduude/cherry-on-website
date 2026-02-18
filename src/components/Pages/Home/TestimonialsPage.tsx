@@ -4,8 +4,8 @@ import styles from './TestimonialsPage.module.css';
 import type { Testimonial } from '../../../types/index';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from '@studio-freight/lenis';
 import CustomSelect from './CustomSelect';
+
 // Регистрируем плагин ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,7 +42,6 @@ const TestimonialsPage: React.FC = () => {
   const navigate = useNavigate();
   const formRef = useRef<HTMLDivElement>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const lenisRef = useRef<Lenis | null>(null);
   
   const [testimonials, setTestimonials] = useState<ExtendedTestimonial[]>([
     // Демо-данные
@@ -102,39 +101,12 @@ const TestimonialsPage: React.FC = () => {
   const ratingContainerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Инициализация Lenis для плавного скролла
+  // Применяем глобальный smooth scroll через CSS
   useEffect(() => {
-    // Инициализируем Lenis
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
-      smoothTouch: true,
-      touchMultiplier: 2,
-    });
-
-    // Сохраняем ссылку на Lenis
-    lenisRef.current = lenis;
-
-    // Функция для анимации скролла
-    const raf = (time: number) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
-
-    // Сразу скроллим наверх при инициализации
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'instant' as ScrollBehavior
-      });
-    }, 100);
-
+    // Добавляем класс к html для плавного скролла (или можно напрямую стилизовать)
+    document.documentElement.style.scrollBehavior = 'smooth';
     return () => {
-      lenis.destroy();
-      lenisRef.current = null;
+      document.documentElement.style.scrollBehavior = 'auto';
     };
   }, []);
 
@@ -142,16 +114,16 @@ const TestimonialsPage: React.FC = () => {
   useEffect(() => {
     const hash = location.hash;
     
-    // Маленькая задержка для гарантии, что Lenis инициализирован
+    // Маленькая задержка для гарантии, что DOM готов
     const timer = setTimeout(() => {
       if (hash === '#add-review' || hash === '#addTestimonial') {
         scrollToForm();
       } else {
-        // Если нет хэша, просто скроллим наверх
+        // Если нет хэша, просто скроллим наверх (без анимации)
         window.scrollTo({
           top: 0,
           left: 0,
-          behavior: 'instant' as ScrollBehavior
+          behavior: 'auto' // Мгновенно, чтобы не было конфликтов
         });
       }
     }, 200);
@@ -168,7 +140,7 @@ const TestimonialsPage: React.FC = () => {
       // Получаем позицию формы
       const formTop = formRef.current.offsetTop;
       
-      // Используем нативный скролл для совместимости
+      // Используем нативный плавный скролл
       window.scrollTo({
         top: formTop - 80,
         behavior: 'smooth'
@@ -247,7 +219,7 @@ const TestimonialsPage: React.FC = () => {
     };
   }, []);
 
-  // Эффект для поддержки свайпа (горизонтальная прокрутка на мобильных)
+  // Эффект для поддержки свайпа (горизонтальная прокрутка на мобильных) – без изменений
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
@@ -637,13 +609,13 @@ const TestimonialsPage: React.FC = () => {
             </div>
 
             <div className={styles.filterSort}>
-  <label className={styles.filterLabel}>Сортировка:</label>
-  <CustomSelect
-    options={sortOptions}
-    value={sortBy}
-    onChange={(value) => setSortBy(value as SortOption)}
-  />
-</div>
+              <label className={styles.filterLabel}>Сортировка:</label>
+              <CustomSelect
+                options={sortOptions}
+                value={sortBy}
+                onChange={(value) => setSortBy(value as SortOption)}
+              />
+            </div>
           </div>
         </div>
       </section>

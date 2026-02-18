@@ -209,19 +209,19 @@
   z-index: 1;
   margin: 0;
   
-  /* Полупрозрачный оверлей */
+  /* Полупрозрачный оверлей 
   background: linear-gradient(
     rgba(0, 0, 0, 0.3),
     rgba(0, 0, 0, 0.1)
-  );
+  );*/
 }
 
-[data-theme="light"] .hero {
+/*[data-theme="light"] .hero {
   background: linear-gradient(
     rgba(255, 255, 255, 0.4),
     rgba(255, 255, 255, 0.2)
   );
-}
+}*/
 
 .heroBackground {
   position: absolute;
@@ -229,21 +229,21 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
+  /*background: 
     radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.2) 0%, transparent 50%);*/
   z-index: -1;
   width: 100%;
   height: 100%;
 }
 
-[data-theme="light"] .heroBackground {
+/*[data-theme="light"] .heroBackground {
   background: 
     radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.15) 0%, transparent 50%);
-}
+}*/
 
 .heroContent {
   max-width: 800px;
@@ -1327,22 +1327,22 @@
   margin: 0;
   
   /* Затемненный фон для контраста */
-  background: linear-gradient(
+  /*background: linear-gradient(
     135deg,
     rgba(26, 26, 46, 0.9) 0%,
     rgba(22, 33, 62, 0.9) 50%,
     rgba(15, 52, 96, 0.9) 100%
-  );
+  );*/
 }
 
-[data-theme="light"] .ctaSection {
+/*[data-theme="light"] .ctaSection {
   background: linear-gradient(
     135deg,
     rgba(227, 242, 253, 0.9) 0%,
     rgba(187, 222, 251, 0.9) 50%,
     rgba(144, 202, 249, 0.9) 100%
   );
-}
+}*/
 
 .ctaContent {
   max-width: 800px;
@@ -1357,7 +1357,7 @@
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 700;
   margin-bottom: 1rem;
-  color: var(--color-cta-text);
+  /*color: var(--color-cta-text);*/
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: 1.2;
@@ -1365,7 +1365,7 @@
 
 .ctaText {
   font-size: 1.1rem;
-  color: var(--color-cta-text);
+  /*color: var(--color-cta-text);*/
   opacity: 0.9;
   margin-bottom: 2rem;
   word-wrap: break-word;
