@@ -87,6 +87,17 @@ const SupportPage: React.FC = () => {
     { icon: <FaLightbulb />, value: '100+', label: 'Решенных проблем' }
   ];
 
+
+  useEffect(() => {
+  // Если в URL нет хэша, прокручиваем страницу вверх при загрузке
+  if (!window.location.hash) {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth' // будет использовать глобальное поведение, заданное ниже
+      });
+    }
+    }, []);
   // Инициализация GSAP ScrollTrigger с нативным скроллом
   useEffect(() => {
     // Настройка плавного скролла с помощью CSS
