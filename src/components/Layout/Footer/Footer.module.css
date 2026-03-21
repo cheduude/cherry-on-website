@@ -6,12 +6,17 @@
     var(--color-surface-alt) 50%,
     var(--color-surface) 100%
   );
-  padding: 3rem 0 1.5rem;
+  padding-top: 3rem;
+  padding-right: 0;
+  padding-bottom: 1.5rem;
+  padding-left: 0;
   margin-top: auto;
-  border-top: 1px solid var(--color-glass-border);
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--color-glass-border);
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 [data-theme="dark"] .footer {
@@ -22,6 +27,12 @@
     var(--color-surface) 100%
   );
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.footerContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 /* Декоративный элемент */
@@ -39,13 +50,20 @@
     var(--color-accent) 100%
   );
   opacity: 0.7;
+  z-index: 2;
 }
 
 /* Контейнер */
 .container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 20px;
   position: relative;
   z-index: 1;
 }
@@ -63,24 +81,41 @@
 .contactsSection,
 .documentsSection,
 .socialSection {
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
 }
 
 .sectionTitle {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--color-accent);
+  margin-top: 0;
+  margin-right: 0;
   margin-bottom: 1.2rem;
+  margin-left: 0;
+  padding-top: 0;
+  padding-right: 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--color-accent);
+  padding-left: 0;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--color-accent);
   display: inline-block;
 }
 
 /* Карта сайта */
 .sitemap {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  list-style-type: none;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
 }
 
 .sitemapItem {
@@ -94,10 +129,15 @@
   color: var(--color-text);
   text-decoration: none;
   font-size: 0.95rem;
-  padding: 0.4rem 0;
-  transition: all 0.3s ease;
-  border-radius: 6px;
+  padding-top: 0.4rem;
+  padding-right: 0;
+  padding-bottom: 0.4rem;
   padding-left: 0.5rem;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  border-radius: 6px;
 }
 
 .sitemapLink:hover {
@@ -110,6 +150,10 @@
 .linkIcon {
   font-size: 1rem;
   opacity: 0.8;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
 .sitemapLink:hover .linkIcon {
@@ -124,41 +168,102 @@
   gap: 0.8rem;
 }
 
+/* Базовые стили для всех contactItem */
 .contactItem {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  border-radius: 6px;
+  padding-top: 0.4rem;
+  padding-right: 0;
+  padding-bottom: 0.4rem;
+  padding-left: 0.5rem;
+  margin-left: -0.5rem;
+  width: calc(100% + 0.5rem);
+  text-decoration: none;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  cursor: pointer;
+}
+
+/* Стили для кликабельных контактов (почта и Telegram) */
+.contactItemLink {
+  cursor: pointer;
+}
+
+.contactItemLink:hover {
+  color: var(--color-accent);
+  transform: translateX(5px);
+  background: var(--color-glass-hover);
+  padding-left: 0.8rem;
+}
+
+/* Стили для элемента с временем (без эффекта наведения) */
+.contactItem.timeItem {
+  cursor: default;
+}
+
+.contactItem.timeItem:hover {
+  background: none;
+  transform: none;
+  color: var(--color-text);
+  padding-left: 0.5rem;
 }
 
 .contactIcon {
   font-size: 1rem;
   opacity: 0.7;
   flex-shrink: 0;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
-.contactLink {
-  color: var(--color-accent);
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
+/* Стили для изображения Telegram */
+.contactItem img.contactIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: brightness(0.7);
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
-.contactLink:hover {
-  color: var(--color-accent-hover);
-  text-decoration: underline;
+.contactItemLink:hover .contactIcon {
+  opacity: 1;
+  transform: scale(1.1);
 }
 
+.contactItemLink:hover img.contactIcon {
+  filter: brightness(1);
+  transform: scale(1.1);
+}
+
+/* Стили для текста контактов */
 .contactText {
-  color: var(--color-text);
+  color: inherit;
   font-size: 0.95rem;
   line-height: 1.4;
 }
 
 /* Документы */
 .documentsList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  list-style-type: none;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
 }
 
 .documentItem {
@@ -169,11 +274,18 @@
   color: var(--color-text-muted);
   text-decoration: none;
   font-size: 0.9rem;
-  padding: 0.3rem 0;
-  display: block;
-  transition: all 0.3s ease;
-  border-left: 2px solid transparent;
+  padding-top: 0.3rem;
+  padding-right: 0;
+  padding-bottom: 0.3rem;
   padding-left: 0.5rem;
+  display: block;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  border-left-width: 2px;
+  border-left-style: solid;
+  border-left-color: transparent;
 }
 
 .documentLink:hover {
@@ -196,11 +308,19 @@
   color: var(--color-text);
   text-decoration: none;
   font-size: 0.95rem;
-  padding: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   background: var(--color-surface);
-  border: 1px solid var(--color-glass-border);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
 }
 
 .socialLink:hover {
@@ -220,7 +340,10 @@
 
 /* Средняя часть с разделителем */
 .footerMiddle {
-  margin: 1.5rem 0;
+  margin-top: 1.5rem;
+  margin-right: 0;
+  margin-bottom: 1.5rem;
+  margin-left: 0;
 }
 
 .divider {
@@ -251,7 +374,10 @@
 .copyrightText {
   color: var(--color-text-muted);
   font-size: 0.9rem;
+  margin-top: 0;
+  margin-right: 0;
   margin-bottom: 0.5rem;
+  margin-left: 0;
 }
 
 .disclaimer {
@@ -259,6 +385,10 @@
   font-size: 0.8rem;
   opacity: 0.7;
   font-style: italic;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
 }
 
 /* Кнопка "Наверх" */
@@ -268,26 +398,37 @@
   gap: 0.5rem;
   background: var(--color-surface);
   color: var(--color-accent);
-  border: 1px solid var(--color-accent);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-accent);
   border-radius: 25px;
-  padding: 0.6rem 1.2rem;
+  padding-top: 0.6rem;
+  padding-right: 1.2rem;
+  padding-bottom: 0.6rem;
+  padding-left: 1.2rem;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   box-shadow: 0 2px 8px rgba(77, 171, 247, 0.1);
 }
 
 .scrollTopButton:hover {
   background: var(--color-accent);
-  color: white;
+  color: rgb(255, 255, 255);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(77, 171, 247, 0.2);
 }
 
 .scrollTopIcon {
   font-size: 1rem;
-  transition: transform 0.3s ease;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
 .scrollTopButton:hover .scrollTopIcon {
@@ -298,7 +439,173 @@
   display: none;
 }
 
-/* Адаптивность */
+/* ========== КНОПКИ СКРЫТИЯ/ПОКАЗА ФУТЕРА ========== */
+
+/* Общие стили для иконок стрелок */
+.arrowIcon {
+  width: 24px;
+  height: 24px;
+  color: currentColor;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+}
+
+/* Кнопка скрытия футера - стрелка вниз */
+.hideFooterButton {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--color-surface);
+  color: var(--color-accent);
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--color-accent);
+  border-radius: 50%;
+  cursor: pointer;
+  transition-property: background-color, color, box-shadow;
+  transition-duration: 0.3s, 0.3s, 0.3s;
+  transition-timing-function: ease, ease, ease;
+  transition-delay: 0s, 0s, 0s;
+  box-shadow: 0 2px 10px rgba(77, 171, 247, 0.2);
+  z-index: 20;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+}
+
+.hideFooterButton:hover {
+  background: var(--color-accent);
+  color: rgb(255, 255, 255);
+  transform: translateX(-50%);
+  box-shadow: 0 4px 15px rgba(77, 171, 247, 0.3);
+}
+
+.hideFooterButton:active {
+  transform: translateX(-50%);
+}
+
+.hideFooterButton:hover .arrowIcon {
+  transform: translateY(2px);
+}
+
+/* Контейнер для области кнопки показа */
+.showButtonArea {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  background: transparent;
+  cursor: default;
+}
+
+/* Кнопка показа футера - стрелка вверх с анимацией появления/исчезновения */
+.showFooterButton {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 20px rgba(77, 171, 247, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition-property: opacity, transform, background-color, box-shadow;
+  transition-duration: 0.5s, 0.3s, 0.3s, 0.3s;
+  transition-timing-function: ease, cubic-bezier(0.4, 0, 0.2, 1), ease, ease;
+  transition-delay: 0s, 0s, 0s, 0s;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+  animation: none;
+}
+
+.showFooterButton.visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.showFooterButton.hidden {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.showFooterButton:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 8px 30px rgba(77, 171, 247, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, var(--color-accent-hover) 0%, var(--color-accent) 100%);
+}
+
+.showFooterButton:active {
+  transform: scale(0.98);
+}
+
+.showFooterButton:hover .arrowIcon {
+  transform: translateY(-2px);
+}
+
+/* Эффект пульсации для кнопки показа (только когда видима) */
+.showFooterButton.visible::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+  opacity: 0.2;
+  z-index: -1;
+  animation-name: pulse;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.2;
+  }
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
 
 /* Планшеты и небольшие экраны */
 @media (max-width: 992px) {
@@ -308,7 +615,10 @@
   }
   
   .footer {
-    padding: 2rem 0 1.5rem;
+    padding-top: 2rem;
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+    padding-left: 0;
   }
 }
 
@@ -339,18 +649,55 @@
   .contactsSection,
   .documentsSection,
   .socialSection {
-    padding: 1rem 0;
+    padding-top: 1rem;
+    padding-right: 0;
+    padding-bottom: 1rem;
+    padding-left: 0;
   }
   
   .container {
-    padding: 0 15px;
+    padding-top: 0;
+    padding-right: 15px;
+    padding-bottom: 0;
+    padding-left: 15px;
+  }
+  
+  /* Адаптация кнопок для мобильных */
+  .hideFooterButton {
+    top: -20px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .showButtonArea {
+    bottom: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+  }
+  
+  .showFooterButton {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .arrowIcon {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .showFooterButton.visible::before {
+    display: none;
   }
 }
 
 /* Мелкие мобильные устройства */
 @media (max-width: 480px) {
   .footer {
-    padding: 1.5rem 0 1rem;
+    padding-top: 1.5rem;
+    padding-right: 0;
+    padding-bottom: 1rem;
+    padding-left: 0;
   }
   
   .footerTop {
@@ -363,7 +710,7 @@
   }
   
   .sitemapLink,
-  .contactLink,
+  .contactItem,
   .contactText,
   .documentLink,
   .socialText {
@@ -377,12 +724,36 @@
   .disclaimer {
     font-size: 0.75rem;
   }
+  
+  /* Адаптация кнопок для маленьких экранов */
+  .hideFooterButton {
+    top: -18px;
+    width: 36px;
+    height: 36px;
+  }
+  
+  .showButtonArea {
+    bottom: 15px;
+    right: 15px;
+    width: 60px;
+    height: 60px;
+  }
+  
+  .showFooterButton {
+    width: 46px;
+    height: 46px;
+  }
+  
+  .arrowIcon {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 /* Улучшение touch-событий для мобильных */
 @media (hover: none) and (pointer: coarse) {
   .sitemapLink:active,
-  .contactLink:active,
+  .contactItemLink:active,
   .documentLink:active,
   .socialLink:active {
     transform: scale(0.98);
@@ -391,10 +762,19 @@
   .scrollTopButton:active {
     transform: scale(0.98);
   }
+  
+  .hideFooterButton:active,
+  .showFooterButton:active {
+    transform: scale(0.95);
+  }
 }
 
 /* Темная тема улучшения */
 [data-theme="dark"] .sitemapLink:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .contactItemLink:hover {
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -411,7 +791,23 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Анимации */
+[data-theme="dark"] .contactItemLink:hover img.contactIcon {
+  filter: brightness(1.2);
+}
+
+[data-theme="dark"] .hideFooterButton {
+  background: var(--color-surface);
+}
+
+[data-theme="dark"] .hideFooterButton:hover {
+  background: var(--color-accent);
+}
+
+[data-theme="dark"] .showFooterButton {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+}
+
+/* Анимация для футера */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -424,5 +820,12 @@
 }
 
 .footer {
-  animation: fadeInUp 0.6s ease-out;
+  animation-name: fadeInUp;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-out;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
 }

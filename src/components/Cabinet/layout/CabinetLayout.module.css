@@ -1,0 +1,236 @@
+/* src/components/Cabinet/layout/CabinetLayout.module.css */
+
+.cabinetContainer {
+  display: flex;
+  min-height: 95vh;
+  background: var(--color-bg);
+  position: relative;
+}
+
+/* =========================
+   ДЕСКТОПНЫЙ САЙДБАР
+   ========================= */
+.sidebar {
+  width: 280px;
+  background: var(--color-surface);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid var(--color-glass-border);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  z-index: 10;
+}
+
+.sidebarHeader {
+  padding: 32px 24px;
+  border-bottom: 1px solid var(--color-glass-border);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+.userEmail {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebarNav {
+  flex: 1;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+}
+
+.navLink:hover {
+  background: var(--color-glass-hover);
+  color: var(--color-accent);
+}
+
+.navLink.active {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(109, 40, 217, 0.1));
+  border-left: 3px solid var(--color-accent);
+  color: var(--color-accent);
+}
+
+.navIcon {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+.navLabel {
+  font-weight: 500;
+}
+
+.sidebarFooter {
+  padding: 24px;
+  border-top: 1px solid var(--color-glass-border);
+}
+
+.logoutButton {
+  width: 100%;
+  padding: 10px 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  color: var(--color-danger);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.logoutButton:hover {
+  background: rgba(239, 68, 68, 0.2);
+  transform: translateX(4px);
+}
+
+/* =========================
+   МОБИЛЬНЫЙ ХЕДЕР
+   ========================= */
+.mobileHeader {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--color-surface);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-glass-border);
+  align-items: center;
+  padding: 0 16px;
+  z-index: 20;
+}
+
+.menuToggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--color-text);
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+.mobileLogo {
+  flex: 1;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mobileUserEmail {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--color-glass-border);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 15;
+}
+
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.mobileNavLink.active {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(109, 40, 217, 0.1));
+  border-left: 3px solid var(--color-accent);
+  color: var(--color-accent);
+}
+
+.mobileLogoutButton {
+  margin-top: 8px;
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  color: var(--color-danger);
+  cursor: pointer;
+}
+
+/* =========================
+   ОСНОВНОЙ КОНТЕНТ
+   ========================= */
+.content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  border-radius: 28px;
+  background: var(--color-surface-alt);
+  margin: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* =========================
+   АДАПТИВНОСТЬ
+   ========================= */
+@media (max-width: 768px) {
+  .cabinetContainer {
+    padding-top: 60px;
+  }
+  .sidebar {
+    display: none;
+  }
+  
+  .mobileHeader {
+    display: flex;
+  }
+  
+  .content {
+    margin: 12px;
+    padding: 20px;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 16px;
+  }
+}

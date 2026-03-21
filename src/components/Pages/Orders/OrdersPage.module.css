@@ -1,0 +1,1022 @@
+/* ===============================
+   ОСНОВНОЙ КОНТЕЙНЕР
+   =============================== */
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(
+    180deg,
+    var(--color-bg) 0%,
+    var(--color-home-services-bg) 30%,
+    var(--color-home-testimonials-bg) 60%,
+    var(--color-cta-start) 90%,
+    var(--color-cta-end) 100%
+  );
+}
+
+/* ===============================
+   ГЕРОЙ СЕКЦИЯ
+   =============================== */
+
+.hero {
+  min-height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 60px 20px 40px;
+  overflow: hidden;
+  width: 100%;
+  z-index: 1;
+  /*background: linear-gradient(
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.1)
+  );*/
+}
+
+/*[data-theme="light"] .hero {
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.2)
+  );
+}*/
+
+.heroBackground {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.heroContent {
+  max-width: 800px;
+  text-align: center;
+  z-index: 1;
+  width: 100%;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.heroSubtitle {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: var(--color-text);
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+.gradientText {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #4facfe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline;
+}
+
+.goToServicesButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 10px 24px 10px 20px;
+  background: var(--color-surface);
+  color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.goToServicesButton:hover {
+  background: var(--color-accent);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.goToServicesButton:active {
+  transform: translateY(0);
+}
+
+/* ===============================
+   СТАТИСТИКА
+   =============================== */
+
+.statsSection {
+  padding: 40px 20px 20px;
+}
+
+.statsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.statCard {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 20px 15px;
+  text-align: center;
+  border: 1px solid var(--color-glass-border);
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-medium);
+  border-color: var(--color-accent);
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+/* ===============================
+   ФИЛЬТРЫ
+   =============================== */
+
+.filtersSection {
+  padding: 20px;
+}
+
+.filtersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.filterButton {
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-glass-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.filterButton:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.activeFilter {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.activeFilter:hover {
+  background: var(--color-accent-hover);
+}
+
+/* ===============================
+   СПИСОК ЗАКАЗОВ
+   =============================== */
+
+.ordersSection {
+  padding: 20px 20px 60px;
+  min-height: 400px;
+}
+
+.ordersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.orderCard {
+  background: var(--color-surface);
+  border-radius: 16px;
+  border: 1px solid var(--color-glass-border);
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.orderCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
+  border-color: var(--color-accent);
+}
+
+.orderHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--color-glass-border);
+}
+
+.orderIconWrapper {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--color-accent) 10%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent-hover) 5%, transparent) 100%);
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.orderIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-accent);
+}
+
+.orderInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.orderName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.orderDate {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.orderStatus {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.orderBody {
+  padding: 12px 16px;
+  flex: 1;
+}
+
+.orderDescription {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.orderFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px 16px;
+  border-top: 1px solid var(--color-glass-border);
+}
+
+.orderPrice {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.orderNumber {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-family: monospace;
+}
+
+.orderActions {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px;
+}
+
+.payButton {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  color: white;
+}
+
+.payButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+}
+
+.payButton:active {
+  transform: translateY(0);
+}
+
+.cancelButton {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-glass-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+.cancelButton:hover {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  transform: translateY(-2px);
+}
+
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===============================
+   ЗАГРУЗКА И ОШИБКИ
+   =============================== */
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--color-accent);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.errorText {
+  font-size: 1.1rem;
+  color: #e74c3c;
+  margin-bottom: 20px;
+}
+
+.retryButton {
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  background: var(--color-accent);
+  color: white;
+}
+
+.retryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* ===============================
+   ПУСТОЙ СОСТОЯНИЕ
+   =============================== */
+
+.emptyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.emptyTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 10px;
+}
+
+.emptyText {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.emptyButton {
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.emptyButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* ===============================
+   НЕ АВТОРИЗОВАН
+   =============================== */
+
+.notAuthorized {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.notAuthorizedTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 15px;
+}
+
+.notAuthorizedText {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  margin-bottom: 25px;
+}
+
+.notAuthorizedLink {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.notAuthorizedLink:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+/* ===============================
+   МОДАЛЬНОЕ ОКНО - УНИВЕРСАЛЬНОЕ РЕШЕНИЕ
+   =============================== */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modalContent {
+  background: var(--color-surface);
+  border-radius: 20px;
+  max-width: 500px;
+  width: calc(100% - 40px);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  position: absolute;
+  border: 1px solid var(--color-glass-border);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modalClose {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  line-height: 1;
+  padding: 0;
+}
+
+.modalClose:hover {
+  background: var(--color-accent);
+  color: white;
+  transform: rotate(90deg);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px 60px 15px 30px;
+  border-bottom: 1px solid var(--color-glass-border);
+}
+
+.modalTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+  flex: 1;
+}
+
+.modalStatus {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.modalBody {
+  padding: 20px 30px;
+}
+
+.modalRow {
+  display: flex;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.modalLabel {
+  width: 120px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.modalValue {
+  flex: 1;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  word-break: break-word;
+}
+
+.modalPrice {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.modalFooter {
+  display: flex;
+  gap: 12px;
+  padding: 20px 30px 30px;
+  border-top: 1px solid var(--color-glass-border);
+}
+
+.modalPayButton {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  color: white;
+}
+
+.modalPayButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+}
+
+.modalCancelButton {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-glass-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+.modalCancelButton:hover {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  transform: translateY(-2px);
+}
+
+.modalCancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===============================
+   АДАПТИВНОСТЬ
+   =============================== */
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 40px 20px 30px;
+    min-height: 25vh;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .statsContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .statValue {
+    font-size: 1.5rem;
+  }
+
+  .statLabel {
+    font-size: 0.8rem;
+  }
+
+  .filtersContainer {
+    gap: 8px;
+  }
+
+  .filterButton {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .ordersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .goToServicesButton {
+    margin-top: 15px;
+    padding: 8px 20px 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .orderHeader {
+    gap: 8px;
+  }
+
+  .orderIconWrapper {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+
+  .orderIcon {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Адаптивность модального окна */
+  .modalOverlay {
+    padding: 16px;
+  }
+
+  .modalContent {
+    width: calc(100% - 32px);
+    max-height: calc(100vh - 32px);
+    border-radius: 16px;
+  }
+
+  .modalHeader {
+    padding: 20px 50px 15px 20px;
+  }
+
+  .modalBody {
+    padding: 20px;
+  }
+
+  .modalFooter {
+    padding: 20px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .modalRow {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .modalLabel {
+    width: auto;
+  }
+
+  .modalPayButton,
+  .modalCancelButton {
+    width: 100%;
+  }
+
+  .modalClose {
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 30px 20px 25px;
+  }
+
+  .heroTitle {
+    font-size: 1.6rem;
+  }
+
+  .heroSubtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .statsContainer {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .statCard {
+    padding: 15px;
+  }
+
+  .orderHeader {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .orderIconWrapper {
+    width: 32px;
+    height: 32px;
+    padding: 5px;
+  }
+
+  .orderIcon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .orderInfo {
+    width: 100%;
+  }
+
+  .orderStatus {
+    width: 100%;
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  .orderActions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Адаптивность модального окна для маленьких экранов */
+  .modalContent {
+    width: calc(100% - 20px);
+    max-height: calc(100vh - 20px);
+    border-radius: 16px;
+  }
+
+  .modalHeader {
+    padding: 18px 45px 12px 18px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .modalTitle {
+    width: 100%;
+  }
+
+  .modalStatus {
+    width: 100%;
+    text-align: center;
+    margin-right: 0;
+  }
+
+  .modalClose {
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.3rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ordersGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===============================
+   ТЕМНАЯ ТЕМА
+   =============================== */
+
+[data-theme="dark"] .statCard,
+[data-theme="dark"] .filterButton,
+[data-theme="dark"] .orderCard,
+[data-theme="dark"] .modalContent {
+  background: var(--color-surface);
+}
+
+[data-theme="dark"] .activeFilter {
+  background: var(--color-accent);
+  color: white;
+}
+
+[data-theme="dark"] .payButton {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+}
+
+[data-theme="dark"] .cancelButton {
+  background: var(--color-surface-alt);
+  border-color: var(--color-glass-border);
+}
+
+[data-theme="dark"] .orderIconWrapper {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--color-accent) 15%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent-hover) 10%, transparent) 100%);
+  border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+[data-theme="dark"] .orderIcon {
+  color: var(--color-accent);
+}
+
+/* ===============================
+   ПЛАВНЫЕ ПЕРЕХОДЫ
+   =============================== */
+
+.orderCard,
+.statCard,
+.filterButton,
+.payButton,
+.cancelButton,
+.modalClose,
+.goToServicesButton,
+.emptyButton,
+.retryButton {
+  transition: all 0.3s ease;
+}
+
+/* ===============================
+   УЛУЧШЕННАЯ ДОСТУПНОСТЬ
+   =============================== */
+
+.filterButton:focus-visible,
+.payButton:focus-visible,
+.cancelButton:focus-visible,
+.modalClose:focus-visible,
+.goToServicesButton:focus-visible,
+.emptyButton:focus-visible,
+.retryButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ===============================
+   ПРЕДПОЧТЕНИЕ РЕДУЦИРОВАННОГО ДВИЖЕНИЯ
+   =============================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  .orderCard:hover,
+  .goToServicesButton:hover,
+  .payButton:hover,
+  .cancelButton:hover,
+  .modalClose:hover {
+    transform: none !important;
+  }
+
+  .modalContent {
+    animation: none;
+  }
+}

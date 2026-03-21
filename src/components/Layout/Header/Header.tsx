@@ -8,6 +8,7 @@ import CherryLogo from '../../CherryLogo/CherryLogo';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import { useAuth } from '../../../hooks/useAuth';
 import { MENU_CONFIG } from '../../../constants/menu';
+import NotificationBell from './NotificationBell';
 
 const Header: React.FC<HeaderProps> = ({ isMobile }) => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -104,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                 <Link to="/services" className={styles.navLink}>Услуги</Link>
               </li>
               <li className={styles.navItem}>
-                <Link to="/contacts" className={styles.navLink}>Контакты</Link>
+                <Link to="/testimonials" className={styles.navLink}>Отзывы</Link>
               </li>
               <li className={styles.navItem}>
                 <Link to="/admin" className={styles.navLink}>Админка</Link>
@@ -115,7 +116,16 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
         
         {/* Правая часть: авторизация (только для десктопа) */}
         <div className={styles.rightSection}>
-          {!isMobile && <MenuAuth isMobile={false} />}
+          {!isMobile && (
+            <>
+              <MenuAuth isMobile={false} />
+              <NotificationBell />
+            </>
+          )}
+                    {/* Для мобильной версии: показываем NotificationBell и ThemeToggle */}
+          {isMobile && (
+            <NotificationBell />
+          )}
           <ThemeToggle />
         </div>
       </div>
@@ -226,16 +236,7 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                       <span className={styles.mobileNavText}>Услуги</span>
                     </Link>
                   </li>
-                  <li className={styles.mobileNavItem}>
-                    <Link
-                      to="/contacts"
-                      className={styles.mobileNavLink}
-                      onClick={closeMenu}
-                    >
-                      <span className={styles.mobileNavIcon}>📞</span>
-                      <span className={styles.mobileNavText}>Контакты</span>
-                    </Link>
-                  </li>
+                  
                   {!isAuthenticated && (
                     <li className={styles.mobileNavItem}>
                       <Link
@@ -251,7 +252,15 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                 </ul>
               </nav>
             </div>
-            
+                        {/* Блок уведомлений для мобильных */}
+            {isAuthenticated && (
+              <div className={styles.mobileNotifications}>
+                <div className={styles.mobileNotificationsHeader}>
+                  <NotificationBell />
+                  <span className={styles.mobileNotificationsTitle}>Уведомления</span>
+                </div>
+              </div>
+            )}
             {/* Блок поддержки */}
             <div className={styles.supportSection}>
               <div className={styles.supportTitle}>

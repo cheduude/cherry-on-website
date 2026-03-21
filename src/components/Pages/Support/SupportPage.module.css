@@ -1,4 +1,4 @@
-/* ===== SupportPage.module.css (очищенная версия) ===== */
+/* ===== SupportPage.module.css ===== */
 
 /* ===== ОСНОВНЫЕ СТИЛИ ===== */
 .container {
@@ -7,8 +7,14 @@
   overflow-x: hidden;
   width: 100%;
   position: relative;
-  margin: 0;
-  padding: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
   background: linear-gradient(
     180deg,
     var(--color-bg) 0%,
@@ -26,7 +32,10 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 60px 20px;
+  padding-top: 60px;
+  padding-right: 20px;
+  padding-bottom: 60px;
+  padding-left: 20px;
   overflow: hidden;
   z-index: 1;
   background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
@@ -42,10 +51,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /*background: 
-    radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.2) 0%, transparent 50%);*/
   z-index: -1;
 }
 
@@ -54,7 +59,10 @@
   text-align: center;
   z-index: 1;
   width: 100%;
-  padding: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
 }
 
 .heroTitle {
@@ -92,12 +100,18 @@
 
 .primaryButton,
 .secondaryButton {
-  padding: 14px 28px;
+  padding-top: 14px;
+  padding-right: 28px;
+  padding-bottom: 14px;
+  padding-left: 28px;
   border-radius: 50px;
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   display: inline-block;
   min-width: 160px;
   text-align: center;
@@ -109,7 +123,7 @@
 
 .primaryButton {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: rgb(255, 255, 255);
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
 }
 
@@ -121,7 +135,9 @@
 .secondaryButton {
   background: var(--color-surface);
   color: var(--color-accent);
-  border: 2px solid var(--color-accent);
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--color-accent);
 }
 
 .secondaryButton:hover {
@@ -131,7 +147,10 @@
 
 /* ===== СТАТИСТИКА ===== */
 .statsSection {
-  padding: 40px 20px;
+  padding-top: 40px;
+  padding-right: 20px;
+  padding-bottom: 40px;
+  padding-left: 20px;
 }
 
 .statsContainer {
@@ -139,16 +158,27 @@
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 20px;
   max-width: 1200px;
-  margin: 0 auto;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
 }
 
 .statsCard {
   background: var(--color-surface);
   border-radius: 16px;
-  padding: 25px 15px;
+  padding-top: 25px;
+  padding-right: 15px;
+  padding-bottom: 25px;
+  padding-left: 15px;
   text-align: center;
-  transition: all 0.3s ease;
-  border: 1px solid var(--color-glass-border);
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
   box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
@@ -206,17 +236,28 @@
 
 /* ===== FAQ ===== */
 .faqSection {
-  padding: 40px 20px;
+  padding-top: 40px;
+  padding-right: 20px;
+  padding-bottom: 40px;
+  padding-left: 20px;
 }
 
 .faqContainer {
   max-width: 800px;
-  margin: 0 auto;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
   background: var(--color-surface);
   border-radius: 16px;
-  padding: 30px;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  padding-left: 30px;
   box-shadow: var(--shadow-medium);
-  border: 1px solid var(--color-glass-border);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
 }
 
 .faqItem {
@@ -224,8 +265,13 @@
   border-radius: 12px;
   margin-bottom: 15px;
   overflow: hidden;
-  border: 1px solid var(--color-glass-border);
-  transition: all 0.3s ease;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   cursor: pointer;
 }
 
@@ -242,7 +288,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 20px;
+  padding-top: 18px;
+  padding-right: 20px;
+  padding-bottom: 18px;
+  padding-left: 20px;
   background: var(--color-surface);
 }
 
@@ -250,7 +299,10 @@
   font-size: 1rem;
   font-weight: 600;
   color: var(--color-text);
-  margin: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
   flex: 1;
   text-align: left;
 }
@@ -266,7 +318,10 @@
 
 .faqIcon {
   color: var(--color-accent);
-  transition: transform 0.3s ease;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
 .faqItemOpen .faqIcon {
@@ -274,16 +329,25 @@
 }
 
 .faqAnswer {
-  padding: 0 20px;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 20px;
   max-height: 0;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   opacity: 0;
 }
 
 .faqAnswerOpen {
   max-height: 500px;
-  padding: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
   opacity: 1;
 }
 
@@ -291,129 +355,59 @@
   font-size: 0.95rem;
   color: var(--color-text-muted);
   line-height: 1.5;
-  margin: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
 }
 
 /* ===== ЧАТ ===== */
 .chatSection {
-  padding: 40px 20px;
+  padding-top: 40px;
+  padding-right: 20px;
+  padding-bottom: 40px;
+  padding-left: 20px;
 }
 
 .chatContainer {
   max-width: 1200px;
-  margin: 0 auto;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
 }
 
 .chatCard {
   background: var(--color-surface);
   border-radius: 16px;
   box-shadow: var(--shadow-medium);
-  border: 1px solid var(--color-glass-border);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
   overflow: hidden;
   display: flex;
   min-height: 500px;
 }
 
-/* Боковая панель (десктоп) */
-.chatSidebar {
-  width: 280px;
-  background: var(--color-surface-alt);
-  border-right: 1px solid var(--color-glass-border);
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebarHeader {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 25px;
-}
-
-.sidebarIcon {
-  font-size: 1.4rem;
-  color: var(--color-accent);
-}
-
-.sidebarTitle {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-text);
-  margin: 0;
-}
-
-.suggestionsList {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 25px;
-}
-
-.suggestionButton {
-  background: var(--color-surface);
-  border: 1px solid var(--color-glass-border);
-  border-radius: 10px;
-  padding: 12px 16px;
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.9rem;
-  color: var(--color-text);
-  font-family: inherit;
-}
-
-.suggestionButton:hover:not(:disabled) {
-  background: var(--color-glass-hover);
-  border-color: var(--color-accent);
-  transform: translateX(5px);
-}
-
-.suggestionButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.contactInfo {
-  padding-top: 20px;
-  border-top: 1px solid var(--color-glass-border);
-}
-
-.contactTitle {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  margin-bottom: 15px;
-}
-
-.contactItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-  font-size: 0.9rem;
-  color: var(--color-text);
-}
-
-.contactIcon {
-  color: var(--color-accent);
-  font-size: 0.9rem;
-}
-
-/* Основная область чата */
+/* Основная область чата (сайдбар скрыт) */
 .chatMain {
   flex: 1;
   display: flex;
   flex-direction: column;
   position: relative;
-  min-height: 0; /* Важно для работы overflow внутри */
-  height: 100%;
+  min-height: 0;
+  height: auto;
+  width: 100%;
 }
 
 .chatHeader {
-  padding: 20px 25px;
-  border-bottom: 1px solid var(--color-glass-border);
+  padding-top: 20px;
+  padding-right: 25px;
+  padding-bottom: 20px;
+  padding-left: 25px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--color-glass-border);
   background: var(--color-surface);
   display: flex;
   align-items: center;
@@ -428,7 +422,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .chatAvatarIcon {
@@ -443,24 +437,33 @@
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--color-text);
-  margin: 0 0 5px 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 5px;
+  margin-left: 0;
 }
 
 .chatStatus {
   font-size: 0.85rem;
   color: var(--color-text-muted);
-  margin: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
 }
 
 .chatMessages {
   flex: 1;
-  padding: 25px;
+  padding-top: 25px;
+  padding-right: 25px;
+  padding-bottom: 25px;
+  padding-left: 25px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
   max-height: 400px;
-  min-height: 0; /* Обеспечивает сжатие */
+  min-height: 0;
   scroll-behavior: auto;
 }
 
@@ -478,12 +481,26 @@
   border-radius: 3px;
 }
 
-/* Сообщения */
+/* Обертки для сообщений - ИСПРАВЛЕНО */
+.messageWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Сообщения - ИСПРАВЛЕНО */
 .message {
   display: flex;
   gap: 12px;
   max-width: 85%;
-  animation: messageAppear 0.3s ease;
+  animation-name: messageAppear;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
 }
 
 @keyframes messageAppear {
@@ -499,11 +516,13 @@
 
 .message--ai {
   align-self: flex-start;
+  margin-right: auto;
 }
 
 .message--user {
   align-self: flex-end;
   flex-direction: row-reverse;
+  margin-left: auto;
 }
 
 .messageAvatar {
@@ -519,36 +538,47 @@
   align-items: center;
   justify-content: center;
   font-size: 0.9rem;
+  overflow: hidden;
 }
 
 .avatarAI {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .avatarUser {
   background: var(--color-glass-hover);
   color: var(--color-accent);
-  border: 1px solid var(--color-accent);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-accent);
+  position: relative;
+  overflow: hidden;
+  padding: 0;
 }
 
 .messageContent {
   background: var(--color-surface-alt);
   border-radius: 18px;
-  padding: 12px 16px;
+  padding-top: 12px;
+  padding-right: 16px;
+  padding-bottom: 12px;
+  padding-left: 16px;
   position: relative;
-  max-width: calc(100% - 50px);
+  
 }
 
 .message--user .messageContent {
   background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
-  color: white;
+  color: rgb(255, 255, 255);
   border-bottom-right-radius: 4px;
 }
 
 .message--ai .messageContent {
   border-bottom-left-radius: 4px;
-  border: 1px solid var(--color-glass-border);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
 }
 
 .messageText {
@@ -580,7 +610,14 @@
   height: 8px;
   background: var(--color-accent);
   border-radius: 50%;
-  animation: typing 1.4s infinite ease-in-out;
+  animation-name: typing;
+  animation-duration: 1.4s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
 }
 
 .typingDot:nth-child(2) {
@@ -592,7 +629,7 @@
 }
 
 @keyframes typing {
-  0%, 100% {
+  0% {
     transform: translateY(0);
     opacity: 0.4;
   }
@@ -600,9 +637,13 @@
     transform: translateY(-5px);
     opacity: 1;
   }
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
 }
 
-/* Быстрые ответы (внутри чата) */
+/* Быстрые ответы (внутри чата) - ИСПРАВЛЕНО */
 .quickRepliesContainer {
   margin-left: 47px;
   margin-top: 10px;
@@ -610,33 +651,48 @@
   max-width: calc(85% - 47px);
 }
 
+.message--user + .quickRepliesContainer {
+  margin-left: 0;
+  margin-right: 47px;
+}
+
 .quickRepliesGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin-bottom: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .quickReplyButton {
   background: var(--color-surface);
-  border: 1px solid var(--color-glass-border);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
   border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 0.85rem;
+  padding-top: 10px;
+  padding-right: 14px;
+  padding-bottom: 10px;
+  padding-left: 14px;
+  font-size: 0.9rem;
   color: var(--color-text);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-family: inherit;
+  font-weight: 500;
 }
 
 .quickReplyButton:hover:not(:disabled) {
   background: var(--color-glass-hover);
   border-color: var(--color-accent);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
 }
 
 .quickReplyButton:disabled {
@@ -650,12 +706,20 @@
   gap: 6px;
   font-size: 0.75rem;
   color: var(--color-text-muted);
-  padding: 4px 0;
+  padding-top: 4px;
+  padding-right: 0;
+  padding-bottom: 4px;
+  padding-left: 0;
 }
 
 .quickRepliesHintIcon {
   font-size: 0.8rem;
   color: var(--color-accent);
+}
+
+/* Скрываем боковую панель */
+.chatSidebar {
+  display: none;
 }
 
 /* Кнопка прокрутки вниз */
@@ -668,16 +732,26 @@
   border-radius: 50%;
   background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
   border: none;
-  color: white;
+  color: rgb(255, 255, 255);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   box-shadow: 0 4px 12px rgba(77, 171, 247, 0.3);
   z-index: 10;
   opacity: 0.9;
-  animation: fadeInButton 0.3s ease;
+  animation-name: fadeInButton;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
 }
 
 .scrollToBottomButton:hover {
@@ -707,8 +781,13 @@
 
 /* Поле ввода */
 .chatInputContainer {
-  padding: 20px 25px;
-  border-top: 1px solid var(--color-glass-border);
+  padding-top: 20px;
+  padding-right: 25px;
+  padding-bottom: 20px;
+  padding-left: 25px;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--color-glass-border);
   background: var(--color-surface);
   display: flex;
   gap: 12px;
@@ -716,14 +795,22 @@
 
 .chatInput {
   flex: 1;
-  padding: 12px 18px;
+  padding-top: 12px;
+  padding-right: 18px;
+  padding-bottom: 12px;
+  padding-left: 18px;
   border-radius: 25px;
-  border: 1px solid var(--color-glass-border);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
   background: var(--color-surface-alt);
   color: var(--color-text);
   font-size: 0.95rem;
   font-family: inherit;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
 .chatInput:focus {
@@ -735,6 +822,7 @@
 .chatInput:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  background: var(--color-surface-alt);
 }
 
 .chatSubmit {
@@ -743,9 +831,12 @@
   border-radius: 50%;
   border: none;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: rgb(255, 255, 255);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -757,8 +848,15 @@
 }
 
 .chatSubmit:disabled {
-  opacity: 0.6;
+  opacity: 0.4;
   cursor: not-allowed;
+  background: var(--color-text-muted);
+  box-shadow: none;
+}
+
+.chatSubmit:disabled:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 .submitIcon {
@@ -768,10 +866,15 @@
 /* Мобильные быстрые вопросы */
 .mobileSuggestions {
   display: none;
-  border-top: 1px solid var(--color-glass-border);
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--color-glass-border);
   background: var(--color-surface-alt);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
 .mobileSuggestionsOpen {
@@ -782,7 +885,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 15px 25px;
+  padding-top: 15px;
+  padding-right: 25px;
+  padding-bottom: 15px;
+  padding-left: 25px;
   user-select: none;
 }
 
@@ -809,7 +915,10 @@
 .mobileSuggestionsToggleIcon {
   color: var(--color-accent);
   font-size: 0.9rem;
-  transition: transform 0.3s ease;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
 .mobileSuggestionsOpen .mobileSuggestionsToggleIcon {
@@ -820,13 +929,19 @@
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
 .mobileSuggestionsContentOpen {
   max-height: 200px;
   opacity: 1;
-  padding: 0 25px 15px 25px;
+  padding-top: 0;
+  padding-right: 25px;
+  padding-bottom: 15px;
+  padding-left: 25px;
 }
 
 .mobileSuggestionsList {
@@ -837,13 +952,21 @@
 
 .mobileSuggestionButton {
   background: var(--color-surface);
-  border: 1px solid var(--color-glass-border);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
   border-radius: 8px;
-  padding: 8px 12px;
+  padding-top: 8px;
+  padding-right: 12px;
+  padding-bottom: 8px;
+  padding-left: 12px;
   font-size: 0.8rem;
   color: var(--color-text);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -864,10 +987,15 @@
 .mobileContacts {
   display: none;
   margin-top: 20px;
-  padding: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
   background: var(--color-surface);
   border-radius: 12px;
-  border: 1px solid var(--color-glass-border);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
   box-shadow: var(--shadow-soft);
 }
 
@@ -887,7 +1015,10 @@
   font-size: 1rem;
   font-weight: 600;
   color: var(--color-text);
-  margin: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
 }
 
 .mobileContactsInfo {
@@ -919,10 +1050,15 @@
   align-items: center;
   gap: 10px;
   margin-top: 20px;
-  padding: 15px 20px;
+  padding-top: 15px;
+  padding-right: 20px;
+  padding-bottom: 15px;
+  padding-left: 20px;
   background: var(--color-surface-alt);
   border-radius: 12px;
-  border-left: 4px solid var(--color-accent);
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-left-color: var(--color-accent);
 }
 
 .hintIcon {
@@ -934,23 +1070,80 @@
 .hintText {
   font-size: 0.9rem;
   color: var(--color-text-muted);
-  margin: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
   line-height: 1.4;
+}
+
+/* ===== СТИЛИ ДЛЯ АВАТАРОК ПОЛЬЗОВАТЕЛЕЙ ===== */
+
+.userAvatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.animatedAvatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.avatarUser video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  pointer-events: none;
+}
+
+.avatarUser video::-webkit-media-controls {
+  display: none !important;
+}
+
+.avatarUser video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+}
+
+.avatarFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-glass-hover);
+  color: var(--color-accent);
 }
 
 /* ===== КОНТАКТНАЯ СЕКЦИЯ ===== */
 .contactSection {
-  padding: 40px 20px;
+  padding-top: 40px;
+  padding-right: 20px;
+  padding-bottom: 40px;
+  padding-left: 20px;
 }
 
 .contactCard {
   max-width: 1000px;
-  margin: 0 auto;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
   background: var(--color-surface);
   border-radius: 16px;
-  padding: 40px;
+  padding-top: 40px;
+  padding-right: 40px;
+  padding-bottom: 40px;
+  padding-left: 40px;
   box-shadow: var(--shadow-medium);
-  border: 1px solid var(--color-glass-border);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
   display: flex;
   align-items: center;
   gap: 40px;
@@ -983,12 +1176,18 @@
 
 .contactButtonPrimary,
 .contactButtonSecondary {
-  padding: 12px 24px;
+  padding-top: 12px;
+  padding-right: 24px;
+  padding-bottom: 12px;
+  padding-left: 24px;
   border-radius: 25px;
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -997,7 +1196,7 @@
 
 .contactButtonPrimary {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: rgb(255, 255, 255);
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
@@ -1009,7 +1208,9 @@
 .contactButtonSecondary {
   background: var(--color-surface);
   color: var(--color-accent);
-  border: 2px solid var(--color-accent);
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--color-accent);
 }
 
 .contactButtonSecondary:hover {
@@ -1033,7 +1234,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--color-glass-border);
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
 }
 
 .illustrationIcon {
@@ -1041,56 +1244,171 @@
   color: var(--color-accent);
 }
 
+/* ===== ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ КОНТАКТОВ ===== */
+
+.mobileContactLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--color-text);
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  padding-top: 8px;
+  padding-right: 12px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  border-radius: 8px;
+  background: var(--color-surface-alt);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
+}
+
+.mobileContactLink:hover {
+  background: var(--color-glass-hover);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.mobileContactLink .mobileContactIcon {
+  color: var(--color-accent);
+  font-size: 1rem;
+  min-width: 20px;
+}
+
+.mobileContactLink .mobileContactText {
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+/* Стили для кнопок в контактной секции */
+.contactButtonPrimary,
+.contactButtonSecondary {
+  padding-top: 14px;
+  padding-right: 24px;
+  padding-bottom: 14px;
+  padding-left: 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 200px;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.contactButtonPrimary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: rgb(255, 255, 255);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.contactButtonPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.contactButtonSecondary {
+  background: var(--color-surface);
+  color: var(--color-accent);
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--color-accent);
+}
+
+.contactButtonSecondary:hover {
+  background: var(--color-glass-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-soft);
+}
+
 /* ===== АДАПТИВНОСТЬ ===== */
 @media (max-width: 1024px) {
   .hero {
-    padding: 40px 15px;
+    padding-top: 40px;
+    padding-right: 15px;
+    padding-bottom: 40px;
+    padding-left: 15px;
     min-height: 45vh;
   }
+  
   .primaryButton,
   .secondaryButton {
     min-width: 140px;
-    padding: 12px 20px;
+    padding-top: 12px;
+    padding-right: 20px;
+    padding-bottom: 12px;
+    padding-left: 20px;
     font-size: 0.9rem;
   }
+  
   .statsContainer {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
   }
+  
   .statsCard {
-    padding: 20px 12px;
+    padding-top: 20px;
+    padding-right: 12px;
+    padding-bottom: 20px;
+    padding-left: 12px;
   }
+  
   .statsValue {
     font-size: 1.8rem;
   }
+  
   .statsLabel {
     font-size: 0.8rem;
   }
+  
+  .quickRepliesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
   .contactCard {
     flex-direction: column;
-    padding: 30px 20px;
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
     text-align: center;
     gap: 30px;
   }
+  
   .contactButtons {
     justify-content: center;
   }
+  
   .illustrationCircle {
     width: 120px;
     height: 120px;
   }
+  
   .illustrationIcon {
     font-size: 3rem;
   }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  .chatSidebar {
-    width: 240px;
-    padding: 20px;
-  }
   .suggestionButton {
-    padding: 10px 14px;
+    padding-top: 10px;
+    padding-right: 14px;
+    padding-bottom: 10px;
+    padding-left: 14px;
     font-size: 0.85rem;
   }
 }
@@ -1100,49 +1418,115 @@
     flex-direction: column;
     min-height: auto;
   }
+  
   .chatSidebar {
     display: none;
   }
+  
   .mobileSuggestions {
     display: block;
   }
+  
   .mobileContacts {
     display: block;
   }
+  
   .chatHeader {
-    padding: 15px 20px;
+    padding-top: 15px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+    padding-left: 20px;
   }
+  
   .chatMessages {
-    padding: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
     max-height: 300px;
   }
+  
   .message {
     max-width: 90%;
   }
+  
+  .quickRepliesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .quickReplyButton {
+    padding-top: 8px;
+    padding-right: 10px;
+    padding-bottom: 8px;
+    padding-left: 10px;
+    font-size: 0.8rem;
+  }
+  
+  .quickRepliesContainer {
+    margin-left: 40px;
+    max-width: calc(90% - 40px);
+  }
+  
+  .avatar {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .messageContent {
+    padding-top: 10px;
+    padding-right: 14px;
+    padding-bottom: 10px;
+    padding-left: 14px;
+  }
+  
   .contactButtons {
     flex-direction: column;
     align-items: stretch;
   }
+  
   .contactButtonPrimary,
   .contactButtonSecondary {
     width: 100%;
+    min-width: auto;
+    padding-top: 12px;
+    padding-right: 20px;
+    padding-bottom: 12px;
+    padding-left: 20px;
     justify-content: center;
   }
+  
+  .mobileContactLink {
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+  }
+  
   .faqContainer {
-    padding: 20px 15px;
+    padding-top: 20px;
+    padding-right: 15px;
+    padding-bottom: 20px;
+    padding-left: 15px;
   }
+  
   .faqQuestion {
-    padding: 15px;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
   }
+  
   .faqQuestionText {
     font-size: 0.95rem;
   }
+  
   .scrollToBottomButton {
     bottom: 70px;
     right: 15px;
     width: 32px;
     height: 32px;
   }
+  
   .scrollToBottomIcon {
     font-size: 0.8rem;
   }
@@ -1151,13 +1535,68 @@
 @media (max-width: 812px) and (max-height: 812px) {
   .mobileContacts {
     margin-top: 15px;
-    padding: 15px;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
   }
+  
   .chatCard {
     margin-bottom: 15px;
   }
+  
   .mobileSuggestionsList {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .quickRepliesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .quickReplyButton {
+    padding-top: 8px;
+    padding-right: 12px;
+    padding-bottom: 8px;
+    padding-left: 12px;
+    font-size: 0.85rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+  
+  .chatMessages {
+    max-height: 300px;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+  }
+  
+  .quickRepliesContainer {
+    margin-left: 35px;
+    max-width: calc(90% - 35px);
+  }
+  
+  .avatar {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .messageContent {
+    padding-top: 8px;
+    padding-right: 12px;
+    padding-bottom: 8px;
+    padding-left: 12px;
+  }
+  
+  .contactButtonPrimary,
+  .contactButtonSecondary {
+    font-size: 0.9rem;
+    padding-top: 10px;
+    padding-right: 16px;
+    padding-bottom: 10px;
+    padding-left: 16px;
   }
 }
 
@@ -1165,26 +1604,34 @@
   .statsContainer {
     grid-template-columns: 1fr;
   }
+  
   .mobileSuggestionsList {
     grid-template-columns: 1fr;
   }
+  
   .mobileSuggestionButton {
     font-size: 0.75rem;
-    padding: 6px 10px;
+    padding-top: 6px;
+    padding-right: 10px;
+    padding-bottom: 6px;
+    padding-left: 10px;
   }
+  
   .chatMessages {
     max-height: 250px;
-    padding: 15px;
   }
+  
   .messageText {
     font-size: 0.85rem;
   }
+  
   .scrollToBottomButton {
     bottom: 65px;
     right: 12px;
     width: 30px;
     height: 30px;
   }
+  
   .scrollToBottomIcon {
     font-size: 0.75rem;
   }
@@ -1195,11 +1642,9 @@
     margin-top: 0;
     margin-bottom: 15px;
   }
+  
   .chatMessages {
     max-height: 280px;
-  }
-  .quickRepliesGrid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -1207,42 +1652,63 @@
   .chatMessages {
     max-height: 320px;
   }
-  .quickRepliesGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  
   .quickReplyButton {
-    padding: 8px 12px;
+    padding-top: 8px;
+    padding-right: 12px;
+    padding-bottom: 8px;
+    padding-left: 12px;
     font-size: 0.8rem;
   }
 }
 
 /* ===== СВЕТЛАЯ ТЕМА ===== */
 [data-theme="light"] .hero {
-  background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
+  background: transparent !important;
 }
+
 [data-theme="light"] .statsCard,
 [data-theme="light"] .faqContainer,
 [data-theme="light"] .chatCard,
 [data-theme="light"] .contactCard,
 [data-theme="light"] .mobileContacts {
-  background: white;
+  background: rgb(255, 255, 255);
 }
+
 [data-theme="light"] .chatSidebar,
 [data-theme="light"] .faqItem,
 [data-theme="light"] .messageContent,
 [data-theme="light"] .mobileSuggestions {
   background: #f8f9fa;
 }
+
 [data-theme="light"] .chatInput {
-  background: white;
+  background: rgb(255, 255, 255);
   border-color: #e0e0e0;
 }
+
 [data-theme="light"] .chatInput:focus {
   border-color: var(--color-accent);
 }
+
 [data-theme="light"] .scrollToBottomButton {
   background: linear-gradient(135deg, var(--color-accent-hover) 0%, var(--color-accent) 100%);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .avatarUser {
+  background: #f0f0f0;
+  border-color: #d0d0d0;
+}
+
+[data-theme="light"] .mobileContactLink {
+  background: rgb(255, 255, 255);
+  border-color: #e0e0e0;
+}
+
+[data-theme="light"] .mobileContactLink:hover {
+  background: #f0f0f0;
+  border-color: var(--color-accent);
 }
 
 /* ===== ГЛОБАЛЬНЫЙ СБРОС ДЛЯ СТРАНИЦЫ ===== */

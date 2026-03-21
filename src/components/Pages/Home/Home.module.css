@@ -1,11 +1,21 @@
-/* Глобальные стили */
+/* ===============================
+   ГЛОБАЛЬНЫЕ СТИЛИ
+   =============================== */
+
 * {
   box-sizing: border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
+html,
+body {
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
   overflow-x: hidden;
   width: 100%;
   max-width: 100%;
@@ -15,14 +25,23 @@ html, body {
   touch-action: manipulation;
 }
 
-/* Основной контейнер с единым градиентным фоном */
+/* ===============================
+   ОСНОВНОЙ КОНТЕЙНЕР
+   =============================== */
+
 .container {
   min-height: 100vh;
   overflow-x: hidden;
   width: 100%;
   position: relative;
-  margin: 0;
-  padding: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
   
   /* Единый градиентный фон для всех секций */
   background: linear-gradient(
@@ -38,17 +57,24 @@ html, body {
 /* ===============================
    ГЕРОЙ СЕКЦИЯ
    =============================== */
+
 .hero {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 0 20px;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 20px;
   overflow: hidden;
   width: 100%;
   z-index: 1;
-  margin: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
   
   /* Убираем собственный фон, чтобы просвечивал градиент контейнера */
   background: none;
@@ -64,21 +90,10 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  /*background: 
-    radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.15) 0%, transparent 50%);*/
   z-index: -1;
   width: 100%;
   height: 100%;
   pointer-events: none; /* чтобы не мешать кликам */
-}
-
-[data-theme="light"] .heroBackground {
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
 }
 
 .heroContent {
@@ -86,8 +101,14 @@ html, body {
   text-align: center;
   z-index: 1;
   width: 100%;
-  padding: 20px;
-  margin: 0 auto;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
 }
 
 .heroTitle {
@@ -131,25 +152,27 @@ html, body {
   max-width: 100%;
 }
 
-.primaryButton,
-.secondaryButton {
-  padding: 16px 32px;
+.primaryButton {
+  padding-top: 16px;
+  padding-right: 32px;
+  padding-bottom: 16px;
+  padding-left: 32px;
   border-radius: 50px;
   font-weight: 600;
   font-size: 1rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   display: inline-block;
   width: auto;
   min-width: 200px;
   text-align: center;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-}
-
-.primaryButton {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: rgb(255, 255, 255);
   box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
   border: none;
 }
@@ -160,21 +183,10 @@ html, body {
   box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
 }
 
-.secondaryButton {
-  background: var(--color-surface);
-  color: var(--color-accent);
-  border: 2px solid var(--color-accent);
-}
-
-.secondaryButton:hover,
-.secondaryButton:active {
-  background: var(--color-glass-hover);
-  transform: translateY(-3px);
-}
-
 /* ===============================
    АНИМИРОВАННЫЕ ЭЛЕМЕНТЫ
    =============================== */
+
 .floatingCircle1,
 .floatingCircle2,
 .floatingCircle3 {
@@ -190,7 +202,14 @@ html, body {
   background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
   top: 10%;
   left: 5%;
-  animation: float 20s ease-in-out infinite;
+  animation-name: float;
+  animation-duration: 20s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
 }
 
 .floatingCircle2 {
@@ -199,7 +218,14 @@ html, body {
   background: radial-gradient(circle, rgba(118, 75, 162, 0.1) 0%, transparent 70%);
   bottom: 20%;
   right: 10%;
-  animation: float 15s ease-in-out infinite reverse;
+  animation-name: float;
+  animation-duration: 15s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: reverse;
+  animation-fill-mode: none;
+  animation-play-state: running;
 }
 
 .floatingCircle3 {
@@ -208,7 +234,14 @@ html, body {
   background: radial-gradient(circle, rgba(79, 172, 254, 0.1) 0%, transparent 70%);
   top: 50%;
   right: 20%;
-  animation: float 25s ease-in-out infinite;
+  animation-name: float;
+  animation-duration: 25s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
 }
 
 [data-theme="light"] .floatingCircle1 {
@@ -224,7 +257,10 @@ html, body {
 }
 
 @keyframes float {
-  0%, 100% {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
     transform: translateY(0) rotate(0deg);
   }
   50% {
@@ -235,13 +271,17 @@ html, body {
 /* ===============================
    ОБЩИЕ СТИЛИ ДЛЯ СЕКЦИЙ
    =============================== */
+
 .sectionHeader {
   text-align: center;
   margin-bottom: 4rem;
   width: 100%;
   position: relative;
   z-index: 2;
-  padding: 0 20px;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 20px;
 }
 
 .sectionTitle {
@@ -259,7 +299,10 @@ html, body {
   font-size: 1.2rem;
   color: var(--color-text);
   max-width: 600px;
-  margin: 0 auto;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
   line-height: 1.4;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -267,20 +310,22 @@ html, body {
 }
 
 /* ===============================
-   СЕКЦИЯ УСЛУГ
+   СЕКЦИЯ УСЛУГ - УБРАНЫ ВСЕ HOVER ЭФФЕКТЫ С КАРТОЧКИ
    =============================== */
+
 .services {
-  padding: 100px 20px;
+  padding-top: 100px;
+  padding-right: 20px;
+  padding-bottom: 100px;
+  padding-left: 20px;
   position: relative;
   width: 100%;
   z-index: 1;
-  margin: 0;
-  background: none; /* прозрачный фон */
-}
-
-/* Убираем оверлей, который создавал границу */
-.services::before {
-  display: none;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  background: none;
 }
 
 .servicesGrid {
@@ -288,9 +333,15 @@ html, body {
   grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 30px;
   max-width: 1200px;
-  margin: 0 auto 4rem;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 4rem;
+  margin-left: auto;
   width: 100%;
-  padding: 0 20px;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 20px;
   position: relative;
   z-index: 2;
   box-sizing: border-box;
@@ -298,45 +349,61 @@ html, body {
 
 .serviceCard {
   border-radius: 20px;
-  padding: 2px;
   height: 100%;
-  transform-style: preserve-3d;
-  perspective: 1000px;
   width: 100%;
   max-width: 100%;
+  position: relative;
+  background: transparent;
 }
 
-/* Карточки услуг */
-[data-theme="dark"] .serviceCardInner {
-  background: var(--color-surface);
+.serviceCardInner {
   border-radius: 18px;
-  padding: 40px 30px;
+  padding-top: 40px;
+  padding-right: 30px;
+  padding-bottom: 40px;
+  padding-left: 30px;
   height: 100%;
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s ease, background-color 0.3s ease;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 2;
+}
+
+[data-theme="dark"] .serviceCardInner {
+  background: var(--color-surface);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="light"] .serviceCardInner {
-  background: white;
-  border-radius: 18px;
-  padding: 40px 30px;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgb(255, 255, 255);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ПОЛНОСТЬЮ УДАЛЯЕМ ВСЕ HOVER ЭФФЕКТЫ С КАРТОЧКИ */
+.serviceCard:hover {
+  /* Пусто - никаких эффектов */
 }
 
 .serviceCard:hover .serviceCardInner {
-  transform: translateZ(20px);
+  /* Пусто - никаких эффектов */
+}
+
+.serviceCardInner:hover {
+  /* Пусто - никаких эффектов */
+}
+
+/* Удаляем псевдоэлементы, которые могли создавать эффекты */
+.serviceCard::before,
+.serviceCard::after,
+.serviceCardInner::before,
+.serviceCardInner::after {
+  display: none;
 }
 
 [data-theme="dark"] .serviceTitle {
@@ -369,7 +436,7 @@ html, body {
 }
 
 [data-theme="light"] .serviceDescription {
-  color: #666;
+  color: #666666;
   margin-bottom: 2rem;
   line-height: 1.6;
   word-wrap: break-word;
@@ -388,12 +455,16 @@ html, body {
 [data-theme="dark"] .feature {
   background: rgba(245, 222, 179, 0.1);
   color: var(--color-wheat);
-  padding: 8px 16px;
+  padding-top: 8px;
+  padding-right: 16px;
+  padding-bottom: 8px;
+  padding-left: 16px;
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition-property: none; /* Убираем transition */
   flex: 1;
+  min-width: -moz-fit-content;
   min-width: fit-content;
   text-align: center;
 }
@@ -401,28 +472,35 @@ html, body {
 [data-theme="light"] .feature {
   background: rgba(102, 126, 234, 0.1);
   color: #667eea;
-  padding: 8px 16px;
+  padding-top: 8px;
+  padding-right: 16px;
+  padding-bottom: 8px;
+  padding-left: 16px;
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition-property: none; /* Убираем transition */
   flex: 1;
+  min-width: -moz-fit-content;
   min-width: fit-content;
   text-align: center;
 }
 
+/* Убираем hover эффекты с фич */
 .feature:hover {
-  transform: translateY(-2px);
+  transform: none;
+  background: inherit;
 }
 
 [data-theme="dark"] .feature:hover {
-  background: rgba(245, 222, 179, 0.2);
+  background: rgba(245, 222, 179, 0.1);
 }
 
 [data-theme="light"] .feature:hover {
-  background: rgba(102, 126, 234, 0.2);
+  background: rgba(102, 126, 234, 0.1);
 }
 
+/* Стили для кнопки Подробнее - ТОЛЬКО ЗДЕСЬ ОСТАВЛЯЕМ HOVER */
 [data-theme="dark"] .serviceLink {
   display: inline-flex;
   align-items: center;
@@ -430,7 +508,10 @@ html, body {
   color: var(--color-wheat);
   text-decoration: none;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   cursor: pointer;
 }
 
@@ -441,7 +522,10 @@ html, body {
   color: #667eea;
   text-decoration: none;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   cursor: pointer;
 }
 
@@ -456,19 +540,30 @@ html, body {
   max-width: 100%;
   position: relative;
   z-index: 2;
-  padding: 0 20px;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 20px;
 }
 
 .seeAllButton {
   display: inline-block;
-  padding: 16px 40px;
+  padding-top: 16px;
+  padding-right: 40px;
+  padding-bottom: 16px;
+  padding-left: 40px;
   background: var(--color-home-seeall-btn-bg);
-  border: 2px solid var(--color-home-seeall-btn-border);
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--color-home-seeall-btn-border);
   color: var(--color-home-seeall-btn-text);
   border-radius: 50px;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -483,18 +578,20 @@ html, body {
 /* ===============================
    СЕКЦИЯ ОТЗЫВОВ
    =============================== */
+
 .testimonials {
-  padding: 100px 20px;
+  padding-top: 100px;
+  padding-right: 20px;
+  padding-bottom: 100px;
+  padding-left: 20px;
   width: 100%;
   position: relative;
   z-index: 1;
-  margin: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
   background: none;
-}
-
-/* Убираем оверлей */
-.testimonials::before {
-  display: none;
 }
 
 .testimonialsGrid {
@@ -502,9 +599,15 @@ html, body {
   grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 30px;
   max-width: 1200px;
-  margin: 0 auto 4rem;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 4rem;
+  margin-left: auto;
   width: 100%;
-  padding: 0 20px;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 20px;
   position: relative;
   z-index: 2;
   box-sizing: border-box;
@@ -513,16 +616,27 @@ html, body {
 .testimonialCard {
   background: var(--color-home-testimonials-card-bg);
   border-radius: 20px;
-  padding: 30px;
-  transition: all 0.3s ease;
-  border: 1px solid var(--color-home-testimonials-card-border);
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  padding-left: 30px;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-home-testimonials-card-border);
   box-shadow: var(--shadow-soft);
   width: 100%;
   max-width: 100%;
   position: relative;
   z-index: 2;
   box-sizing: border-box;
-  margin: 0 auto;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
 }
 
 .testimonialCard:hover {
@@ -549,7 +663,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: rgb(255, 255, 255);
   font-weight: 600;
   font-size: 1.2rem;
   flex-shrink: 0;
@@ -615,37 +729,64 @@ html, body {
   max-width: 100%;
   position: relative;
   z-index: 2;
-  padding: 0 20px;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 20px;
 }
 
-.allReviewsButton,
-.addReviewButton {
-  padding: 14px 32px;
+.allReviewsButton {
+  padding-top: 14px;
+  padding-right: 32px;
+  padding-bottom: 14px;
+  padding-left: 32px;
   border-radius: 50px;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   width: auto;
   min-width: 200px;
   text-align: center;
-}
-
-.allReviewsButton {
   background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
 }
 
-.addReviewButton {
-  background: var(--color-surface);
-  color: var(--color-accent);
-  border: 2px solid var(--color-accent);
+.allReviewsButton:hover,
+.allReviewsButton:active {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-soft);
 }
 
-.allReviewsButton:hover,
-.allReviewsButton:active,
+.addReviewButton {
+  padding-top: 14px;
+  padding-right: 32px;
+  padding-bottom: 14px;
+  padding-left: 32px;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  width: auto;
+  min-width: 200px;
+  text-align: center;
+  background: var(--color-surface);
+  color: var(--color-accent);
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--color-accent);
+}
+
 .addReviewButton:hover,
 .addReviewButton:active {
   transform: translateY(-3px);
@@ -653,171 +794,148 @@ html, body {
 }
 
 /* ===============================
-   CTA СЕКЦИЯ
+   ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ОТЗЫВОВ
    =============================== */
-.ctaSection {
-  padding: 100px 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  min-height: 400px;
+
+.serviceTagsContainer {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  background: none;
-}
-
-/* Убираем затемнение */
-.ctaSection::before {
-  display: none;
-}
-
-.ctaContent {
-  max-width: 800px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  padding: 20px;
-}
-
-.ctaTitle {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--color-cta-text);
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  line-height: 1.2;
-}
-
-.ctaText {
-  font-size: 1.2rem;
-  color: var(--color-cta-text);
-  opacity: 0.9;
-  margin-bottom: 2.5rem;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  line-height: 1.4;
-}
-
-.ctaButtons {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
   flex-wrap: wrap;
-  width: 100%;
-  max-width: 100%;
+  gap: 6px;
+  margin-bottom: 12px;
+  margin-top: -5px;
 }
 
-.ctaPrimary,
-.ctaSecondary {
-  padding: 16px 40px;
+.serviceTag {
+font-size: 0.75rem;
+  padding: 4px 8px;
+  background: var(--color-surface-alt);
+  color: var(--color-accent);
+  border-radius: 10px;
+  border: 1px solid var(--color-glass-border);
+  white-space: nowrap;
+  text-align: center;
+  display: inline-block;
+}
+
+[data-theme="dark"] .serviceTag {
+  background: var(--color-surface-alt);
+  color: var(--color-accent);
+}
+
+[data-theme="light"] .serviceTag {
+  background: var(--color-surface-alt);
+  color: var(--color-accent);
+}
+
+.testimonialFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--color-glass-border);
+}
+
+.testimonialDate {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+/* Стили для заглушки "нет отзывов" */
+.noTestimonials {
+  text-align: center;
+  padding-top: 60px;
+  padding-right: 20px;
+  padding-bottom: 60px;
+  padding-left: 20px;
+  background: var(--color-glass-bg);
+  border-radius: 20px;
+  max-width: 500px;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-glass-border);
+}
+
+.noTestimonialsIcon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.noTestimonialsTitle {
+  font-size: 1.5rem;
+  color: var(--color-text);
+  margin-bottom: 10px;
+}
+
+.noTestimonialsText {
+  color: var(--color-text-muted);
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.addFirstReviewButton {
+  display: inline-block;
+  padding-top: 12px;
+  padding-right: 30px;
+  padding-bottom: 12px;
+  padding-left: 30px;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+  color: rgb(255, 255, 255);
+  text-decoration: none;
   border-radius: 50px;
   font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  width: auto;
-  min-width: 200px;
-  text-align: center;
-}
-
-.ctaPrimary {
-  background: var(--color-cta-button-bg);
-  color: white;
-  box-shadow: 0 10px 30px rgba(25, 118, 210, 0.3);
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   border: none;
+  cursor: pointer;
 }
 
-.ctaPrimary:hover,
-.ctaPrimary:active {
-  background: var(--color-cta-button-hover);
-  transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(25, 118, 210, 0.4);
-}
-
-.ctaSecondary {
-  background: transparent;
-  color: var(--color-cta-text);
-  border: 2px solid var(--color-cta-text);
-}
-
-.ctaSecondary:hover,
-.ctaSecondary:active {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-3px);
-}
-
-/* Декоративные круги для CTA */
-.ctaDecorations {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.ctaCircle {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.1;
-  animation: float 20s infinite linear;
-}
-
-.ctaCircle:nth-child(1) {
-  width: 200px;
-  height: 200px;
-  background: var(--color-cta-button-bg);
-  top: 40px;
-  left: 10%;
-  animation-delay: 0s;
-  animation-duration: 25s;
-}
-
-.ctaCircle:nth-child(2) {
-  width: 150px;
-  height: 150px;
-  background: var(--color-cta-button-bg);
-  bottom: 10px;
-  right: 15%;
-  animation-delay: 5s;
-  animation-duration: 20s;
-  animation-direction: reverse;
-}
-
-.ctaCircle:nth-child(3) {
-  width: 100px;
-  height: 100px;
-  background: var(--color-cta-button-bg);
-  top: 30%;
-  right: 5%;
-  animation-delay: 10s;
-  animation-duration: 30s;
+.addFirstReviewButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(77, 171, 247, 0.3);
 }
 
 /* ===============================
-   ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+   МЕДИА-ЗАПРОСЫ
    =============================== */
 
 /* Для очень маленьких экранов (до 320px) */
 @media (max-width: 320px) {
-  .heroContent,
-  .sectionHeader,
-  .seeAllContainer,
-  .testimonialsFooter,
-  .ctaContent {
-    padding: 0 10px;
+  .heroContent {
+    padding-top: 0;
+    padding-right: 10px;
+    padding-bottom: 0;
+    padding-left: 10px;
+  }
+  
+  .sectionHeader {
+    padding-top: 0;
+    padding-right: 10px;
+    padding-bottom: 0;
+    padding-left: 10px;
+  }
+  
+  .seeAllContainer {
+    padding-top: 0;
+    padding-right: 10px;
+    padding-bottom: 0;
+    padding-left: 10px;
+  }
+  
+  .testimonialsFooter {
+    padding-top: 0;
+    padding-right: 10px;
+    padding-bottom: 0;
+    padding-left: 10px;
   }
   
   .heroTitle {
@@ -828,24 +946,68 @@ html, body {
     font-size: 1rem;
   }
   
-  .servicesGrid,
-  .testimonialsGrid {
-    padding: 0 10px;
+  .servicesGrid {
+    padding-top: 0;
+    padding-right: 10px;
+    padding-bottom: 0;
+    padding-left: 10px;
     gap: 20px;
   }
   
-  .serviceCardInner,
-  .testimonialCard {
-    padding: 20px 15px;
+  .testimonialsGrid {
+    padding-top: 0;
+    padding-right: 10px;
+    padding-bottom: 0;
+    padding-left: 10px;
+    gap: 20px;
   }
   
-  .primaryButton,
-  .secondaryButton,
-  .allReviewsButton,
-  .addReviewButton,
-  .ctaPrimary,
-  .ctaSecondary {
-    padding: 12px 24px;
+  .serviceCardInner {
+    padding-top: 20px;
+    padding-right: 15px;
+    padding-bottom: 20px;
+    padding-left: 15px;
+  }
+  
+  .testimonialCard {
+    padding-top: 20px;
+    padding-right: 15px;
+    padding-bottom: 20px;
+    padding-left: 15px;
+  }
+  
+  .primaryButton {
+    padding-top: 12px;
+    padding-right: 24px;
+    padding-bottom: 12px;
+    padding-left: 24px;
+    font-size: 0.9rem;
+    min-width: 150px;
+  }
+  
+  .allReviewsButton {
+    padding-top: 12px;
+    padding-right: 24px;
+    padding-bottom: 12px;
+    padding-left: 24px;
+    font-size: 0.9rem;
+    min-width: 150px;
+  }
+  
+  .addReviewButton {
+    padding-top: 12px;
+    padding-right: 24px;
+    padding-bottom: 12px;
+    padding-left: 24px;
+    font-size: 0.9rem;
+    min-width: 150px;
+  }
+  
+  .seeAllButton {
+    padding-top: 12px;
+    padding-right: 24px;
+    padding-bottom: 12px;
+    padding-left: 24px;
     font-size: 0.9rem;
     min-width: 150px;
   }
@@ -855,12 +1017,18 @@ html, body {
 @media (max-width: 375px) {
   .testimonialsGrid {
     grid-template-columns: 1fr;
-    padding: 0 15px;
+    padding-top: 0;
+    padding-right: 15px;
+    padding-bottom: 0;
+    padding-left: 15px;
     gap: 20px;
   }
   
   .testimonialCard {
-    margin: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
     width: 100%;
   }
   
@@ -879,10 +1047,17 @@ html, body {
     justify-content: flex-start;
   }
   
-  .hero,
-  .services,
-  .testimonials,
-  .ctaSection {
+  .hero {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .services {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .testimonials {
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -890,39 +1065,65 @@ html, body {
 
 /* Для мобильных устройств (до 768px) */
 @media (max-width: 768px) {
-  .heroButtons,
-  .ctaButtons,
+  .heroButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
   .testimonialsFooter {
     flex-direction: column;
     align-items: center;
   }
   
-  .primaryButton,
-  .secondaryButton,
-  .ctaPrimary,
-  .ctaSecondary,
-  .allReviewsButton,
+  .primaryButton {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+  }
+  
+  .allReviewsButton {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+  }
+  
   .addReviewButton {
     width: 100%;
     max-width: 300px;
     text-align: center;
   }
   
-  .servicesGrid,
+  .servicesGrid {
+    grid-template-columns: 1fr;
+  }
+  
   .testimonialsGrid {
     grid-template-columns: 1fr;
   }
   
-  .floatingCircle1,
-  .floatingCircle2,
+  .floatingCircle1 {
+    display: none;
+  }
+  
+  .floatingCircle2 {
+    display: none;
+  }
+  
   .floatingCircle3 {
     display: none;
   }
   
-  .hero,
-  .services,
-  .testimonials,
-  .ctaSection {
+  .hero {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .services {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .testimonials {
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -948,7 +1149,10 @@ html, body {
 
 /* Для планшетов (768px - 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
-  .servicesGrid,
+  .servicesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
   .testimonialsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -956,7 +1160,10 @@ html, body {
 
 /* Для десктопов (больше 1024px) */
 @media (min-width: 1024px) {
-  .servicesGrid,
+  .servicesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
   .testimonialsGrid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -969,21 +1176,43 @@ html, body {
     max-width: 100vw;
   }
   
-  .hero,
-  .services,
-  .testimonials,
-  .ctaSection {
+  .hero {
     width: 100vw;
     max-width: 100vw;
     padding-left: 30px;
     padding-right: 30px;
   }
   
-  .servicesGrid,
+  .services {
+    width: 100vw;
+    max-width: 100vw;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  .testimonials {
+    width: 100vw;
+    max-width: 100vw;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  .servicesGrid {
+    width: 100%;
+    max-width: 100%;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+  }
+  
   .testimonialsGrid {
     width: 100%;
     max-width: 100%;
-    padding: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
   }
 }
 
@@ -993,37 +1222,229 @@ html, body {
     min-height: -webkit-fill-available;
   }
   
-  html, body {
+  html {
+    height: -webkit-fill-available;
+  }
+  
+  body {
     height: -webkit-fill-available;
   }
 }
 
 /* Улучшение touch-событий */
 @media (hover: none) and (pointer: coarse) {
-  .serviceCardInner,
-  .testimonialCard,
-  .primaryButton,
-  .secondaryButton,
-  .seeAllButton,
-  .allReviewsButton,
-  .addReviewButton,
-  .ctaPrimary,
-  .ctaSecondary {
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  .serviceCardInner {
+    transition-property: transform, box-shadow;
+    transition-duration: 0.15s, 0.15s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s;
   }
   
-  .serviceCardInner:active,
+  .testimonialCard {
+    transition-property: transform, box-shadow;
+    transition-duration: 0.15s, 0.15s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s;
+  }
+  
+  .primaryButton {
+    transition-property: transform, box-shadow;
+    transition-duration: 0.15s, 0.15s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s;
+  }
+  
+  .seeAllButton {
+    transition-property: transform, box-shadow;
+    transition-duration: 0.15s, 0.15s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s;
+  }
+  
+  .allReviewsButton {
+    transition-property: transform, box-shadow;
+    transition-duration: 0.15s, 0.15s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s;
+  }
+  
+  .addReviewButton {
+    transition-property: transform, box-shadow;
+    transition-duration: 0.15s, 0.15s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s;
+  }
+  
+  .serviceCardInner:active {
+    transform: scale(0.98);
+  }
+  
   .testimonialCard:active {
     transform: scale(0.98);
   }
   
-  .primaryButton:active,
-  .secondaryButton:active,
-  .seeAllButton:active,
-  .allReviewsButton:active,
-  .addReviewButton:active,
-  .ctaPrimary:active,
-  .ctaSecondary:active {
+  .primaryButton:active {
     transform: translateY(-1px) scale(0.98);
   }
+  
+  .seeAllButton:active {
+    transform: translateY(-1px) scale(0.98);
+  }
+  
+  .allReviewsButton:active {
+    transform: translateY(-1px) scale(0.98);
+  }
+  
+  .addReviewButton:active {
+    transform: translateY(-1px) scale(0.98);
+  }
+}
+
+/* Темная тема улучшения */
+[data-theme="dark"] .serviceCardInner {
+  background: var(--color-surface);
+}
+
+[data-theme="dark"] .serviceTitle {
+  color: var(--color-wheat);
+}
+
+[data-theme="dark"] .serviceDescription {
+  color: var(--color-wheat);
+}
+
+[data-theme="dark"] .feature {
+  background: rgba(245, 222, 179, 0.1);
+  color: var(--color-wheat);
+}
+
+[data-theme="dark"] .feature:hover {
+  background: rgba(245, 222, 179, 0.2);
+}
+
+[data-theme="dark"] .serviceLink {
+  color: var(--color-wheat);
+}
+
+[data-theme="dark"] .star {
+  filter: brightness(0.8);
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+   СТАТУС БЕЙДЖИ ДЛЯ УСЛУГ
+   =============================== */
+
+.statusBadge,
+.testModeBadge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 6px;
+  padding-right: 12px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-width: 1px;
+  border-style: solid;
+  backdrop-filter: blur(4px);
+}
+
+.statusBadge {
+  background: rgba(255, 107, 107, 0.95);
+  color: rgb(255, 255, 255);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.testModeBadge {
+  background: rgba(245, 87, 108, 0.95);
+  background: linear-gradient(135deg, rgba(240, 147, 251, 0.95) 0%, rgba(245, 87, 108, 0.95) 100%);
+  color: rgb(255, 255, 255);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.statusBadgeIcon {
+  font-size: 0.9rem;
+}
+
+.statusBadgeText {
+  white-space: nowrap;
+}
+
+/* Для темной темы */
+[data-theme="dark"] .statusBadge,
+[data-theme="dark"] .testModeBadge {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Для светлой темы */
+[data-theme="light"] .statusBadge,
+[data-theme="light"] .testModeBadge {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+  .statusBadge,
+  .testModeBadge {
+    top: 15px;
+    right: 15px;
+    padding-top: 4px;
+    padding-right: 10px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+    font-size: 0.7rem;
+  }
+  
+  .statusBadgeIcon {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .statusBadge,
+  .testModeBadge {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-bottom: 15px;
+    display: inline-flex;
+    width: fit-content;
+  }
+  
+  .serviceCardInner {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.footer {
+  animation-name: fadeInUp;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-out;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
 }

@@ -6,9 +6,10 @@ import MonitorUI from './MonitorUI';
 import PanelUI from './PanelUI';
 import MailUI from './MailUI';
 import CloudUI from './CloudUI';
+import ServerStatusUI from './ServersStatus';
 import './ServerManagement.css';
 
-type TabType = 'nginx' | 'haproxy' | 'monitor' | 'panel' | 'mail' | 'cloud' | 'logs' | 'metrics' | 'settings';
+type TabType = 'nginx' | 'haproxy' | 'monitor' | 'status' | 'panel' | 'mail' | 'cloud' | 'logs' | 'metrics' | 'settings';
 
 const ServerManagementPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('nginx');
@@ -19,6 +20,7 @@ const ServerManagementPage: React.FC = () => {
     nginx: 'Nginx Administration',
     haproxy: 'HAProxy Administration',
     monitor: 'System Monitoring',
+    status: 'Servers Status',
     panel: 'Service Panel',
     mail: 'Mail Administration',
     cloud: 'Cloud Storage',
@@ -35,6 +37,8 @@ const ServerManagementPage: React.FC = () => {
         return <HAProxyUI />;
       case 'monitor':
         return <MonitorUI />;
+      case 'status':
+        return <ServerStatusUI />;
       case 'panel':
         return <PanelUI />;
       case 'mail':
@@ -52,7 +56,7 @@ const ServerManagementPage: React.FC = () => {
     }
   };
 
-  // Сброс скролла при смене таба
+    // Сброс скролла при смене таба
   useEffect(() => {
     if (wrapperRef.current) {
       wrapperRef.current.scrollTop = 0;

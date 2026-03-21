@@ -24,6 +24,12 @@ export const MENU_CONFIG = [
     icon: '📦',
   },
   {
+  id: "cabinet",
+  label: "Личный кабинет",
+  path: "/cabinet",
+  icon: "👤"
+  },
+  {
     id: 'settings',
     label: 'Настройки',
     path: '/settings',

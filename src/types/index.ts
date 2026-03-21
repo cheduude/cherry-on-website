@@ -2,13 +2,22 @@
 import { AUTH_ROUTES, AUTH_TEXT, AUTH_MODES } from '../constants/auth';
 
 export interface User {
-  avatar: string;
-  username?: string;
-  email?: string;
-  id?: string | number;
+  // Обязательные поля (всегда есть)
+  id: number;
+  email: string;
+  role: 'user' | 'admin';
+  
+  // Опциональные поля из основного сайта
   name?: string;
-  role?: string;
+  username?: string;
   displayName?: string;
+  avatar?: string;
+  token?: string;
+  
+  // Опциональные поля из кабинета (могут отсутствовать, если пользователь не в кабинете)
+  balance?: number;
+  currency?: string;
+  language?: 'ru' | 'en';
 }
 
 export interface DropdownMenuProps {

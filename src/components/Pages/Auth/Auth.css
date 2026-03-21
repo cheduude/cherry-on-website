@@ -3,15 +3,23 @@
 .auth-layout body.auth-page-isolated {
   background: transparent !important;
   overflow: visible !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin-top: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: 0 !important;
+  padding-top: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
+
 .auth-layout body.auth-page-isolated .app-wrapper {
   background: transparent !important;
   min-height: 100vh !important;
 }
+
 /* Скрываем все элементы основного сайта на странице авторизации */
 .auth-layout body.auth-page-isolated .main-content {
   position: fixed !important;
@@ -21,28 +29,40 @@
   height: 100vh !important;
   z-index: 9999 !important;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  padding: 0 !important;
-  margin: 0 !important;
+  padding-top: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+  margin-top: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: 0 !important;
 }
+
 .auth-layout .auth-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  /*height: 100vh;*/
   z-index: 10000;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
   overflow-y: auto;
 }
+
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 @import url('https://unicons.iconscout.com/release/v2.1.9/css/unicons.css');
+
 .auth-layout * {
   box-sizing: border-box;
-  margin-bottom: 1rem;
+  
 }
+
 .auth-layout {
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
@@ -51,10 +71,17 @@
   color: rgba(255, 255, 255, 0.85);
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   overflow-x: hidden;
-  margin: 0;
-  padding: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
   min-height: 100vh;
 }
+
 .auth-layout .auth-container {
   position: relative;
   min-height: 100vh;
@@ -62,8 +89,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
 }
+
 /* Liquid glass effect overlay */
 .auth-layout .auth-container::before {
   content: '';
@@ -79,66 +110,96 @@
   );
   z-index: -1;
 }
+
 .auth-layout a {
   cursor: pointer;
-  transition: all 200ms linear;
+  transition-property: all;
+  transition-duration: 200ms;
+  transition-timing-function: linear;
+  transition-delay: 0s;
   text-decoration: none;
 }
+
 .auth-layout a:hover {
   text-decoration: none;
 }
+
 .auth-layout .link {
   color: rgba(255, 255, 255, 0.7);
 }
+
 .auth-layout .link:hover {
-  color: #fff;
+  color: rgb(255, 255, 255);
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
+
 .auth-layout p {
   font-weight: 500;
   font-size: 14px;
   line-height: 1.7;
-  margin: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
 }
+
 .auth-layout h4 {
   font-weight: 600;
-  background: linear-gradient(45deg, #fff, #e0e0e0);
+  background: linear-gradient(45deg, rgb(255, 255, 255), rgb(224, 224, 224));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin: 0 0 1rem 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 1rem;
+  margin-left: 0;
   text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
 }
+
 .auth-layout h6 {
-  margin: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
   color: rgba(255, 255, 255, 0.9);
 }
+
 .auth-layout h6 span {
-  padding: 0 20px;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 20px;
   text-transform: uppercase;
   font-weight: 700;
   font-size: 1rem;
-  background: linear-gradient(45deg, #fff, #a8edea);
+  background: linear-gradient(45deg, rgb(255, 255, 255), rgb(168, 237, 234));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 .auth-layout .section {
   position: relative;
   width: 100%;
   display: block;
 }
+
 .auth-layout .auth-section {
   position: relative;
   width: 100%;
   display: block;
 }
+
 .auth-layout .full-height {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 0;
+  padding-top: 20px;
+  padding-right: 0;
+  padding-bottom: 20px;
+  padding-left: 0;
 }
+
 .auth-layout .container {
   width: 100%;
   max-width: 100%;
@@ -147,58 +208,72 @@
   margin-right: auto;
   margin-left: auto;
 }
+
 .auth-layout .row {
   display: flex;
   flex-wrap: wrap;
   margin-right: -15px;
-  /*margin-left: -15px;*/
   width: 100%;
 }
+
 .auth-layout .justify-content-center {
   justify-content: center;
 }
+
 .auth-layout .text-center {
   text-align: center;
 }
+
 .auth-layout .align-self-center {
   align-self: center;
 }
+
 .auth-layout .col-12 {
   flex: 0 0 100%;
   max-width: 100%;
   padding-right: 15px;
   padding-left: 15px;
 }
+
 .auth-layout .py-5 {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+
 .auth-layout .mb-0 {
   margin-bottom: 0 !important;
 }
+
 .auth-layout .pb-3 {
   padding-bottom: 1rem;
 }
+
 .auth-layout .pb-5 {
   padding-bottom: 3rem;
 }
+
 .auth-layout .pt-5 {
   padding-top: 3rem;
 }
+
 .auth-layout .mt-2 {
   margin-top: 0.5rem;
 }
+
 .auth-layout .mt-4 {
   margin-top: 1.5rem;
 }
+
 .auth-layout .mb-4 {
   margin-bottom: 1.5rem;
 }
+
 .auth-layout [type="checkbox"]:checked,
 .auth-layout [type="checkbox"]:not(:checked) {
   position: absolute;
   left: -9999px;
 }
+
 .auth-layout .checkbox:checked + label,
 .auth-layout .checkbox:not(:checked) + label {
   position: relative;
@@ -207,13 +282,22 @@
   width: 60px;
   height: 16px;
   border-radius: 8px;
-  padding: 0;
-  margin: 10px auto;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  margin-top: 10px;
+  margin-right: auto;
+  margin-bottom: 10px;
+  margin-left: auto;
   cursor: pointer;
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.1);
 }
+
 .auth-layout .checkbox:checked + label:before,
 .auth-layout .checkbox:not(:checked) + label:before {
   position: absolute;
@@ -221,10 +305,12 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  color: #fff;
+  color: rgb(255, 255, 255);
   background: rgba(22, 22, 22, 0.7);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.2);
   font-family: 'unicons';
   content: '\eb4f';
   z-index: 20;
@@ -233,13 +319,18 @@
   line-height: 36px;
   text-align: center;
   font-size: 24px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Ускорено с 0.5s до 0.3s */
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0s;
   box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
 }
+
 .auth-layout .checkbox:checked + label:before {
   transform: translateX(44px) rotate(-270deg);
-  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  background: linear-gradient(135deg, rgb(168, 237, 234) 0%, rgb(254, 214, 227) 100%);
 }
+
 .auth-layout .card-3d-wrap {
   position: relative;
   width: 440px;
@@ -248,9 +339,16 @@
   min-height: 420px;
   transform-style: preserve-3d;
   perspective: 800px;
-  margin: 40px auto 0 auto;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 40px;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  transition-property: all;
+  transition-duration: 0.4s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0s;
 }
+
 .auth-layout .card-3d-wrapper {
   width: 100%;
   height: 100%;
@@ -258,8 +356,12 @@
   top: 0;
   left: 0;
   transform-style: preserve-3d;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* ИЗМЕНЕНО: с 600ms до 0.3s */
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0s;
 }
+
 .auth-layout .card-front, .auth-layout .card-back {
   width: 100%;
   height: auto;
@@ -267,7 +369,9 @@
   background: rgba(22, 22, 22, 0.7);
   backdrop-filter: blur(50px);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.2);
   position: absolute;
   left: 0;
   top: 0;
@@ -278,9 +382,13 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     inset 0 -1px 0 rgba(255, 255, 255, 0.1);
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Ускорено с 0.4s до 0.3s */
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0s;
   pointer-events: auto;
 }
+
 /* Glass refraction effect */
 .auth-layout .card-front::before, .auth-layout .card-back::before {
   content: '';
@@ -296,47 +404,70 @@
     transparent
   );
 }
+
 .auth-layout .card-back {
   transform: rotateY(180deg);
 }
+
 .auth-layout .checkbox:checked ~ .card-3d-wrap .card-3d-wrapper {
   transform: rotateY(180deg);
 }
+
 /* Контейнер для центрирования контента */
 .auth-layout .center-wrap {
   position: relative;
   width: 100%;
-  padding: 30px;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  padding-left: 30px;
   transform: translate3d(0, 0, 35px) perspective(100px);
   z-index: 20;
   display: block;
 }
+
 .auth-layout .form-group {
   position: relative;
   display: block;
-  margin: 0 0 1rem 0;
-  padding: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 1rem;
+  margin-left: 0;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
   width: 100%;
-  transition: margin 0.3s ease;
+  transition-property: margin;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
+
 .auth-layout .form-group:last-child {
   margin-bottom: 0;
 }
+
 .auth-layout .password-strength-container {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.3s ease,
-              margin 0.3s ease;
+  transition-property: max-height, opacity, margin;
+  transition-duration: 0.4s, 0.3s, 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), ease, ease;
+  transition-delay: 0s, 0s, 0s;
 }
+
 .auth-layout .password-strength-container.visible {
   max-height: 200px;
   opacity: 1;
   margin-top: 8px;
 }
+
 .auth-layout .form-style {
-  padding: 13px 20px;
+  padding-top: 13px;
+  padding-right: 20px;
+  padding-bottom: 13px;
   padding-left: 55px;
   height: 48px;
   width: 100%;
@@ -346,20 +477,29 @@
   line-height: 22px;
   letter-spacing: 0.5px;
   outline: none;
-  color: #fff;
+  color: rgb(255, 255, 255);
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 200ms linear;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.2);
+  transition-property: all;
+  transition-duration: 200ms;
+  transition-timing-function: linear;
+  transition-delay: 0s;
   backdrop-filter: blur(50px);
   font-family: 'Poppins', sans-serif;
 }
+
 .auth-layout .form-style:focus,
 .auth-layout .form-style:active {
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.4);
   outline: none;
   background: rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
+
 .auth-layout .input-icon {
   position: absolute;
   top: 0;
@@ -368,26 +508,44 @@
   font-size: 24px;
   line-height: 48px;
   text-align: left;
-  color: #fff;
-  transition: all 50ms linear;
+  color: rgb(255, 255, 255);
+  transition-property: all;
+  transition-duration: 50ms;
+  transition-timing-function: linear;
+  transition-delay: 0s;
 }
+
 .auth-layout .form-group input::placeholder {
   color: rgba(255, 255, 255, 0.7);
   opacity: 0.7;
-  transition: all 200ms linear;
+  transition-property: all;
+  transition-duration: 200ms;
+  transition-timing-function: linear;
+  transition-delay: 0s;
 }
+
 .auth-layout .form-group input:focus::placeholder {
   opacity: 0;
-  transition: all 200ms linear;
+  transition-property: all;
+  transition-duration: 200ms;
+  transition-timing-function: linear;
+  transition-delay: 0s;
 }
+
 .auth-layout .btn {
   border-radius: 12px;
   height: 44px;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
-  transition: all 200ms linear;
-  padding: 0 30px;
+  transition-property: all;
+  transition-duration: 200ms;
+  transition-timing-function: linear;
+  transition-delay: 0s;
+  padding-top: 0;
+  padding-right: 30px;
+  padding-bottom: 0;
+  padding-left: 30px;
   letter-spacing: 1px;
   display: inline-flex;
   align-items: center;
@@ -396,7 +554,7 @@
   border: none;
   background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
   backdrop-filter: blur(10px);
-  color: #fff;
+  color: rgb(255, 255, 255);
   box-shadow:
     0 8px 32px rgba(31, 38, 135, 0.37),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -404,64 +562,153 @@
   font-family: 'Poppins', sans-serif;
   width: auto;
   max-width: 200px;
-  margin: 0 auto;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.2);
 }
+
 .auth-layout .btn:active,
 .auth-layout .btn:focus {
   background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
-  color: #fff;
+  color: rgb(255, 255, 255);
   box-shadow:
     0 8px 32px rgba(31, 38, 135, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   outline: none;
 }
+
 .auth-layout .btn:hover {
   background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
-  color: #fff;
+  color: rgb(255, 255, 255);
   box-shadow:
     0 8px 32px rgba(31, 38, 135, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
+
 .auth-layout .logo {
   position: absolute;
   top: 30px;
   right: 30px;
   display: block;
   z-index: 100;
-  transition: all 250ms linear;
+  transition-property: all;
+  transition-duration: 250ms;
+  transition-timing-function: linear;
+  transition-delay: 0s;
 }
+
 .auth-layout .logo img {
   height: 26px;
   width: auto;
   display: block;
   filter: brightness(0) invert(1);
 }
+
 .auth-layout .mx-auto {
   margin-left: auto;
   margin-right: auto;
 }
+
 .auth-layout .pt-sm-2 {
   padding-top: 0.5rem;
 }
+
 /* Liquid glass animations */
 @keyframes liquidShift {
-  0%, 100% {
+  0% {
+    border-radius: 20px;
+  }
+  100% {
     border-radius: 20px;
   }
   50% {
     border-radius: 25px 15px 25px 15px;
   }
 }
+
 .auth-layout .card-front, .auth-layout .card-back {
-  animation: liquidShift 8s ease-in-out infinite;
+  animation-name: liquidShift;
+  animation-duration: 8s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
 }
+
+/* ===== TELEGRAM WIDGET FIXES ===== */
+
+/* Корневой элемент для портала */
+#tg-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+/* Реальный виджет - ТОЛЬКО позиционирование, без стилей */
+.tg-real-widget {
+  pointer-events: auto !important;
+}
+
+
+
+/* Плейсхолдер для виджета (только позиционирование) */
+.telegram-widget-placeholder {
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
+}
+
+/* Firefox специфичные стили - ТОЛЬКО ДЛЯ ВИДЖЕТА */
+@-moz-document url-prefix() {
+  /* Фиксы только для портала и iframe, НЕ для карточек */
+  #tg-root {
+    position: fixed !important;
+    transform: none !important;
+  }
+  
+  .tg-real-widget {
+    transform: none !important;
+    will-change: auto !important;
+    isolation: isolate !important;
+    backface-visibility: visible !important;
+    pointer-events: auto !important;
+  }
+  
+  .tg-real-widget iframe {
+    position: relative !important;
+    z-index: 1000000 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Убираем backdrop-filter только у контейнера с виджетом */
+  .telegram-auth-container {
+    backdrop-filter: none !important;
+    -moz-backdrop-filter: none !important;
+  }
+}
+
 /* МОБИЛЬНАЯ АДАПТАЦИЯ */
 /* Для экранов меньше 768px */
 @media screen and (max-width: 767px) {
   .auth-layout .auth-container {
-    padding: 16px;
+    padding-top: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    padding-left: 16px;
     align-items: flex-start;
     padding-top: 60px;
   }
@@ -474,14 +721,20 @@
   }
  
   .auth-layout .center-wrap {
-    padding: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
   }
  
   .auth-layout .logo {
     position: relative;
     top: 0;
     right: 0;
-    margin: 0 auto 20px auto;
+    margin-top: 0;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-left: auto;
     text-align: center;
   }
  
@@ -495,12 +748,17 @@
   }
  
   .auth-layout h6 span {
-    padding: 0 12px;
+    padding-top: 0;
+    padding-right: 12px;
+    padding-bottom: 0;
+    padding-left: 12px;
     font-size: 0.9rem;
   }
  
   .auth-layout .form-style {
-    padding: 12px 16px;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
     padding-left: 48px;
     height: 44px;
     font-size: 13px;
@@ -517,13 +775,19 @@
   .auth-layout .btn {
     height: 44px;
     font-size: 12px;
-    padding: 0 20px;
+    padding-top: 0;
+    padding-right: 20px;
+    padding-bottom: 0;
+    padding-left: 20px;
     max-width: 100%;
     border-radius: 10px;
   }
  
   .auth-layout .full-height {
-    padding: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
     min-height: auto;
   }
  
@@ -562,6 +826,14 @@
     backdrop-filter: blur(30px);
   }
  
+  /* Firefox мобильные фиксы */
+  @-moz-document url-prefix() {
+    .telegram-auth-container {
+      backdrop-filter: none !important;
+      -moz-backdrop-filter: none !important;
+    }
+  }
+ 
   /* Отключаем анимацию на мобильных для производительности */
   @media (prefers-reduced-motion: reduce) {
     .auth-layout .card-front, .auth-layout .card-back {
@@ -569,10 +841,14 @@
     }
   }
 }
+
 /* Для очень маленьких экранов (до 360px) */
 @media screen and (max-width: 360px) {
   .auth-layout .auth-container {
-    padding: 12px;
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
   }
  
   .auth-layout .card-3d-wrap {
@@ -580,11 +856,16 @@
   }
  
   .auth-layout .center-wrap {
-    padding: 16px;
+    padding-top: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    padding-left: 16px;
   }
  
   .auth-layout .form-style {
-    padding: 10px 14px;
+    padding-top: 10px;
+    padding-right: 14px;
+    padding-bottom: 10px;
     padding-left: 44px;
     height: 42px;
     font-size: 12px;
@@ -602,16 +883,21 @@
     font-size: 11px;
   }
 }
+
 /* Для планшетов (от 768px до 1024px) */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .auth-layout .auth-container {
-    padding: 24px;
+    padding-top: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
   }
  
   .auth-layout .card-3d-wrap {
     max-width: 400px;
   }
 }
+
 /* Для горизонтальной ориентации на мобильных */
 @media screen and (max-height: 600px) and (orientation: landscape) {
   .auth-layout .auth-container {
@@ -621,7 +907,10 @@
  
   .auth-layout .full-height {
     min-height: auto;
-    padding: 20px 0;
+    padding-top: 20px;
+    padding-right: 0;
+    padding-bottom: 20px;
+    padding-left: 0;
   }
  
   .auth-layout .card-3d-wrap {
@@ -630,7 +919,10 @@
   }
  
   .auth-layout .center-wrap {
-    padding: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
   }
  
   .auth-layout .form-group {
@@ -641,9 +933,13 @@
     position: fixed;
     top: 15px;
     right: 15px;
-    margin: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
   }
 }
+
 /* Поддержка iOS safe areas */
 @supports (padding: max(0px)) {
   .auth-layout .auth-container {
@@ -653,21 +949,26 @@
     padding-bottom: max(16px, env(safe-area-inset-bottom));
   }
 }
+
 /* Ensure proper centering */
 .auth-layout .justify-content-center {
   justify-content: center !important;
 }
+
 .auth-layout .align-items-center {
   align-items: center !important;
 }
+
 .auth-layout .d-flex {
   display: flex !important;
 }
+
 /* Additional liquid glass effects */
 .auth-layout .form-group:hover .input-icon {
   transform: scale(1.1);
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
+
 /* Оптимизация для мобильных устройств */
 @media screen and (max-width: 767px) {
   .auth-layout * {
@@ -678,366 +979,23 @@
     font-size: 13px;
   }
 }
+
 /* Улучшение отзывчивости формы */
 .auth-layout .form-style {
   -webkit-appearance: none;
   appearance: none;
 }
+
 /* Улучшение производительности анимаций */
 .auth-layout .card-front,
 .auth-layout .card-back {
   will-change: transform;
 }
+
 /* Убираем стандартный zoom на iOS при фокусе */
 @media screen and (max-width: 767px) {
   .auth-layout .form-style {
     font-size: 16px;
-  }
-}
-.auth-layout .btn-telegram {
-  border-radius: 12px;
-  height: 44px;
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  transition: all 200ms linear;
-  padding: 0 30px;
-  letter-spacing: 1px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border: none;
-  background: linear-gradient(135deg, #229ED9 0%, #1A93C9 100%);
-  backdrop-filter: blur(10px);
-  color: #fff;
-  box-shadow:
-    0 8px 32px rgba(34, 158, 217, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 2px 8px rgba(0, 0, 0, 0.2);
-  cursor: pointer !important;
-  font-family: 'Poppins', sans-serif;
-  width: 100%;
-  max-width: 200px;
-  margin: 0 auto;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-/* Правильный фикс кликов Telegram */
-.auth-layout .telegram-auth-container {
-  position: relative;
-  z-index: 50;
-}
-.auth-layout .telegram-auth-container iframe {
-  pointer-events: auto !important;
-}
-/* Чтобы 3D не блокировал клики */
-.auth-layout .card-front,
-.auth-layout .card-back {
-  pointer-events: auto;
-}
-.auth-layout .btn-telegram::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #34AADF 0%, #229ED9 100%);
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 200ms linear;
-}
-.auth-layout .btn-telegram:hover {
-  background: linear-gradient(135deg, #34AADF 0%, #229ED9 100%);
-  color: #fff;
-  box-shadow:
-    0 12px 40px rgba(34, 158, 217, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 3px 12px rgba(0, 0, 0, 0.25);
-  transform: translateY(-2px);
-}
-.auth-layout .btn-telegram:active,
-.auth-layout .btn-telegram:focus {
-  background: linear-gradient(135deg, #1A93C9 0%, #229ED9 100%);
-  color: #fff;
-  box-shadow:
-    0 4px 20px rgba(34, 158, 217, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 1px 4px rgba(0, 0, 0, 0.15);
-  transform: translateY(0);
-  outline: none;
-}
-/* Иконка Telegram в кнопке */
-.auth-layout .btn-telegram .telegram-icon {
-  margin-right: 10px;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 200ms ease;
-  margin-bottom: 1px;
-}
-.auth-layout .btn-telegram:hover .telegram-icon {
-  transform: scale(1.1);
-}
-/* Telegram иконка SVG стиль */
-.auth-layout .btn-telegram .telegram-icon svg {
-  width: 18px;
-  height: 18px;
-  margin-top: 1rem;
-  fill: currentColor;
-}
-/* Анимация для эффекта нажатия */
-.auth-layout .btn-telegram:active .telegram-icon {
-  transform: scale(0.95);
-}
-/* Контейнер для кнопки Telegram в форме */
-.auth-layout .telegram-auth-container {
-  margin-top: 1.5rem;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.auth-layout .telegram-text {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 8px;
-  text-align: center;
-  line-height: 1.4;
-  max-width: 300px;
-}
-/* Адаптация для мобильных */
-@media (max-width: 767px) {
-  .auth-layout .btn-telegram {
-    height: 44px;
-    font-size: 12px;
-    padding: 0 20px;
-    max-width: 100%;
-    border-radius: 10px;
-  }
- 
-  .auth-layout .btn-telegram .telegram-icon {
-    font-size: 16px;
-    margin-right: 8px;
-  }
- 
- 
-  .auth-layout .telegram-auth-container {
-    margin-top: 1.2rem;
-  }
- 
-  .auth-layout .telegram-text {
-    font-size: 11px;
-    padding: 0 10px;
-  }
-}
-/* Для очень маленьких экранов */
-@media (max-width: 480px) {
-  .auth-layout .btn-telegram {
-    height: 42px;
-    /*font-size: 11px;*/
-    padding: 0 16px;
-  }
- 
-  .auth-layout .btn-telegram .telegram-icon {
-    font-size: 15px;
-    margin-right: 6px;
-  }
- 
- 
-}
-
-/* Фейковая кнопка - клики проходят сквозь неё к iframe */
-.tg-fake-button {
-  position: relative;
-  z-index: 1;
-  pointer-events: none; /* Клики проходят сквозь фейковую кнопку */
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  height: 48px;
-  padding: 0 16px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
-  color: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  user-select: none;
-  box-shadow: 
-    0 4px 15px rgba(34, 158, 217, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: default;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
-  overflow: hidden;
-}
-
-/* Эффект свечения при наведении */
-.tg-fake-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  transition: left 0.5s ease;
-  
-}
-
-/* Эффект при наведении */
-.tg-fake-button:hover {
-  background: linear-gradient(135deg, #34AADF 0%, #2AABEE 100%);
-  box-shadow: 
-    0 8px 25px rgba(34, 158, 217, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 4px 12px rgba(0, 0, 0, 0.25);
-  transform: translateY(-2px) scale(1.02);
-  border-color: rgba(255, 255, 255, 0.4);
-}
-
-/* Анимация свечения при наведении */
-.tg-fake-button:hover::before {
-  left: 100%;
-}
-
-/* Эффект при нажатии */
-.tg-fake-button:active {
-  background: linear-gradient(135deg, #1A93C9 0%, #229ED9 100%);
-  box-shadow: 
-    0 2px 8px rgba(34, 158, 217, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 1px 4px rgba(0, 0, 0, 0.15);
-  transform: translateY(1px) scale(0.98);
-  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Пульсация при нажатии (дополнительный эффект) */
-.tg-fake-button:active::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 5px;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.5);
-  opacity: 0;
-  border-radius: 100%;
-  transform: scale(1, 1) translate(-50%);
-  transform-origin: 50% 50%;
-  animation: ripple 0.4s ease-out;
-}
-
-@keyframes ripple {
-  0% {
-    transform: scale(0, 0);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(40, 40);
-    opacity: 0;
-  }
-}
-
-/* Эффект для иконки Telegram */
-.tg-fake-button svg {
-  pointer-events: none;
-  margin-bottom: 0;
-  transition: transform 0.2s ease;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
-}
-
-/* Анимация иконки при наведении */
-.tg-fake-button:hover svg {
-  transform: scale(1.15) rotate(5deg);
-}
-
-/* Анимация иконки при нажатии */
-.tg-fake-button:active svg {
-  transform: scale(0.95);
-  transition: transform 0.1s ease;
-}
-
-/* Эффект для текста кнопки */
-.tg-fake-button span {
-  position: relative;
-  z-index: 2;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  letter-spacing: 0.3px;
-  transition: all 0.2s ease;
-}
-
-/* Легкое изменение цвета текста при наведении */
-.tg-fake-button:hover span {
-  text-shadow: 0 3px 8px rgba(255, 255, 255, 0.5);
-}
-
-/* Мобильная адаптация */
-@media (max-width: 767px) {
-  .tg-fake-button {
-    height: 44px;
-    font-size: 12px;
-    padding: 0 20px;
-    border-radius: 10px;
-  }
-  
-  /* Убираем или упрощаем некоторые эффекты на мобильных для производительности */
-  .tg-fake-button:hover {
-    transform: translateY(-1px) scale(1.01);
-  }
-  
-  .tg-fake-button:active {
-    transform: translateY(0) scale(0.99);
-  }
-  
-  .tg-fake-button:hover svg {
-    transform: scale(1.1);
-  }
-  
-  /* Отключаем ripple эффект на мобильных */
-  .tg-fake-button:active::after {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .tg-fake-button {
-    height: 42px;
-    padding: 0 16px;
-  }
-}
-
-/* Для устройств с поддержкой hover (не мобильные) */
-@media (hover: hover) {
-  .tg-fake-button:hover {
-    background: linear-gradient(135deg, #34AADF 0%, #2AABEE 100%);
-    box-shadow: 
-      0 8px 25px rgba(34, 158, 217, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4),
-      0 4px 12px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px) scale(1.02);
-  }
-}
-
-/* Для устройств без поддержки hover (сенсорные) */
-@media (hover: none) {
-  .tg-fake-button:active {
-    background: linear-gradient(135deg, #1A93C9 0%, #229ED9 100%);
-    transform: scale(0.98);
   }
 }
 
@@ -1054,7 +1012,10 @@
   
   .card-3d-wrapper {
     transform-style: preserve-3d !important;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-property: transform;
+    transition-duration: 0.3s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0s;
     position: relative !important;
     width: 100% !important;
     height: 100% !important;
@@ -1095,8 +1056,7 @@
   
   /* Убираем hover эффекты на мобильных */
   .btn:hover,
-  .btn-telegram:hover,
-  .tg-fake-button:hover {
+  .btn-telegram:hover {
     transform: none !important;
   }
   
@@ -1130,5 +1090,55 @@
   .card-front,
   .card-back {
     border-radius: 14px !important;
+  }
+}
+/* ===== TELEGRAM LOADER STYLES ===== */
+
+.telegram-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: #2AABEE;
+  animation-name: spin;
+  animation-duration: 0.8s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 767px) {
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border-width: 2px;
   }
 }

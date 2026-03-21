@@ -1,0 +1,80 @@
+/* src/components/Cabinet/pages/Subscription.module.css */
+
+.subscription {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, var(--color-text), var(--color-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section {
+  background: var(--color-surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.section h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--color-text);
+}
+
+.instructions {
+  padding-left: 20px;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.configLink {
+  margin: 16px 0;
+}
+
+.configLink a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.copyHint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 8px;
+  word-break: break-all;
+}
+
+.platformGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.platformCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: all 0.2s;
+}
+
+.platformCard:hover {
+  background: var(--color-glass-hover);
+  transform: translateY(-2px);
+  color: var(--color-accent);
+}

@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
-import purify from 'dompurify';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import styles from './Services.module.css';
 import type { ServicesProps } from '../../../types';
 import { useLenisCleanup } from '../../../hooks/useLenisCleanup';
+import { useAuth } from '../../../hooks/useAuth';
+import { useNotifications } from '../../../contexts/NotificationContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -13,72 +14,135 @@ import {
   HardDrive,
   Router,
   ShoppingCart,
-  Package,
   Sparkles,
   Zap,
   Globe,
   Lock,
-  X
+  X,
+  Code
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Маппинг иконок для экспорта в OrdersPage
+export const iconMap = {
+  Shield,
+  Server,
+  HardDrive,
+  Router,
+  ShoppingCart,
+  Code
+};
+
+// Интерфейс для заказа
+interface Order {
+  id: string;
+  customer_uuid: string;
+  status: 'NEW' | 'PAID' | 'PROCESSING' | 'COMPLETED' | 'CANCELLED';
+  shop_card: {
+    uuid: string;
+    name: string;
+    description: string;
+    category: string;
+    price: number;
+    visible: boolean;
+    iconName: keyof typeof iconMap;
+  };
+  price: number;
+  created_at: number;
+}
+
+// Обновленный массив услуг с UUID и price для заказов
 const services = [
   {
     name: 'Цифровые Сертификаты',
-    desc: 'Безопасное и анонимное подключение с гарантией конфиденциальности. Поддержка всех устройств.',
+    desc: 'Безопасное подключение с гарантией конфиденциальности. Поддержка всех устройств.',
     icon: Shield,
-    features: ['Анонимность', 'Шифрование трафика', 'Все устройства', '24/7 поддержка'],
+    iconName: 'Shield' as const,
+    features: ['Шифрование трафика', 'Все устройства', '24/7 поддержка'],
     price: 'от 499 ₽/мес',
-    id: 0
+    priceValue: 499,
+    uuid: 'cert-001',
+    id: 0,
+    status: 'development'
   },
   {
     name: 'VPS',
     desc: 'Виртуальные серверы с мощным железом и низкой задержкой. Полный root доступ.',
     icon: Server,
-    features: ['Root доступ', 'SSD/NVMe', 'Linux/Windows', 'DDoS защита'],
+    iconName: 'Server' as const,
+    features: ['Root доступ', 'SSD/NVMe', 'HDD', 'Linux/Windows', 'DDoS защита'],
     price: 'от 890 ₽/мес',
-    id: 1
+    priceValue: 890,
+    uuid: 'vps-001',
+    id: 1,
+    status: 'test'
   },
   {
     name: 'NVMe Диски',
     desc: 'Облачное хранилище на быстрых NVMe накопителях. Аналог Google Диска с повышенной скоростью.',
     icon: HardDrive,
+    iconName: 'HardDrive' as const,
     features: ['Высокая скорость', 'Резервное копирование', 'Общий доступ', 'Шифрование'],
     price: 'от 299 ₽/100 ГБ',
-    id: 2
+    priceValue: 299,
+    uuid: 'nvme-001',
+    id: 2,
+    status: 'active'
   },
   {
-    name: 'Настройка роутера',
-    desc: 'Настройка сетевых параметров устройства + VPN сертификат на год. Оптимизация для игр и стриминга.',
+    name: 'Настройка сетевого оборудования и сетей',
+    desc: 'Настройка сетевых параметров устройства + цифровой сертификат на год. Оптимизация для игр и стриминга.',
     icon: Router,
-    features: ['Прошивка', 'Сертификат на год', 'Настройка', 'Гарантия'],
+    iconName: 'Router' as const,
+    features: ['Сертификат на год', 'Настройка', 'Гарантия'],
     price: 'от 2 490 ₽',
-    id: 3
+    priceValue: 2490,
+    uuid: 'network-001',
+    id: 3,
+    status: 'active'
   },
   {
     name: 'Пополнение аккаунтов',
     desc: 'Steam, ChatGPT, Spotify, Grok и другие сервисы. Моментальное пополнение.',
     icon: ShoppingCart,
-    features: ['Моментально', 'Без комиссии', 'Поддержка', 'Безопасно'],
-    price: 'курс +0%',
-    id: 4
+    iconName: 'ShoppingCart' as const,
+    features: ['Гарантия', 'Поддержка', 'Безопасно'],
+    price: 'курс +1000%',
+    priceValue: 0,
+    uuid: 'topup-001',
+    id: 4,
+    status: 'active'
   },
   {
-    name: 'Заказы из-за рубежа',
-    desc: 'Поможем заказать любой товар из США, Европы, Китая. Доставка под ключ.',
-    icon: Package,
-    features: ['Поиск товара', 'Доставка', 'Таможня', 'Страховка'],
-    price: 'услуги + доставка',
-    id: 5
+    name: 'Разработка под заказ',
+    desc: 'Разработка ботов, сайтов, мобильных приложений и другого программного обеспечения под ваши задачи.',
+    icon: Code,
+    iconName: 'Code' as const,
+    features: ['Боты', 'Сайты', 'Мобильные приложения', 'Индивидуальный подход'],
+    price: 'договорная',
+    priceValue: 0,
+    uuid: 'dev-001',
+    id: 5,
+    status: 'active'
   }
 ];
 
-const Services = ({ isAuthenticated }: ServicesProps) => {
+// Ключ для хранения заказов в localStorage
+const ORDERS_STORAGE_KEY = 'user_orders';
+
+const Services = (_props: ServicesProps) => {
   const location = useLocation();
+  const navigate = useNavigate();
   useLenisCleanup();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hasAutoOpened, setHasAutoOpened] = useState(false);
+  const [isCreatingOrder, setIsCreatingOrder] = useState(false);
+  
+  // ХУКИ
+  const { isAuthenticated, user } = useAuth();
+  const { showInfo, showSuccess, showError } = useNotifications();
+  
   const isFirstRender = useRef(true);
   const heroRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -86,6 +150,28 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
   const scrollTriggers = useRef<ScrollTrigger[]>([]);
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lastAutoOpenId = useRef<string | null>(null);
+
+  // Функция для получения заказов из localStorage
+  const getStoredOrders = useCallback((): Order[] => {
+    if (!user?.id) return [];
+    
+    const stored = localStorage.getItem(`${ORDERS_STORAGE_KEY}_${user.id}`);
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch (e) {
+        console.error('Error parsing stored orders:', e);
+        return [];
+      }
+    }
+    return [];
+  }, [user?.id]);
+
+  // Функция для сохранения заказов в localStorage
+  const saveOrders = useCallback((orders: Order[]) => {
+    if (!user?.id) return;
+    localStorage.setItem(`${ORDERS_STORAGE_KEY}_${user.id}`, JSON.stringify(orders));
+  }, [user?.id]);
 
   // Инициализируем массив refs для услуг
   useEffect(() => {
@@ -97,24 +183,17 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
     const element = document.getElementById(elementId);
     if (!element) return;
 
-    // Добавляем небольшую задержку для гарантии рендеринга
     setTimeout(() => {
       const elementRect = element.getBoundingClientRect();
       const absoluteElementTop = elementRect.top + window.pageYOffset;
-      
-      // Определяем высоту заголовка для отступа
       const headerHeight = document.querySelector('header')?.clientHeight || 80;
-      
-      // Отступ сверху (включая заголовок и небольшой дополнительный отступ)
       const offset = headerHeight + 40;
       
-      // Прокручиваем с учетом отступа
       window.scrollTo({
         top: absoluteElementTop - offset,
         behavior: 'smooth'
       });
 
-      // Если элемент все еще не виден полностью после прокрутки, делаем дополнительную корректировку
       setTimeout(() => {
         const checkRect = element.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
@@ -122,10 +201,9 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
                                checkRect.bottom <= viewportHeight;
         
         if (!isFullyVisible) {
-          // Если элемент не полностью виден, прокручиваем чтобы он был в центре
           const centerPosition = absoluteElementTop - (viewportHeight / 2) + (checkRect.height / 2);
           window.scrollTo({
-            top: centerPosition - 100, // Дополнительный отступ от центра
+            top: centerPosition - 100,
             behavior: 'smooth'
           });
         }
@@ -138,7 +216,6 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
     if (hasAutoOpened) return;
 
     try {
-      // Пытаемся получить ID услуги из sessionStorage
       const serviceIdStr = sessionStorage.getItem('autoOpenServiceId');
       const timestampStr = sessionStorage.getItem('autoOpenTimestamp');
       
@@ -146,24 +223,16 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
         const serviceId = parseInt(serviceIdStr, 10);
         const timestamp = parseInt(timestampStr, 10);
         const currentTime = Date.now();
-        
-        // Проверяем, что ID валиден и запрос "свежий" (не старше 5 секунд)
         const isRecent = currentTime - timestamp < 5000;
         const isNewRequest = lastAutoOpenId.current !== `${serviceId}-${timestamp}`;
         
         if (!isNaN(serviceId) && serviceId >= 0 && serviceId < services.length && isRecent && isNewRequest) {
-          // Сохраняем ID запроса для предотвращения повторного открытия
           lastAutoOpenId.current = `${serviceId}-${timestamp}`;
-          
-          // Устанавливаем активный индекс
           setActiveIndex(serviceId);
           setHasAutoOpened(true);
-          
-          // Очищаем sessionStorage
           sessionStorage.removeItem('autoOpenServiceId');
           sessionStorage.removeItem('autoOpenTimestamp');
           
-          // Прокручиваем к услуге после задержки для рендеринга
           setTimeout(() => {
             scrollToElement(`service-${serviceId}`);
           }, 300);
@@ -178,31 +247,97 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
     return false;
   }, [hasAutoOpened, scrollToElement]);
 
-  // Оптимизированная функция переключения
+  // Функция переключения
   const toggleService = useCallback((index: number) => {
     setActiveIndex(prev => {
       const newIndex = prev === index ? null : index;
-      
-      // Если открываем новую услугу, прокручиваем к ней
-      if (newIndex !== null && newIndex !== prev) {
-        setTimeout(() => {
-          scrollToElement(`service-${newIndex}`);
-        }, 10);
-      }
-      
       return newIndex;
     });
-  }, [scrollToElement]);
+  }, []);
 
-  // Оптимизированная инициализация GSAP
+  // Обработчик покупки - заглушка
+  const handleOrder = useCallback(async (service: typeof services[0]) => {
+    if (!isAuthenticated) {
+      showError('Ошибка', 'Необходимо авторизоваться для покупки');
+      return;
+    }
+    
+    if (!user) {
+      showError('Ошибка', 'Данные пользователя не найдены');
+      return;
+    }
+
+    if (!user.id) {
+      showError('Ошибка', 'ID пользователя не найден');
+      return;
+    }
+
+    setIsCreatingOrder(true);
+    
+    try {
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      const existingOrders = getStoredOrders();
+      
+      const newOrder: Order = {
+        id: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        customer_uuid: String(user.id),
+        status: 'NEW',
+        shop_card: {
+          uuid: service.uuid,
+          name: service.name,
+          description: service.desc,
+          category: service.id.toString(),
+          price: service.priceValue,
+          visible: true,
+          iconName: service.iconName
+        },
+        price: service.priceValue,
+        created_at: Date.now()
+      };
+
+      const updatedOrders = [newOrder, ...existingOrders];
+      saveOrders(updatedOrders);
+
+      showSuccess(
+        'Заказ создан',
+        `Услуга "${service.name}" добавлена в ваши заказы`,
+        3000
+      );
+
+      showInfo(
+        'Оплата в разработке',
+        'В будущем вы сможете оплатить заказ онлайн. Пока что заказ сохранен в вашем списке.',
+        5000
+      );
+
+    } catch (error: any) {
+      console.error('❌ Order creation error:', error);
+      showError(
+        'Ошибка при создании заказа',
+        error.message || 'Попробуйте позже или обратитесь в поддержку'
+      );
+    } finally {
+      setIsCreatingOrder(false);
+    }
+  }, [isAuthenticated, user, showSuccess, showError, showInfo, getStoredOrders, saveOrders]);
+
+  // Обработчик перехода к заказам
+  const handleGoToOrders = useCallback(() => {
+    navigate('/orders');
+  }, [navigate]);
+
+  const handleContactSupport = useCallback(() => {
+    window.location.href = '/support';
+  }, []);
+
+  // Инициализация GSAP
   useEffect(() => {
     if (isFirstRender.current) {
       const initAnimations = () => {
-        // Очищаем предыдущие триггеры
         scrollTriggers.current.forEach(trigger => trigger.kill());
         scrollTriggers.current = [];
 
-        // Герой анимация - без скролл-триггера
         const heroTl = gsap.timeline();
         heroTl
           .fromTo(`.${styles.heroTitle}`,
@@ -215,7 +350,6 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
             '-=0.5'
           );
 
-        // Анимация статистики
         gsap.fromTo(`.${styles.stat}`,
           {
             opacity: 0,
@@ -231,7 +365,6 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
           }
         );
 
-        // Анимация элементов списка - оптимизированная
         const listTrigger = ScrollTrigger.create({
           trigger: `.${styles.list}`,
           start: 'top 80%',
@@ -256,7 +389,6 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
 
         scrollTriggers.current.push(listTrigger);
 
-        // Анимация CTA секции
         const ctaTrigger = ScrollTrigger.create({
           trigger: `.${styles.ctaSection}`,
           start: 'top 85%',
@@ -281,16 +413,13 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
         scrollTriggers.current.push(ctaTrigger);
       };
 
-      // Небольшая задержка для гарантии отрисовки DOM
       const timer = setTimeout(() => {
         initAnimations();
-        // После инициализации анимаций пытаемся открыть услугу
         autoOpenService();
       }, 100);
       
       return () => {
         clearTimeout(timer);
-        // Очищаем все триггеры
         scrollTriggers.current.forEach(trigger => trigger.kill());
         ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       };
@@ -300,11 +429,9 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
   // Обновляем ScrollTrigger при изменении активного индекса
   useEffect(() => {
     if (activeIndex !== null) {
-      // Небольшая задержка для завершения анимации раскрытия
       const timer = setTimeout(() => {
         ScrollTrigger.refresh();
       }, 300);
-      
       return () => clearTimeout(timer);
     }
   }, [activeIndex]);
@@ -315,16 +442,14 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
       const timer = setTimeout(() => {
         autoOpenService();
       }, 200);
-      
       return () => clearTimeout(timer);
     }
   }, [location.pathname, hasAutoOpened, autoOpenService]);
 
-  // Обработчик изменения размера окна для корректировки позиции
+  // Обработчик изменения размера окна
   useEffect(() => {
     const handleResize = () => {
       if (activeIndex !== null) {
-        // При изменении размера окна перепроверяем видимость открытой услуги
         setTimeout(() => {
           const element = document.getElementById(`service-${activeIndex}`);
           if (element) {
@@ -333,7 +458,6 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
             const headerHeight = document.querySelector('header')?.clientHeight || 80;
             const offset = headerHeight + 40;
             
-            // Если элемент не виден после изменения размера, корректируем позицию
             if (rect.top < offset || rect.bottom > viewportHeight) {
               scrollToElement(`service-${activeIndex}`);
             }
@@ -346,18 +470,17 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
     return () => window.removeEventListener('resize', handleResize);
   }, [activeIndex, scrollToElement]);
 
-  const handleOrder = useCallback((serviceName: string) => {
-    console.log(`Заказ услуги: ${serviceName}`);
-    alert(`Заказ услуги "${serviceName}" отправлен в обработку`);
-  }, []);
-
-  const handleContactSupport = useCallback(() => {
-    window.location.href = '/support';
-  }, []);
-
-  const handleLeaveRequest = useCallback(() => {
-    window.location.href = '/contact';
-  }, []);
+  // Функция для получения текста статуса
+  const getStatusText = (status: string) => {
+    switch(status) {
+      case 'development':
+        return 'В разработке';
+      case 'test':
+        return 'Тестовый режим';
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -386,24 +509,18 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
               <span>Поддержка 24/7</span>
             </div>
           </div>
+
+          
         </div>
       </section>
 
       {/* Список услуг */}
       <section ref={listRef} className={styles.servicesListSection}>
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>
-            Все <span className={styles.gradientText}>услуги</span>
-          </h2>
-          <p className={styles.sectionSubtitle}>
-            Выберите решение, которое подходит именно вам. Нажмите на услугу для подробностей
-          </p>
-        </div>
-
         <div className={styles.list}>
           {services.map((service, index) => {
             const Icon = service.icon;
             const isOpen = activeIndex === index;
+            const statusText = getStatusText(service.status);
             
             return (
               <div
@@ -426,8 +543,17 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
                       <Icon className={styles.itemIcon} />
                     </div>
                     <div className={styles.itemInfo}>
-                      <h3>{service.name}</h3>
-                      <span className={styles.price}>{service.price}</span>
+                      <div className={styles.titleRow}>
+                        <h3>{service.name}</h3>
+                        <span className={styles.price}>{service.price}</span>
+                      </div>
+                      {statusText && (
+                        <div className={styles.statusContainer}>
+                          <span className={`${styles.statusBadge} ${service.status === 'development' ? styles.statusDevelopment : styles.statusTest}`}>
+                            {statusText}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -467,20 +593,22 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
                           className={styles.order}
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleOrder(service.name);
+                            handleOrder(service);
                           }}
+                          disabled={isCreatingOrder}
                         >
                           <ShoppingCart className={styles.buttonIcon} />
-                          Заказать
+                          {isCreatingOrder ? 'Добавление...' : 'Купить'}
                         </button>
                       ) : (
-                        <button 
-                          className={styles.auth}
+                        <Link
+                          to="/auth"
+                          className={styles.authLink}
                           onClick={(e) => e.stopPropagation()}
                         >
                           <Lock className={styles.buttonIcon} />
-                          Войдите для заказа
-                        </button>
+                          Войдите для покупки
+                        </Link>
                       )}
                     </div>
                   </div>
@@ -507,12 +635,6 @@ const Services = ({ isAuthenticated }: ServicesProps) => {
                 onClick={handleContactSupport}
               >
                 Связаться с поддержкой
-              </button>
-              <button
-                className={styles.ctaButtonSecondary}
-                onClick={handleLeaveRequest}
-              >
-                Оставить заявку
               </button>
             </div>
           </div>

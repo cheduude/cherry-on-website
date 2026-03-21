@@ -37,36 +37,48 @@ interface ExtendedTestimonial extends Testimonial {
   services?: ServiceType[];
 }
 
+// Начальные демо-данные
+const initialTestimonials: ExtendedTestimonial[] = [
+  {
+    id: 1,
+    name: 'Александр К.',
+    role: 'IT-специалист',
+    text: 'Отличный сервис! Цифровые сертификаты работают безупречно уже полгода. Поддержка отвечает быстро и помогает решить любые вопросы. Скорость подключения стабильная, задержки минимальные.',
+    rating: 5,
+    date: '2024-02-15',
+    avatar: 'AK',
+    services: ['Цифровые сертификаты', 'VPS']
+  },
+  {
+    id: 2,
+    name: 'Мария С.',
+    role: 'Дизайнер',
+    text: 'Настроили роутер и подключили VPN за 2 часа. Теперь могу работать с зарубежными заказчиками без проблем. Рекомендую!',
+    rating: 5,
+    date: '2024-02-10',
+    avatar: 'МС',
+    services: ['Настройка роутера', 'VPS']
+  },
+  {
+    id: 3,
+    name: 'Дмитрий П.',
+    role: 'Геймер',
+    text: 'Низкий пинг на игровых серверах после настройки сетевых параметров. Техподдержка помогла с оптимизацией под мой ПК.',
+    rating: 4,
+    date: '2024-02-05',
+    avatar: 'ДП',
+    services: ['Настройка роутера']
+  }
+];
+
 const TestimonialsPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const formRef = useRef<HTMLDivElement>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
   
-  const [testimonials, setTestimonials] = useState<ExtendedTestimonial[]>([
-    // Демо-данные
-    {
-      id: 1,
-      name: 'Александр К.',
-      role: 'IT-специалист',
-      text: 'Отличный сервис! Цифровые сертификаты работают безупречно уже полгода. Поддержка отвечает быстро и помогает решить любые вопросы. Скорость подключения стабильная, задержки минимальные.',
-      rating: 5,
-      date: '2024-02-15',
-      avatar: 'AK',
-      services: ['Цифровые сертификаты', 'VPS']
-    },
-    // ... остальные демо-данные
-    {
-      id: 15,
-      name: 'Константин Л.',
-      role: 'Разработчик',
-      text: 'VPS на NVMe дисках - отличное решение для высоконагруженных проектов. Скорость чтения/записи на высоте, аптайм 99.9%.',
-      rating: 5,
-      date: '2023-11-20',
-      avatar: 'КЛ',
-      services: ['VPS', 'NVMe диски']
-    }
-  ]);
+  // Состояние для отзывов (только в памяти, без localStorage)
+  const [testimonials, setTestimonials] = useState<ExtendedTestimonial[]>(initialTestimonials);
 
   const [filteredTestimonials, setFilteredTestimonials] = useState<ExtendedTestimonial[]>([]);
   const [displayedTestimonials, setDisplayedTestimonials] = useState<ExtendedTestimonial[]>([]);
@@ -101,9 +113,15 @@ const TestimonialsPage: React.FC = () => {
   const ratingContainerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  // При изменении отзывов отправляем событие для обновления на Home странице
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('testimonialsUpdated', { 
+      detail: { testimonials } 
+    }));
+  }, [testimonials]);
+
   // Применяем глобальный smooth scroll через CSS
   useEffect(() => {
-    // Добавляем класс к html для плавного скролла (или можно напрямую стилизовать)
     document.documentElement.style.scrollBehavior = 'smooth';
     return () => {
       document.documentElement.style.scrollBehavior = 'auto';
@@ -114,16 +132,14 @@ const TestimonialsPage: React.FC = () => {
   useEffect(() => {
     const hash = location.hash;
     
-    // Маленькая задержка для гарантии, что DOM готов
     const timer = setTimeout(() => {
       if (hash === '#add-review' || hash === '#addTestimonial') {
         scrollToForm();
       } else {
-        // Если нет хэша, просто скроллим наверх (без анимации)
         window.scrollTo({
           top: 0,
           left: 0,
-          behavior: 'auto' // Мгновенно, чтобы не было конфликтов
+          behavior: 'auto'
         });
       }
     }, 200);
@@ -134,13 +150,10 @@ const TestimonialsPage: React.FC = () => {
   // Функция для прокрутки к форме
   const scrollToForm = () => {
     if (formRef.current && !hasScrolled) {
-      // Обновляем URL без перезагрузки
       navigate('#addTestimonial', { replace: true });
       
-      // Получаем позицию формы
       const formTop = formRef.current.offsetTop;
       
-      // Используем нативный плавный скролл
       window.scrollTo({
         top: formTop - 80,
         behavior: 'smooth'
@@ -148,7 +161,6 @@ const TestimonialsPage: React.FC = () => {
       
       setHasScrolled(true);
       
-      // Сбрасываем флаг через некоторое время
       setTimeout(() => {
         setHasScrolled(false);
       }, 1500);
@@ -172,9 +184,7 @@ const TestimonialsPage: React.FC = () => {
 
   // Анимации при загрузке
   useEffect(() => {
-    // Небольшая задержка для анимаций
     const timer = setTimeout(() => {
-      // Анимация карточек отзывов
       gsap.fromTo(`.${styles.testimonialCard}`,
         {
           opacity: 0,
@@ -196,7 +206,6 @@ const TestimonialsPage: React.FC = () => {
         }
       );
 
-      // Анимация статистики
       gsap.fromTo(`.${styles.statsCard}`,
         {
           opacity: 0,
@@ -219,7 +228,7 @@ const TestimonialsPage: React.FC = () => {
     };
   }, []);
 
-  // Эффект для поддержки свайпа (горизонтальная прокрутка на мобильных) – без изменений
+  // Эффект для поддержки свайпа
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
@@ -250,7 +259,6 @@ const TestimonialsPage: React.FC = () => {
       scrollContainer.scrollLeft = scrollLeft - walk;
     };
 
-    // Touch события для мобильных
     const handleTouchStart = (e: TouchEvent) => {
       isDown = true;
       startX = e.touches[0].pageX - scrollContainer.offsetLeft;
@@ -294,12 +302,10 @@ const TestimonialsPage: React.FC = () => {
   useEffect(() => {
     let result = [...testimonials];
 
-    // Фильтрация по рейтингу
     if (ratingFilter > 0) {
       result = result.filter(t => t.rating === ratingFilter);
     }
 
-    // Поиск по тексту
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       result = result.filter(t => 
@@ -310,7 +316,6 @@ const TestimonialsPage: React.FC = () => {
       );
     }
 
-    // Сортировка
     result.sort((a, b) => {
       switch (sortBy) {
         case 'date-desc':
@@ -344,7 +349,7 @@ const TestimonialsPage: React.FC = () => {
     });
   }, [testimonials]);
 
-  // Пагинация - обновление отображаемых отзывов
+  // Пагинация
   useEffect(() => {
     const startIndex = (currentPage - 1) * testimonialsPerPage;
     const endIndex = startIndex + testimonialsPerPage;
@@ -356,12 +361,10 @@ const TestimonialsPage: React.FC = () => {
     const textarea = e.target;
     setFormData(prev => ({ ...prev, text: textarea.value }));
     
-    // Мгновенное изменение высоты
     textarea.style.height = 'auto';
     textarea.style.height = `${Math.min(textarea.scrollHeight, 300)}px`;
   };
 
-  // Обработчики для звезд рейтинга
   const handleStarHover = (rating: number) => {
     setHoverRating(rating);
   };
@@ -375,18 +378,15 @@ const TestimonialsPage: React.FC = () => {
     setHoverRating(0);
   };
 
-  // Обработчик выбора сервисов
   const handleServiceChange = (service: ServiceType) => {
     setFormData(prev => {
       const currentServices = [...prev.services];
       if (currentServices.includes(service)) {
-        // Удаляем сервис, если уже выбран
         return {
           ...prev,
           services: currentServices.filter(s => s !== service)
         };
       } else {
-        // Добавляем сервис, если не выбран (максимум 3)
         if (currentServices.length < 3) {
           return {
             ...prev,
@@ -398,12 +398,10 @@ const TestimonialsPage: React.FC = () => {
     });
   };
 
-  // Обработчик изменения полей формы
   const handleFormFieldChange = (field: 'name' | 'role' | 'text' | 'rating', value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  // Рендер звезд рейтинга (для отображения)
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }).map((_, index) => (
       <span
@@ -418,7 +416,6 @@ const TestimonialsPage: React.FC = () => {
     ));
   };
 
-  // Рендер интерактивных звезд для формы
   const renderInteractiveStars = () => {
     return Array.from({ length: 5 }).map((_, index) => {
       const starNumber = index + 1;
@@ -441,7 +438,6 @@ const TestimonialsPage: React.FC = () => {
     });
   };
 
-  // Рендер тегов сервисов
   const renderServiceTags = (services?: ServiceType[]) => {
     if (!services || services.length === 0) {
       return null;
@@ -458,7 +454,6 @@ const TestimonialsPage: React.FC = () => {
     );
   };
 
-  // Форматирование даты в формат dd.mm.yy
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, '0');
@@ -467,7 +462,6 @@ const TestimonialsPage: React.FC = () => {
     return `${day}.${month}.${year}`;
   };
 
-  // Обработчик отправки нового отзыва
   const handleSubmitTestimonial = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -492,7 +486,8 @@ const TestimonialsPage: React.FC = () => {
       services: formData.services
     };
 
-    setTestimonials([newTestimonial, ...testimonials]);
+    // Добавляем новый отзыв в состояние
+    setTestimonials(prev => [newTestimonial, ...prev]);
     
     // Сброс формы
     setFormData({
@@ -503,15 +498,12 @@ const TestimonialsPage: React.FC = () => {
       services: []
     });
     
-    // Скрываем советы после отправки
     setShowTips(false);
     
-    // Сброс высоты textarea
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
     }
     
-    // Сброс пагинации на первую страницу
     setCurrentPage(1);
     
     // Анимация добавления нового отзыва
@@ -522,9 +514,10 @@ const TestimonialsPage: React.FC = () => {
       duration: 0.5,
       ease: 'back.out(1.7)'
     });
+
+    alert('Спасибо за ваш отзыв!');
   };
 
-  // Расчет общего количества страниц
   const totalPages = Math.ceil(filteredTestimonials.length / testimonialsPerPage);
 
   return (

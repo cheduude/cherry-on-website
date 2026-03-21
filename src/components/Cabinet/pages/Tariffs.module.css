@@ -1,0 +1,154 @@
+/* src/components/Cabinet/pages/Tariffs.module.css */
+
+.tariffsPage {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, var(--color-text), var(--color-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.categories {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.categoryBtn {
+  padding: 10px 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 30px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.categoryBtn:hover {
+  background: var(--color-glass-hover);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.categoryBtn.active {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  border-color: transparent;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: var(--color-surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-medium);
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--color-text);
+}
+
+.cardSpecs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.cardPrice {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--color-accent);
+}
+
+.buyButton {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.buyButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+.buyButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.balanceInfo {
+  background: var(--color-surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--color-text);
+}
+
+.topupButton {
+  padding: 10px 24px;
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 30px;
+  color: var(--color-accent);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.topupButton:hover {
+  background: var(--color-glass-hover);
+  transform: translateY(-2px);
+}
+
+.noTariffs {
+  text-align: center;
+  padding: 40px;
+  color: var(--color-text-muted);
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--color-text-muted);
+}

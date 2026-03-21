@@ -1,3 +1,7 @@
+/* =========================
+   Notification.css
+   ========================= */
+
 .notification-card {
   position: relative;
   background: linear-gradient(
@@ -21,10 +25,10 @@
     0 -1px 0 rgba(255, 255, 255, 0.05) inset;
   min-height: 80px;
   animation: fadeInScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  /* Liquid glass эффект */
   background-attachment: fixed;
 }
 
+/* Анимации */
 @keyframes fadeInScale {
   from {
     opacity: 0;
@@ -38,17 +42,6 @@
 
 .notification-card.closing {
   animation: slideOut 0.3s ease-in forwards;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
 }
 
 @keyframes slideOut {
@@ -118,6 +111,7 @@
   pointer-events: none;
 }
 
+/* Типы уведомлений (тёмная тема) */
 .notification-card.error {
   background: linear-gradient(
     135deg,
@@ -158,6 +152,7 @@
   border-color: rgba(66, 135, 245, 0.25);
 }
 
+/* Содержимое уведомления */
 .notification-content {
   display: flex;
   align-items: flex-start;
@@ -166,7 +161,7 @@
   z-index: 2;
 }
 
-/* Иконка - обновленный стиль для центрирования слева */
+/* Иконка */
 .app-icon {
   width: 40px;
   height: 40px;
@@ -184,56 +179,46 @@
     0 1px 2px rgba(255, 255, 255, 0.15) inset,
     0 -1px 1px rgba(0, 0, 0, 0.1) inset;
   flex-shrink: 0;
-  /* Центрирование относительно текста */
   margin-top: 2px;
   color: rgba(255, 255, 255, 0.95);
   transition: all 0.3s ease;
 }
 
-/* Иконки для разных типов уведомлений */
+/* Иконки для разных типов (тёмная тема) */
 .notification-card.error .app-icon {
   background: rgba(255, 99, 99, 0.15);
   color: rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 4px 12px rgba(255, 99, 99, 0.2),
-    0 1px 2px rgba(255, 255, 255, 0.2) inset;
+  box-shadow: 0 4px 12px rgba(255, 99, 99, 0.2);
 }
 
 .notification-card.success .app-icon {
   background: rgba(99, 255, 132, 0.15);
   color: rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 4px 12px rgba(99, 255, 132, 0.2),
-    0 1px 2px rgba(255, 255, 255, 0.2) inset;
+  box-shadow: 0 4px 12px rgba(99, 255, 132, 0.2);
 }
 
 .notification-card.warning .app-icon {
   background: rgba(255, 193, 7, 0.15);
   color: rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 4px 12px rgba(255, 193, 7, 0.2),
-    0 1px 2px rgba(255, 255, 255, 0.2) inset;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
 }
 
 .notification-card.info .app-icon {
   background: rgba(66, 135, 245, 0.15);
   color: rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 4px 12px rgba(66, 135, 245, 0.2),
-    0 1px 2px rgba(255, 255, 255, 0.2) inset;
+  box-shadow: 0 4px 12px rgba(66, 135, 245, 0.2);
 }
 
 .notification-body {
   flex: 1;
   min-width: 0;
-  /* Выравнивание текста по вертикали с иконкой */
   padding-top: 2px;
 }
 
 .content-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Изменено для лучшего выравнивания */
+  align-items: flex-start;
   gap: 12px;
   margin-bottom: 6px;
 }
@@ -264,6 +249,7 @@
   margin-top: 4px;
 }
 
+/* Кнопка закрытия */
 .notification-close {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -288,7 +274,7 @@
   transform: rotate(90deg);
 }
 
-/* Background orbs - улучшенные */
+/* Декоративные круги (orbs) */
 .bg-orbs {
   position: absolute;
   top: 0;
@@ -349,9 +335,9 @@
   }
 }
 
-/* New notification animation */
+/* Анимация нового уведомления */
 .notification-card.new {
-  animation: pulse 2s ease-in-out, slideIn 0.3s ease-out;
+  animation: pulse 2s ease-in-out, fadeInScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes pulse {
@@ -372,7 +358,7 @@
   }
 }
 
-/* Liquid glass border animation */
+/* Ховер эффект */
 .notification-card:hover {
   border-color: rgba(255, 255, 255, 0.25);
   box-shadow: 
@@ -387,6 +373,195 @@
     0 6px 16px rgba(0, 0, 0, 0.2),
     0 1px 3px rgba(255, 255, 255, 0.2) inset;
 }
+
+/* =========================
+   СВЕТЛАЯ ТЕМА
+   ========================= */
+[data-theme="light"] .notification-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(250, 250, 255, 0.95) 100%
+  );
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.03) inset;
+}
+
+[data-theme="light"] .notification-card::before {
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.02) 20%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.01) 60%,
+    transparent 80%,
+    rgba(0, 0, 0, 0.03) 100%
+  );
+}
+
+[data-theme="light"] .notification-card::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.1),
+    transparent
+  );
+}
+
+/* Типы уведомлений (светлая тема) */
+[data-theme="light"] .notification-card.error {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 99, 99, 0.1) 0%,
+    rgba(255, 99, 99, 0.05) 100%
+  );
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+[data-theme="light"] .notification-card.success {
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.08) 0%,
+    rgba(34, 197, 94, 0.04) 100%
+  );
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+[data-theme="light"] .notification-card.warning {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.08) 0%,
+    rgba(245, 158, 11, 0.04) 100%
+  );
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+[data-theme="light"] .notification-card.info {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.08) 0%,
+    rgba(59, 130, 246, 0.04) 100%
+  );
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Текст в светлой теме — чёрный */
+[data-theme="light"] .notification-content h3 {
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .notification-content p {
+  color: #4a4a4a;
+}
+
+[data-theme="light"] .timestamp {
+  color: #6b7280;
+}
+
+/* Кнопка закрытия в светлой теме */
+[data-theme="light"] .notification-close {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #6b7280;
+}
+
+[data-theme="light"] .notification-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #1a1a1a;
+  transform: rotate(90deg);
+}
+
+/* Иконки в светлой теме */
+[data-theme="light"] .app-icon {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #1a1a1a;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.05),
+    0 1px 2px rgba(255, 255, 255, 0.8) inset;
+}
+
+[data-theme="light"] .notification-card.error .app-icon {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+[data-theme="light"] .notification-card.success .app-icon {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+[data-theme="light"] .notification-card.warning .app-icon {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+[data-theme="light"] .notification-card.info .app-icon {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Orbs в светлой теме (почти прозрачные) */
+[data-theme="light"] .orb:nth-child(1) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="light"] .orb:nth-child(2) {
+  background: rgba(0, 0, 0, 0.015);
+}
+
+[data-theme="light"] .orb:nth-child(3) {
+  background: rgba(0, 0, 0, 0.01);
+}
+
+/* Анимация pulse для светлой темы */
+[data-theme="light"] .notification-card.new {
+  animation: lightPulse 2s ease-in-out, fadeInScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes lightPulse {
+  0% { 
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      0 0 0 0 rgba(0, 0, 0, 0.05); 
+  }
+  70% { 
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      0 0 0 12px rgba(0, 0, 0, 0); 
+  }
+  100% { 
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      0 0 0 0 rgba(0, 0, 0, 0); 
+  }
+}
+
+/* Ховер эффект для светлой темы */
+[data-theme="light"] .notification-card:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    0 1px 0 rgba(255, 255, 255, 0.95) inset;
+}
+
+[data-theme="light"] .notification-card:hover .app-icon {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 16px rgba(0, 0, 0, 0.08),
+    0 1px 2px rgba(255, 255, 255, 0.9) inset;
+}
+
+/* =========================
+   АДАПТИВНОСТЬ
+   ========================= */
 @media screen and (max-width: 768px) {
   .notification-card {
     padding: 16px;
@@ -423,12 +598,10 @@
 
   .notification-content h3 {
     font-size: 0.95rem;
-    line-height: 1.25;
   }
 
   .notification-content p {
     font-size: 0.8rem;
-    line-height: 1.4;
     margin-top: 2px;
   }
 
@@ -438,24 +611,11 @@
     font-size: 16px;
   }
 
-  /* Orbs тоже немного уменьшаем, но оставляем анимацию */
-  .orb:nth-child(1) {
-    width: 100px;
-    height: 100px;
-  }
-
-  .orb:nth-child(2) {
-    width: 85px;
-    height: 85px;
-  }
-
-  .orb:nth-child(3) {
-    width: 70px;
-    height: 70px;
-  }
+  .orb:nth-child(1) { width: 100px; height: 100px; }
+  .orb:nth-child(2) { width: 85px; height: 85px; }
+  .orb:nth-child(3) { width: 70px; height: 70px; }
 }
 
-/* Для очень маленьких экранов */
 @media screen and (max-width: 480px) {
   .notification-card {
     padding: 14px;
@@ -481,7 +641,6 @@
 
   .notification-content p {
     font-size: 0.75rem;
-    line-height: 1.3;
   }
 
   .notification-close {
@@ -490,32 +649,15 @@
     font-size: 14px;
   }
 
-  .content-header {
-    margin-bottom: 2px;
-  }
-
   .timestamp {
     font-size: 0.65rem;
   }
 
-  /* Еще немного уменьшаем orbs */
-  .orb:nth-child(1) {
-    width: 80px;
-    height: 80px;
-  }
-
-  .orb:nth-child(2) {
-    width: 70px;
-    height: 70px;
-  }
-
-  .orb:nth-child(3) {
-    width: 60px;
-    height: 60px;
-  }
+  .orb:nth-child(1) { width: 80px; height: 80px; }
+  .orb:nth-child(2) { width: 70px; height: 70px; }
+  .orb:nth-child(3) { width: 60px; height: 60px; }
 }
 
-/* Альтернативная адаптация для планшетов */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
   .notification-card {
     padding: 18px;

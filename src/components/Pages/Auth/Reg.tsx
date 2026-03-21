@@ -1,9 +1,11 @@
+// ================================================
+// 3. src/components/Auth/Reg.tsx (SignupForm)
+// ================================================
 import React from 'react';
 import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 
 interface SignupFormProps {
   formData: {
-    signupName: string;
     signupEmail: string;
     signupPassword: string;
     confirmPassword: string;
@@ -13,53 +15,39 @@ interface SignupFormProps {
   isSubmitting: boolean;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({ 
-  formData, 
-  onInputChange, 
+const SignupForm: React.FC<SignupFormProps> = ({
+  formData,
+  onInputChange,
   onSubmit,
-  isSubmitting 
+  isSubmitting
 }) => {
   return (
     <div className="card-back">
       <div className="center-wrap">
         <div className="section text-center">
           <h4 className="mb-4 pb-3">Регистрация</h4>
-          <form onSubmit={onSubmit}>
-            <div className="form-group">
-              <input 
-                type="text" 
-                name="signupName" 
-                className="form-style"
-                placeholder="Ваше имя" 
-                id="logname" 
-                autoComplete="off"
-                value={formData.signupName}
-                onChange={onInputChange}
-                disabled={isSubmitting}
-              />
-              <i className="input-icon uil uil-user"></i>
-            </div>	
+          <form onSubmit={onSubmit}>  
             <div className="form-group mt-2">
-              <input 
-                type="text" 
-                name="signupEmail" 
+              <input
+                type="text"
+                name="signupEmail"
                 className="form-style"
-                placeholder="Ваш Email" 
-                id="signupemail" 
+                placeholder="Ваш Email"
+                id="signupemail"
                 autoComplete="off"
                 value={formData.signupEmail}
                 onChange={onInputChange}
                 disabled={isSubmitting}
               />
               <i className="input-icon uil uil-at"></i>
-            </div>	
+            </div>  
             <div className="form-group mt-2">
-              <input 
-                type="password" 
-                name="signupPassword" 
+              <input
+                type="password"
+                name="signupPassword"
                 className="form-style"
-                placeholder="Пароль" 
-                id="signuppass" 
+                placeholder="Пароль"
+                id="signuppass"
                 autoComplete="off"
                 value={formData.signupPassword}
                 onChange={onInputChange}
@@ -69,12 +57,12 @@ const SignupForm: React.FC<SignupFormProps> = ({
               <PasswordStrengthIndicator password={formData.signupPassword} />
             </div>
             <div className="form-group mt-2">
-              <input 
-                type="password" 
-                name="confirmPassword" 
+              <input
+                type="password"
+                name="confirmPassword"
                 className="form-style"
-                placeholder="Подтвердите пароль" 
-                id="confirmpass" 
+                placeholder="Подтвердите пароль"
+                id="confirmpass"
                 autoComplete="off"
                 value={formData.confirmPassword}
                 onChange={onInputChange}
@@ -82,8 +70,8 @@ const SignupForm: React.FC<SignupFormProps> = ({
               />
               <i className="input-icon uil uil-lock-alt"></i>
             </div>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn mt-4"
               disabled={isSubmitting}
             >
