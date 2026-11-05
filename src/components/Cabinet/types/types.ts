@@ -1,20 +1,11 @@
 export interface User {
-  // Обязательные поля (всегда есть)
   id: number;
   email: string;
-  role: 'user' | 'admin';
-  
-  // Опциональные поля из основного сайта
   name?: string;
-  username?: string;
-  displayName?: string;
-  avatar?: string;
-  token?: string;
-  
-  // Опциональные поля из кабинета (могут отсутствовать, если пользователь не в кабинете)
-  balance?: number;
-  currency?: string;
-  language?: 'ru' | 'en';
+  role: 'user' | 'admin';
+  balance: number;
+  currency: string;
+  language: 'ru' | 'en';
 }
 
 export interface Subscription {

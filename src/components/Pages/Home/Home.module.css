@@ -153,9 +153,9 @@ body {
 }
 
 .primaryButton {
-  padding-top: 16px;
+  padding-top: 10px;
   padding-right: 32px;
-  padding-bottom: 16px;
+  padding-bottom: 10px;
   padding-left: 32px;
   border-radius: 50px;
   font-weight: 600;
@@ -548,10 +548,10 @@ body {
 
 .seeAllButton {
   display: inline-block;
-  padding-top: 16px;
-  padding-right: 40px;
-  padding-bottom: 16px;
-  padding-left: 40px;
+  padding-top: 10px;
+  padding-right: 24px;
+  padding-bottom: 10px;
+  padding-left: 24px;
   background: var(--color-home-seeall-btn-bg);
   border-width: 2px;
   border-style: solid;
@@ -569,8 +569,8 @@ body {
 }
 
 .seeAllButton:hover {
-  background: var(--color-home-seeall-btn-hover-bg);
-  color: var(--color-home-seeall-btn-hover-text);
+  /* background: var(--color-home-seeall-btn-hover-bg);
+  color: var(--color-home-seeall-btn-hover-text); */
   transform: translateY(-3px);
   box-shadow: var(--shadow-soft);
 }
@@ -736,10 +736,10 @@ body {
 }
 
 .allReviewsButton {
-  padding-top: 14px;
-  padding-right: 32px;
-  padding-bottom: 14px;
-  padding-left: 32px;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
   border-radius: 50px;
   font-weight: 600;
   text-decoration: none;
@@ -764,10 +764,10 @@ body {
 }
 
 .addReviewButton {
-  padding-top: 14px;
-  padding-right: 32px;
-  padding-bottom: 14px;
-  padding-left: 32px;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
   border-radius: 50px;
   font-weight: 600;
   text-decoration: none;

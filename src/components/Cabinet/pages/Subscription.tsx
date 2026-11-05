@@ -1,16 +1,25 @@
-import React from 'react';
+// src/components/Cabinet/pages/Subscription.tsx
+import React, { useState } from 'react';
 import styles from './Subscription.module.css';
+import { Copy, CheckCircle, Monitor, Apple, Smartphone, Server } from 'lucide-react';
 
 const Subscription: React.FC = () => {
+  const [copied, setCopied] = useState(false);
+  const configLink = 'https://example.com/config/subscription.txt';
+
   const platforms = [
-    { name: 'Windows', link: 'https://example.com/windows' },
-    { name: 'macOS', link: 'https://example.com/macos' },
-    { name: 'Android', link: 'https://example.com/android' },
-    { name: 'iOS', link: 'https://example.com/ios' },
-    { name: 'Linux', link: 'https://example.com/linux' },
+    { name: 'Windows', icon: Monitor, link: 'https://example.com/windows' },
+    { name: 'macOS', icon: Apple, link: 'https://example.com/macos' },
+    { name: 'Android', icon: Smartphone, link: 'https://example.com/android' },
+    { name: 'iOS', icon: Apple, link: 'https://example.com/ios' },
+    { name: 'Linux', icon: Server, link: 'https://example.com/linux' },
   ];
 
-  const configLink = 'https://example.com/config/subscription.txt';
+  const copyConfigLink = () => {
+    navigator.clipboard.writeText(configLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div className={styles.subscription}>
@@ -28,23 +37,28 @@ const Subscription: React.FC = () => {
       <div className={styles.section}>
         <h2>Конфигурация</h2>
         <div className={styles.configLink}>
-          <a href={configLink} target="_blank" rel="noopener noreferrer">
-            Скачать конфигурацию
-          </a>
-        </div>
-        <div className={styles.copyHint}>
-          или скопируйте ссылку: <code>{configLink}</code>
+          <button 
+            className={`${styles.copyButton} ${copied ? styles.copied : ''}`} 
+            onClick={copyConfigLink}
+            aria-label={copied ? "Ссылка скопирована" : "Скопировать ссылку"}
+          >
+            {copied ? <CheckCircle size={20} strokeWidth={1.5} /> : <Copy size={20} strokeWidth={1.5} />}
+          </button>
         </div>
       </div>
 
       <div className={styles.section}>
         <h2>Приложения по платформам</h2>
         <div className={styles.platformGrid}>
-          {platforms.map(p => (
-            <a key={p.name} href={p.link} className={styles.platformCard} target="_blank" rel="noopener noreferrer">
-              {p.name}
-            </a>
-          ))}
+          {platforms.map(p => {
+            const Icon = p.icon;
+            return (
+              <a key={p.name} href={p.link} className={styles.platformCard} target="_blank" rel="noopener noreferrer">
+                <Icon size={18} strokeWidth={1.5} />
+                <span>{p.name}</span>
+              </a>
+            );
+          })}
         </div>
       </div>
     </div>

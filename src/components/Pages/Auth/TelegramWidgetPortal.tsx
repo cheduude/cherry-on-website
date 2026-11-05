@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-const BOT_USERNAME = 'fsafss_bot';
+const BOT_USERNAME = 'main_cherryon_bot';
 
 interface TelegramWidgetPortalProps {
   buttonRef: React.RefObject<HTMLDivElement | null>;

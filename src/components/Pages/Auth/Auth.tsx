@@ -1,6 +1,4 @@
-// ================================================
 // src/components/Auth/Auth.tsx
-// ================================================
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
@@ -8,8 +6,7 @@ import { useNotifications } from '../../../contexts/NotificationContext';
 import { VALIDATION_RULES, VALIDATION_MESSAGES } from '../../../constants/validation';
 import LoginForm from './Log';
 import SignupForm from './Reg';
-
-const API_BASE = 'https://aut.cherryon.art';
+import api from '../../../lib/api';
 
 interface TelegramUserData {
   id: number;
@@ -28,151 +25,118 @@ const Auth: React.FC = () => {
   const { login, signup, isAuthenticated } = useAuth();
   const { showError, showSuccess } = useNotifications();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [shouldShowRegister, setShouldShowRegister] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const checkboxRef = useRef<HTMLInputElement>(null);
   const animationTimeoutRef = useRef<number | null>(null);
-  const initTimerRef = useRef<number | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
+  const currentRequestRef = useRef<AbortController | null>(null);
 
-  // Если пользователь уже авторизован - редиректим на главную
+  const [formData, setFormData] = useState({
+    loginEmail: '',
+    loginPassword: '',
+    signupEmail: '',
+    signupPassword: '',
+    confirmPassword: '',
+  });
+
+  // Редирект если уже авторизован
   useEffect(() => {
     if (isAuthenticated) {
-      console.log('User already authenticated in Auth, redirecting');
       navigate('/', { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
-  // Определяем мобильное устройство
+  // Определение мобильного устройства
   useEffect(() => {
     const checkMobile = () => {
-      const isMobileDevice = window.innerWidth <= 767;
-      setIsMobile(isMobileDevice);
-      
-      if (isMobileDevice) {
-        document.body.classList.add('auth-mobile');
-      } else {
-        document.body.classList.remove('auth-mobile');
-      }
+      setIsMobile(window.innerWidth <= 767);
     };
-    
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-      document.body.classList.remove('auth-mobile');
-    };
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  useEffect(() => {
-    if (isMobile) {
-      const style = document.createElement('style');
-      style.textContent = `
-        .card-front, .card-back {
-          -webkit-transform: translateZ(0);
-          -moz-transform: translateZ(0);
-          -ms-transform: translateZ(0);
-          -o-transform: translateZ(0);
-          transform: translateZ(0);
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          -webkit-perspective: 1000;
-          perspective: 1000;
-        }
-      `;
-      document.head.appendChild(style);
-      
-      return () => {
-        document.head.removeChild(style);
-      };
-    }
-  }, [isMobile]);
-
-  // Автоматически показываем регистрацию
+  // Обработка параметра form для показа регистрации
   useEffect(() => {
     const isRegisterMode = formParam === 'register';
     
-    if (isRegisterMode && !shouldShowRegister) {
-      setShouldShowRegister(true);
+    if (isRegisterMode && isLogin) {
       setIsLogin(false);
       
-      initTimerRef.current = window.setTimeout(() => {
+      const timer = setTimeout(() => {
         if (checkboxRef.current) {
           setIsAnimating(true);
           checkboxRef.current.checked = true;
           navigate('/auth', { replace: true });
           
-          const animationDuration = isMobile ? 400 : 800;
-          animationTimeoutRef.current = window.setTimeout(() => {
-            setIsAnimating(false);
-          }, animationDuration);
+          setTimeout(() => setIsAnimating(false), isMobile ? 400 : 800);
         }
       }, 100);
-    } else if (!isRegisterMode) {
-      setShouldShowRegister(false);
-      setIsLogin(true);
+      
+      return () => clearTimeout(timer);
     }
-    
-    return () => {
-      if (initTimerRef.current) clearTimeout(initTimerRef.current);
-      if (animationTimeoutRef.current) clearTimeout(animationTimeoutRef.current);
-    };
-  }, [formParam, shouldShowRegister, navigate, isMobile]);
+  }, [formParam, isLogin, navigate, isMobile]);
 
-  // Очистка
+  // Очистка при размонтировании
   useEffect(() => {
     return () => {
-      if (initTimerRef.current) clearTimeout(initTimerRef.current);
       if (animationTimeoutRef.current) clearTimeout(animationTimeoutRef.current);
-      if (abortControllerRef.current) abortControllerRef.current.abort();
-      document.body.classList.remove('auth-page-isolated');
+      if (currentRequestRef.current) currentRequestRef.current.abort();
     };
   }, []);
-
-  const [formData, setFormData] = useState({
-    loginEmail: '',
-    loginPassword: '',
-    signupName: '',
-    signupEmail: '',
-    signupPassword: '',
-    confirmPassword: '',
-  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const validatePassword = useCallback((password: string): { isValid: boolean; errors: string[] } => {
+  // Валидация пароля с детальными проверками
+  const validatePassword = useCallback((password: string): string[] => {
     const errors: string[] = [];
     
     if (!password.trim()) {
       errors.push(VALIDATION_MESSAGES.PASSWORD_REQUIRED);
-    } else {
-      if (password.length < VALIDATION_RULES.MIN_PASSWORD_LENGTH) {
-        errors.push(VALIDATION_MESSAGES.PASSWORD_TOO_SHORT);
-      }
-      if (password.length > VALIDATION_RULES.MAX_PASSWORD_LENGTH) {
-        errors.push(VALIDATION_MESSAGES.PASSWORD_TOO_LONG);
-      }
-      if (!VALIDATION_RULES.PASSWORD_REGEX.test(password)) {
-        errors.push(VALIDATION_MESSAGES.PASSWORD_WEAK);
-      }
+      return errors;
     }
     
-    return { isValid: errors.length === 0, errors };
+    if (password.length < VALIDATION_RULES.MIN_PASSWORD_LENGTH) {
+      errors.push(VALIDATION_MESSAGES.PASSWORD_TOO_SHORT);
+    }
+    
+    if (password.length > VALIDATION_RULES.MAX_PASSWORD_LENGTH) {
+      errors.push(VALIDATION_MESSAGES.PASSWORD_TOO_LONG);
+    }
+    
+    if (!/[A-Z]/.test(password)) {
+      errors.push('Пароль должен содержать заглавную букву (A-Z)');
+    }
+    
+    if (!/[a-z]/.test(password)) {
+      errors.push('Пароль должен содержать строчную букву (a-z)');
+    }
+    
+    if (!/\d/.test(password)) {
+      errors.push('Пароль должен содержать цифру (0-9)');
+    }
+    
+    if (!/[@$!%*?&]/.test(password)) {
+      errors.push('Пароль должен содержать специальный символ (@$!%*?&)');
+    }
+    
+    return errors;
   }, []);
 
   const validateLoginForm = (): boolean => {
     const errors: string[] = [];
-    if (!formData.loginEmail.trim()) errors.push(VALIDATION_MESSAGES.EMAIL_REQUIRED);
-    else if (!VALIDATION_RULES.EMAIL_REGEX.test(formData.loginEmail)) errors.push(VALIDATION_MESSAGES.EMAIL_INVALID);
+    
+    if (!formData.loginEmail.trim()) {
+      errors.push(VALIDATION_MESSAGES.EMAIL_REQUIRED);
+    } else if (!VALIDATION_RULES.EMAIL_REGEX.test(formData.loginEmail)) {
+      errors.push(VALIDATION_MESSAGES.EMAIL_INVALID);
+    }
 
-    const passwordValidation = validatePassword(formData.loginPassword);
-    if (!passwordValidation.isValid) errors.push(...passwordValidation.errors);
+    errors.push(...validatePassword(formData.loginPassword));
 
     if (errors.length > 0) {
       showError('Ошибка входа', errors.join('. '));
@@ -184,14 +148,19 @@ const Auth: React.FC = () => {
   const validateSignupForm = (): boolean => {
     const errors: string[] = [];
     
-    if (!formData.signupEmail.trim()) errors.push(VALIDATION_MESSAGES.EMAIL_REQUIRED);
-    else if (!VALIDATION_RULES.EMAIL_REGEX.test(formData.signupEmail)) errors.push(VALIDATION_MESSAGES.EMAIL_INVALID);
+    if (!formData.signupEmail.trim()) {
+      errors.push(VALIDATION_MESSAGES.EMAIL_REQUIRED);
+    } else if (!VALIDATION_RULES.EMAIL_REGEX.test(formData.signupEmail)) {
+      errors.push(VALIDATION_MESSAGES.EMAIL_INVALID);
+    }
 
-    const passwordValidation = validatePassword(formData.signupPassword);
-    if (!passwordValidation.isValid) errors.push(...passwordValidation.errors);
+    errors.push(...validatePassword(formData.signupPassword));
 
-    if (!formData.confirmPassword.trim()) errors.push('Подтвердите пароль');
-    else if (formData.signupPassword !== formData.confirmPassword) errors.push(VALIDATION_MESSAGES.PASSWORDS_NOT_MATCH);
+    if (!formData.confirmPassword.trim()) {
+      errors.push('Подтвердите пароль');
+    } else if (formData.signupPassword !== formData.confirmPassword) {
+      errors.push(VALIDATION_MESSAGES.PASSWORDS_NOT_MATCH);
+    }
 
     if (errors.length > 0) {
       showError('Ошибка регистрации', errors.join('. '));
@@ -200,29 +169,27 @@ const Auth: React.FC = () => {
     return true;
   };
 
-  // ==================== РЕАЛЬНЫЙ API ====================
-  const apiRequest = async (endpoint: string, body: object) => {
-    if (abortControllerRef.current) abortControllerRef.current.abort();
-    abortControllerRef.current = new AbortController();
-
-    const res = await fetch(`${API_BASE}${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      signal: abortControllerRef.current.signal,
-    });
-
-    let data;
-    try {
-      data = await res.json();
-    } catch {
-      throw new Error('Сервер вернул некорректный ответ');
+  // Создание объекта пользователя из ответа сервера
+  const createUserObject = (data: any, email: string, defaultName?: string) => {
+    const userFromServer = data.user || data.data?.user || {};
+    const token = data.token || data.accessToken || data.jwt || data.JWT;
+    
+    if (!token) {
+      throw new Error('Сервер не вернул токен авторизации');
     }
 
-    if (!res.ok) {
-      throw new Error(data.message || data.error || 'Неизвестная ошибка сервера');
-    }
-    return data;
+    const userId = userFromServer.id ?? userFromServer._id ?? Date.now();
+    const numericId = typeof userId === 'string' ? parseInt(userId, 10) : userId;
+
+    return {
+      id: numericId,
+      name: userFromServer.name || userFromServer.username || defaultName || 'Пользователь',
+      email: userFromServer.email || email,
+      avatar: userFromServer.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(email)}&background=random&color=fff&size=32&bold=true`,
+      role: userFromServer.role || 'user',
+      username: userFromServer.username || email.split('@')[0],
+      token,
+    };
   };
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
@@ -231,29 +198,63 @@ const Auth: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      const data = await apiRequest('/api/auth/login', {
+      const response = await api.post('/api/auth/login', {
         login: formData.loginEmail.trim(),
-        password: formData.loginPassword.trim()
+        password: formData.loginPassword.trim(),
       });
 
-      const token = data.token || data.accessToken || data.jwt;
-      const userFromServer = data.user || data.data?.user || {};
-
-      const userForLogin = {
-        id: (userFromServer.id || userFromServer._id || '').toString(),
-        name: userFromServer.name || userFromServer.username || formData.loginEmail.split('@')[0],
-        email: userFromServer.email || formData.loginEmail,
-        avatar: userFromServer.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.loginEmail)}&background=random&color=fff&size=32&bold=true`,
-        role: userFromServer.role || 'user',
-        username: userFromServer.username || formData.loginEmail.split('@')[0],
-        token
-      };
-
-      await login(userForLogin);
+      const data = response.data;
+      const token = data.token || data.accessToken || data.jwt || data.JWT;
+      
+      if (!token) {
+        throw new Error('Сервер не вернул токен');
+      }
+      
+      localStorage.setItem('accessToken', token);
+      
+      // Принудительное обновление refresh_token
+      try {
+        console.log('🔄 Принудительное обновление refresh_token...');
+        const refreshResponse = await api.post('/api/auth/refresh', {}, {
+          withCredentials: true,
+        });
+        if (refreshResponse.data.jwt) {
+          localStorage.setItem('accessToken', refreshResponse.data.jwt);
+        }
+      } catch (refreshError) {
+        console.warn('⚠️ Не удалось обновить refresh_token:', refreshError);
+      }
+      
+      const user = createUserObject(data, formData.loginEmail, formData.loginEmail.split('@')[0]);
+      user.token = localStorage.getItem('accessToken') || token;
+      await login(user);
       showSuccess('Успешный вход', 'Вы успешно вошли в систему');
-      // Редирект произойдет автоматически через useEffect
     } catch (error: any) {
-      showError('Ошибка входа', error.message || 'Неверный email или пароль');
+      console.error('Login error:', error);
+      
+      let errorMessage = 'Неверный email или пароль';
+      const statusCode = error.response?.status;
+      const errorText = error.response?.data?.message?.toLowerCase() || error.message?.toLowerCase() || '';
+      
+      if (statusCode === 404 || errorText.includes('not found') || errorText.includes('не найден')) {
+        errorMessage = 'Пользователь с таким email не найден';
+      } else if (statusCode === 401 || errorText.includes('unauthorized') || errorText.includes('не авторизован')) {
+        errorMessage = 'Неверный пароль';
+      } else if (statusCode === 403 || errorText.includes('forbidden')) {
+        errorMessage = 'Доступ запрещён. Возможно, аккаунт заблокирован';
+      } else if (statusCode === 400 || errorText.includes('bad request')) {
+        errorMessage = 'Некорректные данные для входа';
+      } else if (statusCode === 500 || errorText.includes('internal server')) {
+        errorMessage = 'Ошибка на сервере. Попробуйте позже';
+      } else if (errorText.includes('password') || errorText.includes('пароль')) {
+        errorMessage = 'Неверный пароль';
+      } else if (errorText.includes('user') && (errorText.includes('not exist') || errorText.includes('не существует'))) {
+        errorMessage = 'Пользователь с таким email не найден';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+      
+      showError('Ошибка входа', errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -265,116 +266,198 @@ const Auth: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      const data = await apiRequest('/api/auth/register', {
+      const response = await api.post('/api/auth/register', {
         login: formData.signupEmail.trim(),
-        password: formData.signupPassword.trim()
+        password: formData.signupPassword.trim(),
       });
 
-      const token = data.token || data.accessToken || data.jwt;
-      const userFromServer = data.user || data.data?.user || {};
-
-      const userForSignup = {
-        id: (userFromServer.id || userFromServer._id || '').toString(),
-        name: userFromServer.name || 'Пользователь',
-        email: userFromServer.email || formData.signupEmail,
-        avatar: userFromServer.avatar || `https://ui-avatars.com/api/?name=User&background=random&color=fff&size=32&bold=true`,
-        role: userFromServer.role || 'user',
-        username: userFromServer.username || formData.signupEmail.split('@')[0],
-        token
-      };
-
-      await signup(userForSignup);
+      const data = response.data;
+      const token = data.token || data.accessToken || data.jwt || data.JWT;
+      
+      if (!token) {
+        throw new Error('Сервер не вернул токен');
+      }
+      
+      localStorage.setItem('accessToken', token);
+      
+      // Принудительное обновление refresh_token
+      try {
+        console.log('🔄 Принудительное обновление refresh_token...');
+        const refreshResponse = await api.post('/api/auth/refresh', {}, {
+          withCredentials: true,
+        });
+        if (refreshResponse.data.jwt) {
+          localStorage.setItem('accessToken', refreshResponse.data.jwt);
+        }
+      } catch (refreshError) {
+        console.warn('⚠️ Не удалось обновить refresh_token:', refreshError);
+      }
+      
+      const user = createUserObject(data, formData.signupEmail, 'Пользователь');
+      user.token = localStorage.getItem('accessToken') || token;
+      await signup(user);
       showSuccess('Успешная регистрация', 'Вы успешно зарегистрировались');
-      // Редирект произойдет автоматически через useEffect
     } catch (error: any) {
-      showError('Ошибка регистрации', error.message || 'Пользователь с таким email уже существует');
+      console.error('Registration error:', error);
+      
+      let errorMessage = 'Ошибка регистрации';
+      const statusCode = error.response?.status;
+      const errorText = error.response?.data?.message?.toLowerCase() || error.message?.toLowerCase() || '';
+      
+      if (statusCode === 409 || 
+          errorText.includes('already exists') || 
+          errorText.includes('already exist') ||
+          errorText.includes('already registered') ||
+          errorText.includes('уже существует') ||
+          errorText.includes('уже зарегистрирован')) {
+        errorMessage = 'Пользователь с таким email уже существует';
+      } else if (statusCode === 400 && (errorText.includes('password') || errorText.includes('пароль'))) {
+        errorMessage = 'Пароль не соответствует требованиям безопасности';
+      } else if (statusCode === 500 || errorText.includes('internal server')) {
+        errorMessage = 'Ошибка на сервере. Попробуйте позже';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+      
+      showError('Ошибка регистрации', errorMessage);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Исправленный обработчик Telegram авторизации
-const handleTelegramAuth = useCallback(async (userData: TelegramUserData) => {
-  console.log('📱 Processing Telegram auth:', userData);
-  
-  if (!userData || !userData.id) {
-    showError('Ошибка авторизации', 'Не получены данные от Telegram');
-    return;
-  }
-  
-  setIsSubmitting(true);
-  
-  try {
-    // Формируем данные пользователя так же, как в старом коде
-    const name = `${userData.first_name || ''} ${userData.last_name || ''}`.trim() ||
-                userData.username || `User${userData.id}`;
-    const email = userData.username ? `${userData.username}@telegram.com` : `id${userData.id}@telegram.com`;
-    const avatar = userData.photo_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=128&bold=true`;
-
-    const userForLogin = {
-      id: userData.id.toString(),
-      name,
-      email,
-      avatar,
-      username: userData.username || `user${userData.id}`,
-      displayName: name,
-      role: 'user',
-      auth_date: userData.auth_date,
-      hash: userData.hash,
-      token: 'telegram-auth-token' // Временный токен, если бэкенд не возвращает свой
-    };
-
-    // Сохраняем пользователя через хук useAuth
-    await login(userForLogin);
+  // Telegram авторизация
+  const handleTelegramAuth = useCallback(async (userData: TelegramUserData) => {
+    if (!userData?.id) {
+      showError('Ошибка авторизации', 'Не получены данные от Telegram');
+      return;
+    }
     
-    showSuccess('Успешный вход', 'Вы вошли через Telegram');
+    setIsSubmitting(true);
     
-  } catch (error: any) {
-    console.error('❌ Telegram auth error:', error);
-    showError('Ошибка авторизации', error.message || 'Попробуйте еще раз');
-  } finally {
-    setIsSubmitting(false);
-  }
-}, [login, showError, showSuccess]);
+    try {
+      const response = await api.post('/api/auth/telegram', {
+        id: userData.id,
+        first_name: userData.first_name,
+        last_name: userData.last_name,
+        username: userData.username,
+        photo_url: userData.photo_url,
+        auth_date: userData.auth_date,
+        hash: userData.hash,
+      });
+
+      const data = response.data;
+      console.log('📥 Server response:', data);
+
+      // Ищем токен
+      const token = data.JWT || data.token || data.accessToken || data.jwt;
+
+      console.log('🔑 Token found:', token ? `${token.substring(0, 30)}...` : 'NOT FOUND');
+
+      if (!token) {
+        console.warn('⚠️ No token in response');
+        throw new Error('Сервер не вернул токен авторизации');
+      }
+
+      // Сохраняем JWT
+      localStorage.setItem('accessToken', token);
+      
+      // Принудительное обновление refresh_token через refresh эндпоинт
+      try {
+        console.log('🔄 Принудительное обновление refresh_token...');
+        const refreshResponse = await api.post('/api/auth/refresh', {}, {
+          withCredentials: true,
+        });
+        console.log('✅ Refresh_token обновлен');
+        
+        // Если пришел новый JWT, обновляем его
+        if (refreshResponse.data.jwt) {
+          localStorage.setItem('accessToken', refreshResponse.data.jwt);
+          console.log('✅ JWT тоже обновлен');
+        }
+      } catch (refreshError) {
+        console.warn('⚠️ Не удалось обновить refresh_token:', refreshError);
+        // Не фатально, продолжаем с тем что есть
+      }
+
+      // Получаем данные пользователя из ответа
+      const userFromServer = data.user || data.data?.user || data.result?.user || {};
+
+      const name = userFromServer.name || 
+                   `${userData.first_name || ''} ${userData.last_name || ''}`.trim() ||
+                   userData.username || 
+                   `User${userData.id}`;
+      
+      const email = userFromServer.email || 
+                    (userData.username ? `${userData.username}@telegram.com` : `tg${userData.id}@telegram.com`);
+      
+      const avatar = userFromServer.avatar || 
+                     userData.photo_url || 
+                     `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.first_name || 'User')}&background=random&color=fff&size=128&bold=true`;
+
+      const userRole = userFromServer.role === 'admin' ? 'admin' : 'user';
+
+      const user = {
+        id: userData.id,
+        name,
+        email,
+        avatar,
+        username: userFromServer.username || userData.username || `user${userData.id}`,
+        displayName: userFromServer.displayName || name,
+        role: userRole as 'user' | 'admin',
+        token: localStorage.getItem('accessToken') || token,
+      };
+
+      await login(user);
+      showSuccess('Успешный вход', 'Вы вошли через Telegram');
+    } catch (error: any) {
+      console.error('Telegram auth error:', error);
+      
+      let errorMessage = 'Ошибка авторизации через Telegram';
+      const statusCode = error.response?.status;
+      const errorText = error.response?.data?.message?.toLowerCase() || error.message?.toLowerCase() || '';
+      
+      if (statusCode === 401 || errorText.includes('unauthorized') || errorText.includes('invalid hash')) {
+        errorMessage = 'Недействительные данные Telegram. Попробуйте еще раз';
+      } else if (statusCode === 409 || errorText.includes('already exists')) {
+        errorMessage = 'Аккаунт Telegram уже привязан к другому пользователю';
+      } else if (statusCode === 500 || errorText.includes('internal server')) {
+        errorMessage = 'Ошибка на сервере. Попробуйте позже';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+      
+      showError('Ошибка авторизации', errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [login, showError, showSuccess]);
 
   // Слушаем события от Telegram
   useEffect(() => {
     const handleTelegramMessage = (event: MessageEvent) => {
-      console.log('📨 Message from:', event.origin);
-      const allowedOrigins = [
-        'https://oauth.telegram.org', 
-        'https://telegram.org', 
-        'https://web.telegram.org', 
-        window.location.origin
-      ];
-      
-      if (!allowedOrigins.includes(event.origin)) return;
+      const allowedOrigins = ['https://oauth.telegram.org', 'https://telegram.org', 'https://web.telegram.org'];
+      if (!allowedOrigins.includes(event.origin) && event.origin !== window.location.origin) return;
 
-      if (event.data && event.data.event === 'auth_result') {
+      if (event.data?.event === 'auth_result') {
         handleTelegramAuth(event.data.result);
         return;
       }
 
       let userData;
       if (typeof event.data === 'string') {
-        try { 
-          userData = JSON.parse(event.data); 
-        } catch { 
-          return; 
-        }
+        try { userData = JSON.parse(event.data); } catch { return; }
       } else if (event.data && typeof event.data === 'object') {
         userData = event.data;
       } else {
         return;
       }
 
-      if (!userData.id || !userData.hash) return;
-      handleTelegramAuth(userData);
+      if (userData?.id && userData?.hash) {
+        handleTelegramAuth(userData);
+      }
     };
 
-    // Глобальный callback для Telegram виджета
-    (window as any).onTelegramAuth = (user: any) => handleTelegramAuth(user);
-    
+    (window as any).onTelegramAuth = handleTelegramAuth;
     window.addEventListener('message', handleTelegramMessage);
 
     return () => {
@@ -387,15 +470,12 @@ const handleTelegramAuth = useCallback(async (userData: TelegramUserData) => {
     if (isAnimating) return;
     setIsAnimating(true);
     setIsLogin(!isLogin);
-    const animationDuration = isMobile ? 300 : 600;
+    
     if (animationTimeoutRef.current) clearTimeout(animationTimeoutRef.current);
-    animationTimeoutRef.current = window.setTimeout(() => setIsAnimating(false), animationDuration);
+    animationTimeoutRef.current = window.setTimeout(() => setIsAnimating(false), isMobile ? 300 : 600);
   }, [isAnimating, isLogin, isMobile]);
 
-  // Если авторизован - не показываем форму
-  if (isAuthenticated) {
-    return null;
-  }
+  if (isAuthenticated) return null;
 
   return (
     <div className={`auth-container ${isMobile ? 'auth-mobile-view' : ''}`}>

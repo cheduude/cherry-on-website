@@ -1,154 +1,322 @@
 /* src/components/Cabinet/pages/Tariffs.module.css */
 
 .tariffsPage {
-  max-width: 1400px;
+  max-width: 1000px;
   margin: 0 auto;
+  padding: 20px 0;
+}
+
+.header {
+  margin-bottom: 32px;
 }
 
 .title {
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 32px;
+  margin-bottom: 8px;
   background: linear-gradient(135deg, var(--color-text), var(--color-accent));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.categories {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
-}
-
-.categoryBtn {
-  padding: 10px 24px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-glass-border);
-  border-radius: 30px;
-  color: var(--color-text);
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 0.9rem;
-}
-
-.categoryBtn:hover {
-  background: var(--color-glass-hover);
-  border-color: var(--color-accent);
-  color: var(--color-text);
-}
-
-.categoryBtn.active {
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
-  border-color: transparent;
-  color: white;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
-  margin-bottom: 32px;
-}
-
-.card {
-  background: var(--color-surface);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--color-glass-border);
-  border-radius: 20px;
-  padding: 24px;
-  transition: all 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  border-color: var(--color-accent);
-  box-shadow: var(--shadow-medium);
-}
-
-.cardTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--color-text);
-}
-
-.cardSpecs {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
-  font-size: 0.85rem;
+.subtitle {
+  font-size: 0.95rem;
   color: var(--color-text-muted);
 }
 
-.cardPrice {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 20px;
+/* Список заказов */
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.orderCard {
+  display: flex;
+  gap: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 20px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.orderCard:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.orderIcon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.1));
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--color-accent);
 }
 
-.buyButton {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
-  border: none;
-  border-radius: 12px;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+.orderContent {
+  flex: 1;
 }
 
-.buyButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
-}
-
-.buyButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.balanceInfo {
-  background: var(--color-surface);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--color-glass-border);
-  border-radius: 16px;
-  padding: 20px 24px;
+.orderHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.orderName {
+  font-size: 1.2rem;
+  font-weight: 600;
   color: var(--color-text);
+  margin: 0;
 }
 
-.topupButton {
-  padding: 10px 24px;
-  background: var(--color-glass-bg);
-  border: 1px solid var(--color-glass-border);
-  border-radius: 30px;
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.statusNew {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.statusPaid {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.statusProcessing {
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.statusCompleted {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.statusCancelled {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.orderDesc {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.orderFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.orderPrice {
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--color-accent);
-  cursor: pointer;
-  transition: all 0.2s;
 }
 
-.topupButton:hover {
-  background: var(--color-glass-hover);
+.orderDate {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* Пустое состояние */
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--color-surface);
+  border-radius: 24px;
+  border: 1px solid var(--color-glass-border);
+}
+
+.empty svg {
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.empty h3 {
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.empty p {
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+}
+
+.shopLink {
+  display: inline-block;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  color: #fff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.shopLink:hover {
   transform: translateY(-2px);
+  opacity: 0.9;
 }
 
-.noTariffs {
+/* Не авторизован */
+.notAuth {
   text-align: center;
-  padding: 40px;
+  padding: 60px 20px;
+  background: var(--color-surface);
+  border-radius: 24px;
+  border: 1px solid var(--color-glass-border);
+}
+
+.notAuth svg {
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.notAuth h2 {
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.notAuth p {
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+}
+
+.loginLink {
+  display: inline-block;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  color: #fff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.loginLink:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Информация об оплате */
+.paymentInfo {
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.paymentText {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* Состояния загрузки и ошибки */
+.loading, .error {
+  text-align: center;
+  padding: 60px 20px;
   color: var(--color-text-muted);
 }
 
-.loading {
-  text-align: center;
-  padding: 40px;
-  color: var(--color-text-muted);
+.error {
+  color: #ef4444;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .tariffsPage {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .orderCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .orderIcon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .orderName {
+    font-size: 1rem;
+  }
+
+  .orderHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .orderFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .empty h3 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .orderCard {
+    padding: 16px;
+  }
+
+  .orderName {
+    font-size: 0.95rem;
+  }
+
+  .orderDesc {
+    font-size: 0.8rem;
+  }
+
+  .orderPrice {
+    font-size: 1rem;
+  }
+
+  .statusBadge {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+  }
 }

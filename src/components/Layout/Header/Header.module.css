@@ -97,7 +97,7 @@
 .navLink:hover {
   color: var(--color-accent);
   opacity: 1;
-  background: rgba(255, 255, 255, 0.05);
+  /* background: rgba(255, 255, 255, 0.05); */
 }
 
 .navLink::after {
