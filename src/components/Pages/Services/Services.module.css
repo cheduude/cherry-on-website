@@ -5,6 +5,7 @@
 .container {
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
   position: relative;
   margin-top: 0;
@@ -447,8 +448,8 @@
 }
 
 .item:hover .price {
-  background: color-mix(in srgb, var(--color-accent) 15%, transparent);
-  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  transform: none;
 }
 
 /* ===============================
@@ -514,7 +515,7 @@
 }
 
 .expandOpen {
-  max-height: 800px;
+  max-height: 1500px;
   opacity: 1;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
@@ -593,6 +594,132 @@
 }
 
 /* ===============================
+   ТАРИФЫ ДЛЯ ЦИФРОВЫХ СЕРТИФИКАТОВ
+   =============================== */
+
+.tariffsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+  margin-bottom: 1.5rem;
+}
+
+.tariffCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.tariffCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(168, 85, 247, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tariffCard.popular {
+  border-color: #a855f7;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.05));
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.tariffName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.tariffSpeed {
+  font-size: 0.875rem;
+  color: #a855f7;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.tariffPrice {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tariffPrice span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #888;
+}
+
+.tariffFeatures {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  flex: 1;
+}
+
+.tariffFeatures li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  color: #ccc;
+  font-size: 0.875rem;
+}
+
+.featureIconSmall {
+  width: 16px;
+  height: 16px;
+  color: #a855f7;
+  flex-shrink: 0;
+}
+
+.tariffButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tariffButton:hover:not(:disabled) {
+  transform: scale(1.02);
+  opacity: 0.9;
+}
+
+.tariffButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===============================
    КНОПКИ ДЕЙСТВИЙ
    =============================== */
 
@@ -629,7 +756,6 @@
   min-height: 50px;
 }
 
-/* ОБНОВЛЕНО: Стили для кнопки Купить с круглой тенью */
 .order {
   background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
   color: var(--color-text-inverse);
@@ -691,7 +817,7 @@
 }
 
 /* ===============================
-   CTA СЕКЦИЯ - ИЗМЕНЕНА
+   CTA СЕКЦИЯ
    =============================== */
 
 .ctaSection {
@@ -899,6 +1025,11 @@
   .features {
     grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
   }
+  
+  .tariffsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1000,6 +1131,23 @@
   .auth {
     width: 100%;
     min-height: 48px;
+  }
+  
+  .tariffsGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .tariffCard {
+    padding: 20px;
+  }
+  
+  .tariffName {
+    font-size: 1.25rem;
+  }
+  
+  .tariffPrice {
+    font-size: 1.5rem;
   }
   
   .ctaSection {
@@ -1152,6 +1300,36 @@
     height: 17px;
   }
   
+  .tariffCard {
+    padding: 16px;
+  }
+  
+  .tariffName {
+    font-size: 1.1rem;
+  }
+  
+  .tariffSpeed {
+    font-size: 0.75rem;
+  }
+  
+  .tariffPrice {
+    font-size: 1.25rem;
+  }
+  
+  .tariffPrice span {
+    font-size: 0.85rem;
+  }
+  
+  .tariffFeatures li {
+    font-size: 0.8rem;
+    padding: 6px 0;
+  }
+  
+  .tariffButton {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+  
   .ctaSection {
     padding-top: 40px;
     padding-right: 10px;
@@ -1296,6 +1474,11 @@
     font-size: 0.93rem;
     min-height: 48px;
   }
+  
+  .tariffsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
 }
 
 /* ===============================
@@ -1310,17 +1493,6 @@
   background: color-mix(in srgb, var(--color-surface) 20%, transparent);
   border-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
 }
-
-/*[data-theme="light"] .container {
-  background: linear-gradient(
-    180deg,
-    #f8fafc 0%,
-    #e2e8f0 30%,
-    #cbd5e1 60%,
-    #94a3b8 90%,
-    #64748b 100%
-  );
-}*/
 
 [data-theme="light"] .hero {
   background: linear-gradient(
@@ -1359,6 +1531,35 @@
     color-mix(in srgb, #4facfe 10%, #e2e8f0 90%) 100%);
 }
 
+[data-theme="light"] .tariffCard {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .tariffCard:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+[data-theme="light"] .tariffName {
+  color: #1a1a2e;
+}
+
+[data-theme="light"] .tariffPrice {
+  color: #1a1a2e;
+}
+
+[data-theme="light"] .tariffFeatures li {
+  color: #4a5568;
+}
+
+/* Светлая тема: прозрачные секции, чтобы был виден градиент контейнера */
+[data-theme="light"] .heroBackground, .hero,
+[data-theme="light"] .servicesListSection,
+[data-theme="light"] .ctaSection {
+  background: transparent !important;
+}
+
 /* ===============================
    АНИМАЦИИ
    =============================== */
@@ -1371,7 +1572,7 @@
     padding-top: 0;
   }
   to {
-    max-height: 800px;
+    max-height: 1500px;
     opacity: 1;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
@@ -1380,7 +1581,7 @@
 
 @keyframes expandClose {
   from {
-    max-height: 800px;
+    max-height: 1500px;
     opacity: 1;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
@@ -1425,7 +1626,9 @@
 .order,
 .auth,
 .ctaButtonPrimary,
-.close {
+.close,
+.tariffCard,
+.tariffButton {
   transition-property: all;
   transition-duration: 0.25s;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1439,7 +1642,9 @@
 .order:focus-visible,
 .auth:focus-visible,
 .ctaButtonPrimary:focus-visible,
-.close:focus-visible {
+.close:focus-visible,
+.tariffButton:focus-visible,
+.authLink:focus-visible {
   outline-width: 2px;
   outline-style: solid;
   outline-color: var(--color-accent);
@@ -1449,7 +1654,9 @@
 .order:focus:not(:focus-visible),
 .auth:focus:not(:focus-visible),
 .ctaButtonPrimary:focus:not(:focus-visible),
-.close:focus:not(:focus-visible) {
+.close:focus:not(:focus-visible),
+.tariffButton:focus:not(:focus-visible),
+.authLink:focus:not(:focus-visible) {
   outline: none;
 }
 
@@ -1467,7 +1674,9 @@
   .close,
   .expand,
   .iconWrapper,
-  .itemIcon {
+  .itemIcon,
+  .tariffCard,
+  .tariffButton {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
@@ -1496,7 +1705,8 @@
 .heroTitle,
 .sectionTitle,
 .ctaTitle,
-.itemInfo h3 {
+.itemInfo h3,
+.tariffName {
   letter-spacing: -0.01em;
 }
 
@@ -1505,7 +1715,8 @@
 .ctaText,
 .serviceDescription,
 .feature span,
-.stat span {
+.stat span,
+.tariffFeatures li {
   letter-spacing: 0.01em;
 }
 
@@ -1514,7 +1725,8 @@
    =============================== */
 
 @media (prefers-contrast: high) {
-  .item {
+  .item,
+  .tariffCard {
     border-width: 2px;
   }
   
@@ -1535,6 +1747,10 @@
   .stats {
     flex-direction: row;
     flex-wrap: wrap;
+  }
+  
+  .tariffsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
 }
 
@@ -1559,21 +1775,108 @@
 }
 
 /* ===============================
-   УБРАТЬ ЭФФЕКТ ДЛЯ ЦЕННИКОВ
+   СТАТУС БЕЙДЖИ
    =============================== */
 
-/* Убираем эффект при наведении на ценник */
-.item:hover .price {
-  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
-  transform: none;
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
 }
 
-.price {
-  transition-property: none;
+.titleRow h3 {
+  margin-bottom: 0;
+}
+
+.statusContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding-top: 3px;
+  padding-right: 8px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border-width: 1px;
+  border-style: solid;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.statusDevelopment {
+  background: rgba(255, 71, 71, 0.15);
+  color: #ff4747;
+  border-color: rgba(255, 71, 71, 0.3);
+}
+
+.statusTest {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+[data-theme="light"] .statusDevelopment {
+  background: rgba(255, 71, 71, 0.1);
+  color: #d32f2f;
+  border-color: rgba(255, 71, 71, 0.25);
+}
+
+[data-theme="light"] .statusTest {
+  background: rgba(255, 193, 7, 0.2);
+  color: #b27d00;
+  border-color: rgba(255, 193, 7, 0.4);
+}
+
+[data-theme="dark"] .statusDevelopment {
+  background: rgba(255, 107, 107, 0.25);
+  color: #ffa5a5;
+  border-color: rgba(255, 107, 107, 0.5);
+}
+
+[data-theme="dark"] .statusTest {
+  background: rgba(255, 215, 0, 0.25);
+  color: #ffeb9f;
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .titleRow {
+    gap: 8px;
+  }
+  
+  .statusBadge {
+    font-size: 0.65rem;
+    padding-top: 2px;
+    padding-right: 6px;
+    padding-bottom: 2px;
+    padding-left: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .titleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  
+  .statusContainer {
+    margin-top: 2px;
+  }
 }
 
 /* ===============================
-   ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ КНОПОК
+   ССЫЛКА ДЛЯ АВТОРИЗАЦИИ
    =============================== */
 
 .authLink {
@@ -1614,7 +1917,6 @@
   text-decoration: none;
 }
 
-/* Обновляем медиа-запросы для authLink */
 @media (max-width: 768px) {
   .authLink {
     width: 100%;
@@ -1643,143 +1945,4 @@
     font-size: 0.93rem;
     min-height: 48px;
   }
-}
-
-/* Обновляем :focus-visible для authLink */
-.authLink:focus-visible {
-  outline-width: 2px;
-  outline-style: solid;
-  outline-color: var(--color-accent);
-  outline-offset: 2px;
-}
-
-.authLink:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* ===== СТИЛИ ДЛЯ ЗАГОЛОВКА УСЛУГИ ===== */
-
-.titleRow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 4px;
-}
-
-.titleRow h3 {
-  margin-bottom: 0;
-}
-
-.price {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-accent);
-  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
-  padding-top: 0.4rem;
-  padding-right: 0.9rem;
-  padding-bottom: 0.4rem;
-  padding-left: 0.9rem;
-  border-radius: 22px;
-  display: inline-block;
-  border-width: 1px;
-  border-style: solid;
-  border-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
-  white-space: nowrap;
-}
-
-.statusContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding-top: 4px;
-}
-
-/* ===== СТАТУС БЕЙДЖИ ===== */
-
-.statusBadge {
-  display: inline-block;
-  padding-top: 3px;
-  padding-right: 8px;
-  padding-bottom: 3px;
-  padding-left: 8px;
-  border-radius: 20px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  border-width: 1px;
-  border-style: solid;
-  text-transform: lowercase;
-  white-space: nowrap;
-}
-
-.statusDevelopment {
-  background: rgba(255, 71, 71, 0.15);
-  color: #ff4747;
-  border-color: rgba(255, 71, 71, 0.3);
-}
-
-.statusTest {
-  background: rgba(255, 215, 0, 0.2);
-  color: #ffd700;
-  border-color: rgba(255, 215, 0, 0.4);
-}
-
-/* Светлая тема для статусов */
-[data-theme="light"] .statusDevelopment {
-  background: rgba(255, 71, 71, 0.1);
-  color: #d32f2f;
-  border-color: rgba(255, 71, 71, 0.25);
-}
-
-[data-theme="light"] .statusTest {
-  background: rgba(255, 193, 7, 0.2);
-  color: #b27d00;
-  border-color: rgba(255, 193, 7, 0.4);
-}
-
-/* Темная тема для статусов */
-[data-theme="dark"] .statusDevelopment {
-  background: rgba(255, 107, 107, 0.25);
-  color: #ffa5a5;
-  border-color: rgba(255, 107, 107, 0.5);
-}
-
-[data-theme="dark"] .statusTest {
-  background: rgba(255, 215, 0, 0.25);
-  color: #ffeb9f;
-  border-color: rgba(255, 215, 0, 0.5);
-}
-
-/* Адаптивность для бейджей */
-@media (max-width: 768px) {
-  .titleRow {
-    gap: 8px;
-  }
-  
-  .statusBadge {
-    font-size: 0.65rem;
-    padding-top: 2px;
-    padding-right: 6px;
-    padding-bottom: 2px;
-    padding-left: 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .titleRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-  
-  .statusContainer {
-    margin-top: 2px;
-  }
-}
-/* Светлая тема: прозрачные секции, чтобы был виден градиент контейнера */
-[data-theme="light"] .heroBackground, .hero,
-[data-theme="light"] .servicesListSection,
-[data-theme="light"] .ctaSection {
-  background: transparent !important;
 }

@@ -99,7 +99,6 @@ const OrdersPage: React.FC = () => {
     if (!modalContentRef.current || !modalOverlayRef.current) return;
 
     const modal = modalContentRef.current;
-    const overlay = modalOverlayRef.current;
 
     // Сбрасываем inline-стили
     modal.style.removeProperty('top');
@@ -109,7 +108,6 @@ const OrdersPage: React.FC = () => {
 
     // Получаем размеры
     const modalHeight = modal.offsetHeight;
-    const overlayHeight = overlay.offsetHeight;
     const windowHeight = window.innerHeight;
 
     // Если модалка выше окна, выравниваем по верхнему краю с отступом

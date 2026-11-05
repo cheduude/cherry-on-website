@@ -1,13 +1,18 @@
-// src/security/deviceDetect.ts (Проверка устройства для адаптации)
 import { useEffect, useState } from 'react';
 
+const MOBILE_QUERY = '(max-width: 767px)';
+
 export const useDeviceDetect = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    window.matchMedia(MOBILE_QUERY).matches,
+  );
+
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const mediaQuery = window.matchMedia(MOBILE_QUERY);
+    const updateIsMobile = (event: MediaQueryListEvent) => setIsMobile(event.matches);
+    mediaQuery.addEventListener('change', updateIsMobile);
+    return () => mediaQuery.removeEventListener('change', updateIsMobile);
   }, []);
+
   return { isMobile };
 };

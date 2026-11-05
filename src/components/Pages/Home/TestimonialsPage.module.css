@@ -1,6 +1,7 @@
 /* Основной контейнер */
 .container {
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
   width: 100%;
   position: relative;
@@ -297,7 +298,7 @@
 
 .primaryButton,
 .secondaryButton {
-  padding: 14px 28px;
+  padding: 10px 2px;
   border-radius: 50px;
   font-weight: 600;
   font-size: 0.95rem;
@@ -2190,6 +2191,7 @@
 [data-theme="dark"] .optionsList {
   background: rgba(26, 26, 38, 0.98);
   border-color: var(--color-accent);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }

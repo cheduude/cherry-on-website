@@ -534,7 +534,7 @@ const TestimonialsPage: React.FC = () => {
           </p>
           <div className={styles.heroButtons}>
             <Link to="/" className={styles.secondaryButton}>
-              ← На главную
+              На главную
             </Link>
             <button 
               className={styles.primaryButton}

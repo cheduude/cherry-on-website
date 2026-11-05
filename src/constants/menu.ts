@@ -1,6 +1,7 @@
 // src/constants/menu.ts
 export const MENU_ITEMS = {
   MY_ORDERS: 'my-orders',
+  EDITOR: 'editor',
   SETTINGS: 'settings',
   SUPPORT: 'support',
   ACCESS: 'access',
@@ -18,34 +19,34 @@ export interface MenuItemConfig {
 
 export const MENU_CONFIG = [
   {
-    id: 'my-orders',
-    label: 'Мои заказы',
-    path: '/orders',
-    icon: '📦',
-  },
-  {
-  id: "cabinet",
-  label: "Личный кабинет",
-  path: "/cabinet",
-  icon: "👤"
+    id: "cabinet",
+    label: "Личный кабинет",
+    path: "/cabinet",
+    icon: "User"
   },
   {
     id: 'settings',
     label: 'Настройки',
     path: '/settings',
-    icon: '⚙️',
+    icon: 'Settings',
+  },
+  {
+    id: 'editor',
+    label: 'Панель редактора',
+    path: '/editor',
+    icon: 'Edit3',
   },
   {
     id: 'support',
     label: 'Поддержка',
     path: '/support',
-    icon: '🛟',
+    icon: 'LifeBuoy',
   },
   {
     id: 'access',
     label: 'Доступы',
     path: '/admin/access',
-    icon: '🔐',
+    icon: 'Lock',
     adminOnly: true,
     roles: ['admin', 'superadmin', 'moderator'],
   },
@@ -53,6 +54,6 @@ export const MENU_CONFIG = [
     id: 'logout',
     label: 'Выйти',
     path: '#logout',
-    icon: '🚪',
+    icon: 'LogOut',
   },
-]
+];

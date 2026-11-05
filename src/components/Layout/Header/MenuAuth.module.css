@@ -16,42 +16,58 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
   text-decoration: none;
-  overflow: hidden; /* чтобы аватар не выходил за скругление */
+  overflow: hidden;
   background: transparent;
   border: none;
   padding: 0;
+  position: relative;
 }
 
+/* Только поднятие при наведении */
 .loginButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Активное состояние (когда панель открыта) */
+.loginButton.active {
+  transform: translateY(-2px);
 }
 
 /* Аватар внутри десктопной кнопки */
 .loginButton .avatar,
+.loginButton .loginIcon {
+  color: var(--color-text);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.loginButton:hover .loginIcon {
+  color: var(--color-accent);
+}
+
 .loginButton video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: inherit; /* наследует скругление от родителя */
+  border-radius: inherit;
   display: block;
 }
 
-/* Заглушка для аватара при ошибке внутри десктопной кнопки */
+/* Заглушка для аватара при ошибке внутри десктопной кнопки — нейтральный цвет */
 .loginButton .avatarFallback {
   width: 100%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(135deg, #7C3AED, #C026D3);
+  background: var(--color-surface-alt);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
   font-weight: 600;
-  color: white;
+  color: var(--color-text);
   text-transform: uppercase;
+  border: 1px solid var(--color-glass-border);
 }
 
 /* ===== МОБИЛЬНЫЕ КНОПКИ ===== */
@@ -86,17 +102,18 @@
   border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Заглушка для мобильной версии — нейтральный цвет */
 .mobileAvatarButton .avatarFallback {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #7C3AED, #C026D3);
+  background: var(--color-surface-alt);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
   font-weight: 600;
-  color: white;
+  color: var(--color-text);
   text-transform: uppercase;
   border: 2px solid rgba(255, 255, 255, 0.1);
 }
@@ -132,7 +149,7 @@
 
 /* ===== СВЕТЛАЯ ТЕМА ===== */
 [data-theme="light"] .loginButton:hover {
-  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.2);
+  transform: translateY(-2px);
 }
 
 [data-theme="light"] .mobileAvatarButton {
@@ -142,6 +159,7 @@
 
 [data-theme="light"] .mobileAvatarButton:hover {
   background: rgba(var(--color-accent-rgb, 124, 58, 237), 0.1);
+  transform: translateY(-2px);
 }
 
 [data-theme="light"] .mobileAvatarButton .avatar,
@@ -159,6 +177,7 @@
   background: linear-gradient(135deg,
     rgba(var(--color-accent-rgb, 124, 58, 237), 0.15) 0%,
     rgba(var(--color-accent-rgb, 124, 58, 237), 0.1) 100%);
+  transform: translateY(-2px);
 }
 
 /* ===== УЛУЧШЕНИЯ ДЛЯ КАСАНИЙ (TOUCH) ===== */

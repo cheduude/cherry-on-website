@@ -6,7 +6,6 @@ import {
   FaPaperPlane,
   FaHeadset,
   FaClock,
-  FaPhone,
   FaEnvelope,
   FaTelegram,
   FaLightbulb,
@@ -462,7 +461,7 @@ const SupportPage: React.FC = () => {
           </p>
           <div className={styles.heroButtons}>
             <Link to="/" className={styles.secondaryButton}>
-              ← На главную
+              На главную
             </Link>
             <a href="#chat" className={styles.primaryButton}>
               Начать диалог

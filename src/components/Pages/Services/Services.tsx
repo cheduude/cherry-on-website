@@ -1,7 +1,7 @@
+// src/pages/Services/Services.tsx
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import styles from './Services.module.css';
-import type { ServicesProps } from '../../../types';
 import { useLenisCleanup } from '../../../hooks/useLenisCleanup';
 import { useAuth } from '../../../hooks/useAuth';
 import { useNotifications } from '../../../contexts/NotificationContext';
@@ -51,6 +51,46 @@ interface Order {
   price: number;
   created_at: number;
 }
+
+// Интерфейс для тарифа цифрового сертификата
+interface Tariff {
+  id: string;
+  name: string;
+  speed: string;
+  price: number;
+  priceLabel: string;
+  features: string[];
+  isPopular?: boolean;
+}
+
+// Данные тарифов для цифровых сертификатов (позже будут с бэкенда)
+const certificateTariffs: Tariff[] = [
+  {
+    id: 'tariff-1',
+    name: 'Базовый',
+    speed: 'До 50 Мбит/с',
+    price: 499,
+    priceLabel: '₽/мес',
+    features: ['Шифрование трафика', '1 устройство', 'Базовая поддержка']
+  },
+  {
+    id: 'tariff-2',
+    name: 'Стандарт',
+    speed: 'До 150 Мбит/с',
+    price: 799,
+    priceLabel: '₽/мес',
+    features: ['Шифрование трафика', 'До 3 устройств', 'Приоритетная поддержка'],
+    isPopular: true
+  },
+  {
+    id: 'tariff-3',
+    name: 'Премиум',
+    speed: 'До 500 Мбит/с',
+    price: 1299,
+    priceLabel: '₽/мес',
+    features: ['Шифрование трафика', 'До 10 устройств', '24/7 поддержка', 'Выделенный IP']
+  }
+];
 
 // Обновленный массив услуг с UUID и price для заказов
 const services = [
@@ -131,9 +171,8 @@ const services = [
 // Ключ для хранения заказов в localStorage
 const ORDERS_STORAGE_KEY = 'user_orders';
 
-const Services = (_props: ServicesProps) => {
+const Services = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   useLenisCleanup();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hasAutoOpened, setHasAutoOpened] = useState(false);
@@ -255,8 +294,8 @@ const Services = (_props: ServicesProps) => {
     });
   }, []);
 
-  // Обработчик покупки - заглушка
-  const handleOrder = useCallback(async (service: typeof services[0]) => {
+  // Обработчик покупки
+  const handleOrder = useCallback(async (service: typeof services[0] | (typeof services[0] & { name: string; priceValue: number; desc: string })) => {
     if (!isAuthenticated) {
       showError('Ошибка', 'Необходимо авторизоваться для покупки');
       return;
@@ -287,7 +326,7 @@ const Services = (_props: ServicesProps) => {
           uuid: service.uuid,
           name: service.name,
           description: service.desc,
-          category: service.id.toString(),
+          category: service.id?.toString() || '0',
           price: service.priceValue,
           visible: true,
           iconName: service.iconName
@@ -323,10 +362,6 @@ const Services = (_props: ServicesProps) => {
   }, [isAuthenticated, user, showSuccess, showError, showInfo, getStoredOrders, saveOrders]);
 
   // Обработчик перехода к заказам
-  const handleGoToOrders = useCallback(() => {
-    navigate('/orders');
-  }, [navigate]);
-
   const handleContactSupport = useCallback(() => {
     window.location.href = '/support';
   }, []);
@@ -509,8 +544,6 @@ const Services = (_props: ServicesProps) => {
               <span>Поддержка 24/7</span>
             </div>
           </div>
-
-          
         </div>
       </section>
 
@@ -521,6 +554,7 @@ const Services = (_props: ServicesProps) => {
             const Icon = service.icon;
             const isOpen = activeIndex === index;
             const statusText = getStatusText(service.status);
+            const isCertificate = service.name === 'Цифровые Сертификаты';
             
             return (
               <div
@@ -578,39 +612,83 @@ const Services = (_props: ServicesProps) => {
                       {service.desc}
                     </p>
 
-                    <div className={styles.features}>
-                      {service.features.map((feature, idx) => (
-                        <div key={idx} className={styles.feature}>
-                          <Sparkles className={styles.featureIcon} />
-                          <span>{feature}</span>
+                    {/* Если это Цифровые Сертификаты - показываем блок с тарифами */}
+                    {isCertificate ? (
+                      <div className={styles.tariffsGrid}>
+                        {certificateTariffs.map((tariff) => (
+                          <div key={tariff.id} className={`${styles.tariffCard} ${tariff.isPopular ? styles.popular : ''}`}>
+                            {tariff.isPopular && <div className={styles.popularBadge}>Популярный</div>}
+                            <h4 className={styles.tariffName}>{tariff.name}</h4>
+                            <div className={styles.tariffSpeed}>{tariff.speed}</div>
+                            <div className={styles.tariffPrice}>
+                              {tariff.price.toLocaleString()} <span>{tariff.priceLabel}</span>
+                            </div>
+                            <ul className={styles.tariffFeatures}>
+                              {tariff.features.map((feature, idx) => (
+                                <li key={idx}>
+                                  <Sparkles className={styles.featureIconSmall} />
+                                  {feature}
+                                </li>
+                              ))}
+                            </ul>
+                            <button
+                              className={styles.tariffButton}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleOrder({
+                                  ...service,
+                                  priceValue: tariff.price,
+                                  name: `${service.name} - ${tariff.name}`,
+                                  desc: `${service.desc} Скорость: ${tariff.speed}`
+                                });
+                              }}
+                              disabled={isCreatingOrder}
+                            >
+                              <ShoppingCart className={styles.buttonIcon} />
+                              {isCreatingOrder ? 'Добавление...' : `Купить за ${tariff.price.toLocaleString()} ₽`}
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <>
+                        {/* Обычные фичи для других услуг */}
+                        <div className={styles.features}>
+                          {service.features.map((feature, idx) => (
+                            <div key={idx} className={styles.feature}>
+                              <Sparkles className={styles.featureIcon} />
+                              <span>{feature}</span>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
 
-                    <div className={styles.actions}>
-                      {isAuthenticated ? (
-                        <button
-                          className={styles.order}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleOrder(service);
-                          }}
-                          disabled={isCreatingOrder}
-                        >
-                          <ShoppingCart className={styles.buttonIcon} />
-                          {isCreatingOrder ? 'Добавление...' : 'Купить'}
-                        </button>
-                      ) : (
-                        <Link
-                          to="/auth"
-                          className={styles.authLink}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <Lock className={styles.buttonIcon} />
-                          Войдите для покупки
-                        </Link>
-                      )}
-                    </div>
+                        {/* Кнопка покупки для других услуг */}
+                        <div className={styles.actions}>
+                          {isAuthenticated ? (
+                            <button
+                              className={styles.order}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleOrder(service);
+                              }}
+                              disabled={isCreatingOrder}
+                            >
+                              <ShoppingCart className={styles.buttonIcon} />
+                              {isCreatingOrder ? 'Добавление...' : 'Купить'}
+                            </button>
+                          ) : (
+                            <Link
+                              to="/auth"
+                              className={styles.authLink}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <Lock className={styles.buttonIcon} />
+                              Войдите для покупки
+                            </Link>
+                          )}
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
