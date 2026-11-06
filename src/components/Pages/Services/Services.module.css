@@ -605,55 +605,132 @@
   margin-bottom: 1.5rem;
 }
 
-.tariffTableWrap {
+.certificateConfig {
   margin-top: 1.5rem;
-  overflow-x: auto;
+  padding: 1.25rem;
   border: 1px solid var(--color-border, rgba(255, 255, 255, 0.12));
   border-radius: 14px;
   background: var(--color-surface, rgba(20, 20, 20, 0.72));
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
 }
 
-.tariffTable {
-  width: 100%;
-  min-width: 720px;
-  border-collapse: collapse;
-  color: var(--color-text, #f5f5f5);
-  text-align: center;
+.configFields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
 }
 
-.tariffTable caption {
-  padding: 1rem;
-  font-weight: 700;
-  text-align: left;
+.configField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
 }
 
-.tariffTable th,
-.tariffTable td {
-  padding: 0.8rem 0.65rem;
-  border-top: 1px solid var(--color-border, rgba(255, 255, 255, 0.12));
-  white-space: nowrap;
-}
-
-.tariffTable thead th,
-.tariffTable tbody th {
+.configLabel {
+  font-size: 0.85rem;
   font-weight: 600;
-}
-
-.tariffTable tbody th {
-  text-align: left;
-}
-
-.purchaseNote {
-  margin: 1rem;
   color: var(--color-text-muted, #aaa);
 }
 
-.tariffTableWrap > .tariffButton {
+.configSelect {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.12));
+  background: var(--color-surface-alt, #1e1e1e);
+  color: var(--color-text, #f5f5f5);
+  font-size: 0.95rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-text-muted) 50%),
+    linear-gradient(135deg, var(--color-text-muted) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 3px), calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.configSelect:focus-visible {
+  border-color: var(--color-accent, #4dabf7);
+  box-shadow: 0 0 0 2px var(--color-accent-20, rgba(77, 171, 247, 0.25));
+}
+
+.configPriceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  background: var(--color-surface-alt, #1e1e1e);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.12));
+}
+
+.configPriceLabel {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #aaa);
+}
+
+.configPriceValue {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-accent, #4dabf7);
+  letter-spacing: -0.02em;
+}
+
+.purchaseNote {
+  margin: 0;
+  color: var(--color-text-muted, #aaa);
+  font-size: 0.9rem;
+}
+
+.certificateConfig > .serviceAction {
+  align-self: flex-start;
+}
+
+@media (max-width: 640px) {
+  .configFields {
+    grid-template-columns: 1fr;
+  }
+
+  .configPriceValue {
+    font-size: 1.35rem;
+  }
+
+  .certificateConfig > .serviceAction {
+    width: 100%;
+  }
+}
+
+.serviceAction {
   display: inline-flex;
-  margin: 0 1rem 1rem;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  min-height: 48px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 0.95rem;
   text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.serviceAction:hover {
+  background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+  transform: translateY(-1px);
+}
+
+.serviceAction:active {
+  transform: translateY(0);
 }
 
 .tariffCard {
@@ -1829,16 +1906,21 @@
    СТАТУС БЕЙДЖИ
    =============================== */
 
-.titleRow {
+.titleBlock {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
   margin-bottom: 4px;
+  min-width: 0;
 }
 
-.titleRow h3 {
+.titleBlock h3 {
   margin-bottom: 0;
+}
+
+.titleBlock .price {
+  align-self: flex-start;
 }
 
 .statusContainer {
@@ -1901,10 +1983,10 @@
 }
 
 @media (max-width: 768px) {
-  .titleRow {
-    gap: 8px;
+  .titleBlock {
+    gap: 0.35rem;
   }
-  
+
   .statusBadge {
     font-size: 0.65rem;
     padding-top: 2px;
@@ -1915,12 +1997,6 @@
 }
 
 @media (max-width: 480px) {
-  .titleRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-  
   .statusContainer {
     margin-top: 2px;
   }
