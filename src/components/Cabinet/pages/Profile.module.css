@@ -40,6 +40,10 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.avatar:global(.avatarThemeDefault) {
+  background: var(--color-surface-alt);
+}
+
 .infoRow {
   display: flex;
   align-items: center;
