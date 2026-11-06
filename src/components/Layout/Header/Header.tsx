@@ -8,6 +8,7 @@ import CherryLogo from '../../CherryLogo/CherryLogo';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import { useAuth } from '../../../hooks/useAuth';
 import { MENU_CONFIG } from '../../../constants/menu';
+import { resolveAvatarUrl } from '../../../constants/auth';
 import NotificationBell from './NotificationBell';
 import {
   Home,
@@ -203,9 +204,7 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
               <div className={styles.userInfoSection}>
                 <div className={styles.userInfoHeader}>
                   <img
-                    src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                      user.displayName || user.name || user.username || 'User'
-                    )}&background=7C3AED&color=fff&size=64&bold=true`}
+                    src={resolveAvatarUrl(user.avatar)}
                     alt="Аватар"
                     className={styles.userAvatar}
                   />

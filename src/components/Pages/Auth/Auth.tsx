@@ -4,6 +4,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { useNotifications } from '../../../contexts/NotificationContext';
 import { VALIDATION_RULES, VALIDATION_MESSAGES } from '../../../constants/validation';
+import { resolveAvatarUrl } from '../../../constants/auth';
 import LoginForm from './Log';
 import SignupForm from './Reg';
 import api from '../../../lib/api';
@@ -169,7 +170,7 @@ const Auth: React.FC = () => {
       id: numericId,
       name: userFromServer.name || userFromServer.username || defaultName || 'Пользователь',
       email: userFromServer.email || email,
-      avatar: userFromServer.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(email)}&background=random&color=fff&size=32&bold=true`,
+      avatar: resolveAvatarUrl(userFromServer.avatar),
       role: userFromServer.role || 'user',
       username: userFromServer.username || email.split('@')[0],
       token,
@@ -366,9 +367,7 @@ const Auth: React.FC = () => {
       const email = userFromServer.email ||
                     (userData.username ? `${userData.username}@telegram.com` : `tg${userData.id}@telegram.com`);
 
-      const avatar = userFromServer.avatar ||
-                     userData.photo_url ||
-                     `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.first_name || 'User')}&background=random&color=fff&size=128&bold=true`;
+      const avatar = resolveAvatarUrl(userFromServer.avatar || userData.photo_url);
 
       const userRole = userFromServer.role === 'admin' ? 'admin' : 'user';
 

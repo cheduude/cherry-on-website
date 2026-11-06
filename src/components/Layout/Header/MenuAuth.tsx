@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { MENU_CONFIG } from '../../../constants/menu';
+import { resolveAvatarUrl } from '../../../constants/auth';
 import ProfilePanel from './ProfilePanel';
 import styles from './MenuAuth.module.css';
 import type { MenuAuthProps, MenuItem } from '../../../types';
@@ -54,12 +55,10 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
   };
 
   // Функция для получения компонента иконки по имени
-  const renderAvatar = (size: 'small' | 'medium' = 'medium') => {
+  const renderAvatar = () => {
     if (!user) return null;
 
-    const avatarUrl = user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      user.displayName || user.name || user.username || 'User'
-    )}&background=7C3AED&color=fff&size=${size === 'small' ? 32 : 120}&bold=true`;
+    const avatarUrl = resolveAvatarUrl(user.avatar);
 
     if (avatarError) {
       return (
@@ -108,7 +107,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
             className={styles.mobileAvatarButton}
             aria-label="Открыть профиль"
           >
-            {renderAvatar('small')}
+            {renderAvatar()}
           </button>
           <ProfilePanel
             isOpen={isPanelOpen}
@@ -139,7 +138,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
             onClick={() => setIsPanelOpen(true)}
             aria-label="Открыть профиль"
           >
-            {renderAvatar('small')}
+            {renderAvatar()}
           </button>
           <ProfilePanel
             isOpen={isPanelOpen}

@@ -6,6 +6,7 @@ import { z } from 'zod';
 import styles from './Profile.module.css';
 import api from '../../../lib/api';
 import { useAuth } from '../../../hooks/useAuth';
+import { resolveAvatarUrl } from '../../../constants/auth';
 import { User, Mail, Lock, KeyRound, CheckCircle, AlertCircle, Calendar, Loader2 } from 'lucide-react';
 
 // Схема валидации для смены пароля
@@ -81,9 +82,7 @@ const Profile: React.FC = () => {
 
   // Получаем аватар
   const getAvatarUrl = () => {
-    if (userDetails?.avatar) return userDetails.avatar;
-    if (user?.avatar) return user.avatar;
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(getDisplayName())}&background=7C3AED&color=fff&size=120&bold=true&length=2`;
+    return resolveAvatarUrl(userDetails?.avatar || user?.avatar);
   };
 
   // Форматируем дату регистрации
