@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import type { User } from '../types';
 import api from '../lib/api';
+import { resolveAvatarUrl } from '../constants/auth';
 
 interface DecodedToken {
   sub: string;
@@ -93,7 +94,7 @@ export const useAuth = (): UseAuthReturn => {
           name: userData.first_name || userData.name || (oldUserData as any).name || (oldUserData as any).displayName,
           username: userData.username || (oldUserData as any).username,
           displayName: userData.first_name || userData.name || (oldUserData as any).displayName || (oldUserData as any).name,
-          avatar: userData.photo_url || (oldUserData as any).avatar,
+          avatar: resolveAvatarUrl(userData.photo_url || (oldUserData as any).avatar),
           role: userData.roles?.includes('admin') ? 'admin' : 'user',
           token: localStorage.getItem('accessToken') || undefined,
         };

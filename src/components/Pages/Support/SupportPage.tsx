@@ -13,6 +13,7 @@ import styles from './SupportPage.module.css';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useAuth } from '../../../hooks/useAuth';
+import { DEFAULT_AVATAR, resolveAvatarUrl } from '../../../constants/auth';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -99,39 +100,14 @@ const SupportPage: React.FC = () => {
 
   const getUserAvatar = (): { url: string; type: 'static' | 'animated' } => {
     if (!isAuthenticated || !user) {
-      return { url: '', type: 'static' };
+      return { url: DEFAULT_AVATAR, type: 'static' };
     }
 
-    if (user.avatar) {
-      return {
-        url: user.avatar,
-        type: isAnimatedAvatar(user.avatar) ? 'animated' : 'static'
-      };
-    }
-
-    if (user.name) {
-      const initials = user.name
-        .split(' ')
-        .map(word => word[0])
-        .join('')
-        .toUpperCase()
-        .slice(0, 2);
-      return {
-        url: `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=667eea&color=fff&size=128&bold=true`,
-        type: 'static'
-      };
-    }
-
-    if (user.email) {
-      const emailName = user.email.split('@')[0];
-      const initials = emailName.slice(0, 2).toUpperCase();
-      return {
-        url: `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=667eea&color=fff&size=128&bold=true`,
-        type: 'static'
-      };
-    }
-
-    return { url: '', type: 'static' };
+    const url = resolveAvatarUrl(user.avatar);
+    return {
+      url,
+      type: url !== DEFAULT_AVATAR && isAnimatedAvatar(url) ? 'animated' : 'static'
+    };
   };
 
   const getUserName = (): string => {

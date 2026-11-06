@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './ProfilePanel.module.css';
+import { resolveAvatarUrl } from '../../../constants/auth';
 import { X, LogOut, LayoutDashboard, LifeBuoy, Lock, User, Shield, Home, Wrench, Star, Phone } from 'lucide-react';
 
 interface ProfilePanelProps {
@@ -137,12 +138,10 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
 
   // Функция для рендера аватара с поддержкой разных форматов и заглушкой из lucide-react
   const renderAvatar = () => {
-    const avatarUrl = user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      user.displayName || user.name || user.username || 'User'
-    )}&background=7C3AED&color=fff&size=120&bold=true&length=2`;
+    const avatarUrl = resolveAvatarUrl(user.avatar);
 
-    // Если произошла ошибка загрузки или нет аватара, показываем заглушку
-    if (avatarError || !user.avatar) {
+    // Если произошла ошибка загрузки — локальная SVG-заглушка через img не нужна: lucide fallback
+    if (avatarError) {
       return (
         <div className={styles.avatarFallback}>
           <User size={48} strokeWidth={1.2} />
