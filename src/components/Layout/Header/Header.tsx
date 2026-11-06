@@ -8,8 +8,8 @@ import CherryLogo from '../../CherryLogo/CherryLogo';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import { useAuth } from '../../../hooks/useAuth';
 import { MENU_CONFIG } from '../../../constants/menu';
-import { resolveAvatarUrl } from '../../../constants/auth';
 import NotificationBell from './NotificationBell';
+import { ResolvedAvatar } from '../../ui/ResolvedAvatar';
 import {
   Home,
   Wrench,
@@ -203,8 +203,8 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
             {isAuthenticated && user && (
               <div className={styles.userInfoSection}>
                 <div className={styles.userInfoHeader}>
-                  <img
-                    src={resolveAvatarUrl(user.avatar)}
+                  <ResolvedAvatar
+                    avatar={user.avatar}
                     alt="Аватар"
                     className={styles.userAvatar}
                   />

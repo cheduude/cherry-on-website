@@ -13,7 +13,8 @@ import styles from './SupportPage.module.css';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useAuth } from '../../../hooks/useAuth';
-import { DEFAULT_AVATAR, resolveAvatarUrl } from '../../../constants/auth';
+import { DEFAULT_AVATAR, isDefaultAvatar, resolveAvatarUrl } from '../../../constants/auth';
+import { ResolvedAvatar } from '../../ui/ResolvedAvatar';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -423,6 +424,12 @@ const SupportPage: React.FC = () => {
                                     }}
                                   />
                                 )
+                              ) : isDefaultAvatar(msg.userAvatar) ? (
+                                <ResolvedAvatar
+                                  avatar={msg.userAvatar}
+                                  alt={getUserName()}
+                                  className={styles.userAvatarImage}
+                                />
                               ) : (
                                 <img
                                   src={msg.userAvatar}

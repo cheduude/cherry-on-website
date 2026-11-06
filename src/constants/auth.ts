@@ -1,13 +1,18 @@
-// Аватары по умолчанию (локальный файл, без внешней загрузки)
+// Аватары по умолчанию (локальный SVG-силуэт; цвет задаётся темой через CSS mask)
 export const DEFAULT_AVATAR = '/avatars/default-avatar.svg';
 export const FALLBACK_AVATAR = '/avatars/default-avatar.svg';
 
+export const isDefaultAvatar = (avatar?: string | null): boolean => {
+  if (!avatar) return true;
+  return avatar === DEFAULT_AVATAR || avatar.includes('ui-avatars.com');
+};
+
 /** Returns a local default avatar when the value is empty or an old external generator URL. */
 export const resolveAvatarUrl = (avatar?: string | null): string => {
-  if (!avatar || avatar.includes('ui-avatars.com')) {
+  if (isDefaultAvatar(avatar)) {
     return DEFAULT_AVATAR;
   }
-  return avatar;
+  return avatar as string;
 };
 
 // Маршруты аутентификации

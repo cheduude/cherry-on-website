@@ -1,13 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Default avatar">
-  <circle cx="64" cy="64" r="64" fill="#1e1e1e"/>
-  <circle cx="64" cy="64" r="62" fill="none" stroke="#4dabf7" stroke-opacity="0.28" stroke-width="2"/>
-  <circle cx="64" cy="50" r="18" fill="#4dabf7" fill-opacity="0.92"/>
+  <!-- Solid black silhouette for CSS mask; color comes from theme via background-color -->
+  <circle cx="64" cy="46" r="26" fill="#000"/>
   <path
-    d="M28 108c4.5-22 18.8-34 36-34s31.5 12 36 34"
-    fill="none"
-    stroke="#4dabf7"
-    stroke-width="12"
-    stroke-linecap="round"
-    stroke-opacity="0.92"
+    d="M16 118c6-28 24-44 48-44s42 16 48 44"
+    fill="#000"
   />
 </svg>
