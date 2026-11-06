@@ -320,15 +320,15 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                 </span>
                 Контакты
               </div>
-              <a href="mailto:support@mydomain.ru" className={styles.supportItem}>
+              <a href="mailto:mainserev@cherryon.art" className={styles.supportItem}>
                 <span className={styles.supportIcon}>
                   <Mail size={16} strokeWidth={1.5} />
                 </span>
                 <span className={styles.supportText}>
-                  Email: <span className={styles.supportContact}>support@mydomain.ru</span>
+                  Email: <span className={styles.supportContact}>mainserev@cherryon.art</span>
                 </span>
               </a>
-              <div className={styles.supportItem}>
+              <div className={`${styles.supportItem} ${styles.supportItemStatic}`}>
                 <span className={styles.supportIcon}>
                   <Clock size={16} strokeWidth={1.5} />
                 </span>

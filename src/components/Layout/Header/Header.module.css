@@ -512,8 +512,12 @@
   transition: color 0.3s ease;
 }
 
-.supportItem:hover {
+a.supportItem:hover {
   color: var(--color-accent);
+}
+
+.supportItemStatic {
+  cursor: default;
 }
 
 .supportText {
