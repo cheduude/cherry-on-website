@@ -32,7 +32,7 @@ const AuthLayout: React.FC = () => {
       {!isMobile && <AuthBackground />}
 
       <div className="auth-content">
-        <Suspense fallback={<div className="auth-loading">Загрузка...</div>}>
+        <Suspense fallback={<div className="page-loader auth-loading" role="status"><span className="page-loader__label">Загрузка...</span></div>}>
           <Outlet />
         </Suspense>
       </div>

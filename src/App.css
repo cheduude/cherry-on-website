@@ -66,4 +66,50 @@ html.theme-transition * {
 }
 html {
   transition: background-color 0.35s ease, color 0.35s ease;
+  background-color: var(--color-bg, #0f0f0f);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background-color: var(--color-bg, #0f0f0f);
+}
+
+.page-loader {
+  min-height: min(60vh, 560px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg);
+  color: var(--color-text-muted);
+}
+
+.page-loader__label {
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+.page-transition {
+  width: 100%;
+  animation: page-enter 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
+  }
 }
