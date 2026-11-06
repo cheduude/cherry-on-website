@@ -25,7 +25,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
   
   if (!allowedRoles.includes(user.role)) {
-    return <Navigate to="/" replace />;
+    // For role mismatches honor redirectTo (e.g. /cabinet → /cabinet/subscription),
+    // falling back to home only when redirectTo still points at auth.
+    const fallback = redirectTo && redirectTo !== '/auth' ? redirectTo : '/';
+    return <Navigate to={fallback} replace />;
   }
   
   return children ? <>{children}</> : <Outlet />;

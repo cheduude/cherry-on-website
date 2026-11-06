@@ -155,12 +155,14 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                   Отзывы
                 </Link>
               </li>
-              <li className={styles.navItem}>
-                <Link to="/admin" className={styles.navLink}>
-                  <Shield size={18} strokeWidth={1.5} className={styles.navIcon} />
-                  Админка
-                </Link>
-              </li>
+              {user?.role === 'admin' && (
+                <li className={styles.navItem}>
+                  <Link to="/admin" className={styles.navLink}>
+                    <Shield size={18} strokeWidth={1.5} className={styles.navIcon} />
+                    Админка
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
         )}
