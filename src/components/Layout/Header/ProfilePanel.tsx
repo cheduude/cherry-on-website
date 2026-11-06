@@ -2,7 +2,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './ProfilePanel.module.css';
-import { resolveAvatarUrl } from '../../../constants/auth';
+import { isDefaultAvatar } from '../../../constants/auth';
+import { ResolvedAvatar } from '../../ui/ResolvedAvatar';
 import { X, LogOut, LayoutDashboard, LifeBuoy, Lock, User, Shield, Home, Wrench, Star, Phone } from 'lucide-react';
 
 interface ProfilePanelProps {
@@ -136,11 +137,9 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
     }
   };
 
-  // Функция для рендера аватара с поддержкой разных форматов и заглушкой из lucide-react
   const renderAvatar = () => {
-    const avatarUrl = resolveAvatarUrl(user.avatar);
+    const alt = user.displayName || user.name || user.username || 'User';
 
-    // Если произошла ошибка загрузки — локальная SVG-заглушка через img не нужна: lucide fallback
     if (avatarError) {
       return (
         <div className={styles.avatarFallback}>
@@ -149,7 +148,10 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
       );
     }
 
-    // Рендерим в зависимости от типа медиа
+    if (isDefaultAvatar(user.avatar)) {
+      return <ResolvedAvatar avatar={user.avatar} alt={alt} className={styles.avatar} />;
+    }
+
     switch (mediaType) {
       case 'video':
         return (
@@ -161,29 +163,20 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
             playsInline
             onError={() => setAvatarError(true)}
           >
-            <source src={avatarUrl} type="video/mp4" />
-            <source src={avatarUrl} type="video/webm" />
-            <source src={avatarUrl} type="video/ogg" />
+            <source src={user.avatar} type="video/mp4" />
+            <source src={user.avatar} type="video/webm" />
+            <source src={user.avatar} type="video/ogg" />
             Ваш браузер не поддерживает видео.
           </video>
         );
-      
+
       case 'gif':
-        return (
-          <img
-            className={styles.avatar}
-            src={avatarUrl}
-            alt={user.displayName || user.name || user.username || 'User'}
-            onError={() => setAvatarError(true)}
-          />
-        );
-      
       default:
         return (
-          <img
+          <ResolvedAvatar
+            avatar={user.avatar}
+            alt={alt}
             className={styles.avatar}
-            src={avatarUrl}
-            alt={user.displayName || user.name || user.username || 'User'}
             onError={() => setAvatarError(true)}
           />
         );

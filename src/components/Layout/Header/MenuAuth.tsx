@@ -3,11 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { MENU_CONFIG } from '../../../constants/menu';
-import { resolveAvatarUrl } from '../../../constants/auth';
+import { isDefaultAvatar } from '../../../constants/auth';
 import ProfilePanel from './ProfilePanel';
 import styles from './MenuAuth.module.css';
 import type { MenuAuthProps, MenuItem } from '../../../types';
 import { LogIn } from 'lucide-react';
+import { ResolvedAvatar } from '../../ui/ResolvedAvatar';
 
 const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -54,11 +55,10 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
     setIsPanelOpen(false);
   };
 
-  // Функция для получения компонента иконки по имени
   const renderAvatar = () => {
     if (!user) return null;
 
-    const avatarUrl = resolveAvatarUrl(user.avatar);
+    const alt = user.displayName || user.name || user.username || 'User';
 
     if (avatarError) {
       return (
@@ -66,6 +66,10 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
           {user.displayName?.[0] || user.name?.[0] || user.username?.[0] || 'U'}
         </div>
       );
+    }
+
+    if (isDefaultAvatar(user.avatar)) {
+      return <ResolvedAvatar avatar={user.avatar} alt={alt} className={styles.avatar} />;
     }
 
     switch (mediaType) {
@@ -79,18 +83,18 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
             playsInline
             onError={() => setAvatarError(true)}
           >
-            <source src={avatarUrl} type="video/mp4" />
-            <source src={avatarUrl} type="video/webm" />
-            <source src={avatarUrl} type="video/ogg" />
+            <source src={user.avatar} type="video/mp4" />
+            <source src={user.avatar} type="video/webm" />
+            <source src={user.avatar} type="video/ogg" />
           </video>
         );
       case 'gif':
       default:
         return (
-          <img
+          <ResolvedAvatar
+            avatar={user.avatar}
+            alt={alt}
             className={styles.avatar}
-            src={avatarUrl}
-            alt={user.displayName || user.name || user.username || 'User'}
             onError={() => setAvatarError(true)}
           />
         );

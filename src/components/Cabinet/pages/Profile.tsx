@@ -6,7 +6,7 @@ import { z } from 'zod';
 import styles from './Profile.module.css';
 import api from '../../../lib/api';
 import { useAuth } from '../../../hooks/useAuth';
-import { resolveAvatarUrl } from '../../../constants/auth';
+import { ResolvedAvatar } from '../../ui/ResolvedAvatar';
 import { User, Mail, Lock, KeyRound, CheckCircle, AlertCircle, Calendar, Loader2 } from 'lucide-react';
 
 // Схема валидации для смены пароля
@@ -80,11 +80,6 @@ const Profile: React.FC = () => {
     return 'Пользователь';
   };
 
-  // Получаем аватар
-  const getAvatarUrl = () => {
-    return resolveAvatarUrl(userDetails?.avatar || user?.avatar);
-  };
-
   // Форматируем дату регистрации
   const getRegistrationDate = () => {
     if (userDetails?.created_at) {
@@ -127,9 +122,9 @@ const Profile: React.FC = () => {
 
       <div className={styles.card}>
         <div className={styles.avatarSection}>
-          <img 
-            src={getAvatarUrl()} 
-            alt="Аватар" 
+          <ResolvedAvatar
+            avatar={userDetails?.avatar || user?.avatar}
+            alt="Аватар"
             className={styles.avatar}
           />
         </div>
