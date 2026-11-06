@@ -40,6 +40,14 @@ const certificateTariffs = [
   { period: '12 месяцев', prices: [1190, 2220, 3180, 3990, 4720, 5380] }
 ];
 
+const CERTIFICATE_DEVICE_COUNTS = [1, 2, 3, 4, 5, 6] as const;
+
+const formatDeviceLabel = (count: number) => {
+  if (count === 1) return '1 устройство';
+  if (count < 5) return `${count} устройства`;
+  return `${count} устройств`;
+};
+
 const services = [
   {
     name: 'Цифровые Сертификаты',
@@ -55,7 +63,7 @@ const services = [
     icon: Server,
     features: ['Root доступ', 'SSD/NVMe', 'HDD', 'Linux/Windows', 'DDoS защита'],
     price: 'Обсуждаемая цена',
-    status: 'test'
+    status: 'active'
   },
   {
     name: 'NVMe Диски',
@@ -96,6 +104,11 @@ const Services = () => {
   useLenisCleanup();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hasAutoOpened, setHasAutoOpened] = useState(false);
+  const [certificatePeriodIndex, setCertificatePeriodIndex] = useState(0);
+  const [certificateDeviceCount, setCertificateDeviceCount] = useState<typeof CERTIFICATE_DEVICE_COUNTS[number]>(1);
+
+  const selectedCertificatePrice =
+    certificateTariffs[certificatePeriodIndex]?.prices[certificateDeviceCount - 1] ?? null;
   
   const isFirstRender = useRef(true);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -403,7 +416,7 @@ const Services = () => {
                       <Icon className={styles.itemIcon} />
                     </div>
                     <div className={styles.itemInfo}>
-                      <div className={styles.titleRow}>
+                      <div className={styles.titleBlock}>
                         <h3>{service.name}</h3>
                         <span className={styles.price}>{service.price}</span>
                       </div>
@@ -438,35 +451,64 @@ const Services = () => {
                       {service.desc}
                     </p>
 
-                    {/* Если это Цифровые Сертификаты - показываем блок с тарифами */}
+                    {/* Если это Цифровые Сертификаты — конфигуратор срока и устройств */}
                     {isCertificate ? (
-                      <div className={styles.tariffTableWrap}>
-                        <table className={styles.tariffTable}>
-                          <caption>Стоимость цифрового сертификата, ₽</caption>
-                          <thead>
-                            <tr>
-                              <th scope="col">Срок</th>
-                              {[1, 2, 3, 4, 5, 6].map((deviceCount) => (
-                                <th key={deviceCount} scope="col">
-                                  {deviceCount} {deviceCount === 1 ? 'устройство' : deviceCount < 5 ? 'устройства' : 'устройств'}
-                                </th>
+                      <div
+                        className={styles.certificateConfig}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className={styles.configFields}>
+                          <label className={styles.configField}>
+                            <span className={styles.configLabel}>Срок</span>
+                            <select
+                              className={styles.configSelect}
+                              value={certificatePeriodIndex}
+                              onChange={(e) => setCertificatePeriodIndex(Number(e.target.value))}
+                              aria-label="Срок сертификата"
+                            >
+                              {certificateTariffs.map(({ period }, index) => (
+                                <option key={period} value={index}>
+                                  {period}
+                                </option>
                               ))}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {certificateTariffs.map(({ period, prices }) => (
-                              <tr key={period}>
-                                <th scope="row">{period}</th>
-                                {prices.map((price, index) => <td key={index}>{price.toLocaleString('ru-RU')} ₽</td>)}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </select>
+                          </label>
+
+                          <label className={styles.configField}>
+                            <span className={styles.configLabel}>Устройства</span>
+                            <select
+                              className={styles.configSelect}
+                              value={certificateDeviceCount}
+                              onChange={(e) =>
+                                setCertificateDeviceCount(
+                                  Number(e.target.value) as typeof CERTIFICATE_DEVICE_COUNTS[number]
+                                )
+                              }
+                              aria-label="Количество устройств"
+                            >
+                              {CERTIFICATE_DEVICE_COUNTS.map((count) => (
+                                <option key={count} value={count}>
+                                  {formatDeviceLabel(count)}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                        </div>
+
+                        <div className={styles.configPriceBlock} aria-live="polite">
+                          <span className={styles.configPriceLabel}>Стоимость</span>
+                          <span className={styles.configPriceValue}>
+                            {selectedCertificatePrice !== null
+                              ? `${selectedCertificatePrice.toLocaleString('ru-RU')} ₽`
+                              : '—'}
+                          </span>
+                        </div>
+
                         <p className={styles.purchaseNote}>
                           Покупка и оформление сертификата выполняются в Telegram-боте.
                         </p>
                         <a
-                          className={styles.tariffButton}
+                          className={styles.serviceAction}
                           href={CERTIFICATE_PURCHASE_BOT_URL}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -489,8 +531,12 @@ const Services = () => {
 
                         {/* Эти услуги оформляются по согласованию; заказа и оплаты через сайт пока нет. */}
                         <div className={styles.actions}>
-                          <Link to="/support" className={styles.order} onClick={(e) => e.stopPropagation()}>
-                            Обсудить услугу
+                          <Link
+                            to="/support"
+                            className={styles.serviceAction}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Написать в техподдержку
                           </Link>
                         </div>
                       </>
