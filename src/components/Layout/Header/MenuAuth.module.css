@@ -38,8 +38,15 @@
 /* Аватар внутри десктопной кнопки */
 .loginButton .avatar,
 .loginButton .loginIcon {
+  width: 100%;
+  height: 100%;
   color: var(--color-text);
   transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.loginButton :global(.avatarThemeDefault),
+.mobileAvatarButton :global(.avatarThemeDefault) {
+  padding: 18%;
 }
 
 .loginButton:hover .loginIcon {

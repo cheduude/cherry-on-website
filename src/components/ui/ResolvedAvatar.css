@@ -2,7 +2,8 @@
   display: block;
   box-sizing: border-box;
   flex-shrink: 0;
-  background-color: var(--color-text-muted);
-  -webkit-mask: url('/avatars/default-avatar.svg') center / 72% 72% no-repeat;
-  mask: url('/avatars/default-avatar.svg') center / 72% 72% no-repeat;
+  color: var(--color-text);
+  opacity: 0.8;
+  /* Внутренний отступ, чтобы силуэт не прилипал к краям слота */
+  padding: 16%;
 }

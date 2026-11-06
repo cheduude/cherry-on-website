@@ -20,11 +20,19 @@ export function ResolvedAvatar({
 
   if (isDefaultAvatar(url)) {
     return (
-      <span
+      <svg
+        className={['avatarThemeDefault', className].filter(Boolean).join(' ')}
+        viewBox="0 0 128 128"
         role="img"
         aria-label={alt}
-        className={['avatarThemeDefault', className].filter(Boolean).join(' ')}
-      />
+        focusable="false"
+      >
+        <circle cx="64" cy="46" r="26" fill="currentColor" />
+        <path
+          d="M16 118c6-28 24-44 48-44s42 16 48 44"
+          fill="currentColor"
+        />
+      </svg>
     );
   }
 
