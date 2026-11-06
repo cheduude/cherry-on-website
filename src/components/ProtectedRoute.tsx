@@ -2,6 +2,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { PageLoader } from './Layout/PageTransition';
 
 interface ProtectedRouteProps {
   allowedRoles?: ('user' | 'editor' | 'admin' | 'superadmin' | 'moderator')[];
@@ -17,7 +18,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div className="loading">Загрузка...</div>;
+    return <PageLoader />;
   }
   
   if (!user) {
