@@ -29,12 +29,13 @@ const SignupForm: React.FC<SignupFormProps> = ({
           <form onSubmit={onSubmit}>  
             <div className="form-group mt-2">
               <input
-                type="text"
+                type="email"
                 name="signupEmail"
+                required
                 className="form-style"
                 placeholder="Ваш Email"
                 id="signupemail"
-                autoComplete="off"
+                autoComplete="email"
                 value={formData.signupEmail}
                 onChange={onInputChange}
                 disabled={isSubmitting}
@@ -45,10 +46,11 @@ const SignupForm: React.FC<SignupFormProps> = ({
               <input
                 type="password"
                 name="signupPassword"
+                autoComplete="new-password"
+                required
                 className="form-style"
                 placeholder="Пароль"
                 id="signuppass"
-                autoComplete="off"
                 value={formData.signupPassword}
                 onChange={onInputChange}
                 disabled={isSubmitting}
@@ -60,10 +62,11 @@ const SignupForm: React.FC<SignupFormProps> = ({
               <input
                 type="password"
                 name="confirmPassword"
+                autoComplete="new-password"
+                required
                 className="form-style"
                 placeholder="Подтвердите пароль"
                 id="confirmpass"
-                autoComplete="off"
                 value={formData.confirmPassword}
                 onChange={onInputChange}
                 disabled={isSubmitting}

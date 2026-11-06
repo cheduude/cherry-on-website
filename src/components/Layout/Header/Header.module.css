@@ -8,6 +8,7 @@
   top: 0;
   z-index: 1000;
   width: 100%;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-border);
@@ -97,7 +98,7 @@
 .navLink:hover {
   color: var(--color-accent);
   opacity: 1;
-  background: rgba(255, 255, 255, 0.05);
+  /* background: rgba(255, 255, 255, 0.05); */
 }
 
 .navLink::after {
@@ -199,6 +200,7 @@
   left: 0;
   right: 0;
   background: var(--color-surface);
+  -webkit-backdrop-filter: blur(30px);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   z-index: 998;
@@ -510,8 +512,12 @@
   transition: color 0.3s ease;
 }
 
-.supportItem:hover {
+a.supportItem:hover {
   color: var(--color-accent);
+}
+
+.supportItemStatic {
+  cursor: default;
 }
 
 .supportText {

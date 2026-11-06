@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './ProfilePanel.module.css';
+import { X, LogOut, LayoutDashboard, LifeBuoy, Lock, User, Shield, Home, Wrench, Star, Phone } from 'lucide-react';
 
 interface ProfilePanelProps {
   isOpen: boolean;
@@ -98,22 +99,53 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
   const mainMenuItems = menuItems.slice(0, 4);
   const additionalMenuItems = menuItems.slice(4);
 
-  // Функция для рендера аватара с поддержкой разных форматов
+  // Функция для рендера иконки по имени/ID
+  const renderIcon = (itemId: string, iconName?: string, size: number = 18) => {
+    // Сначала проверяем по ID пункта меню
+    switch (itemId) {
+      case 'cabinet':
+        return <User size={size} strokeWidth={1.5} />;
+      case 'support':
+        return <LifeBuoy size={size} strokeWidth={1.5} />;
+      case 'access':
+        return <Lock size={size} strokeWidth={1.5} />;
+      case 'home':
+        return <Home size={size} strokeWidth={1.5} />;
+      case 'services':
+        return <Wrench size={size} strokeWidth={1.5} />;
+      case 'testimonials':
+        return <Star size={size} strokeWidth={1.5} />;
+      case 'contacts':
+        return <Phone size={size} strokeWidth={1.5} />;
+      default:
+        // Если ID не найден, пробуем по iconName
+        switch (iconName) {
+          case '👤':
+          case 'User':
+            return <User size={size} strokeWidth={1.5} />;
+          case '🛟':
+          case 'LifeBuoy':
+            return <LifeBuoy size={size} strokeWidth={1.5} />;
+          case '🔐':
+          case 'Lock':
+            return <Lock size={size} strokeWidth={1.5} />;
+          default:
+            return <LayoutDashboard size={size} strokeWidth={1.5} />;
+        }
+    }
+  };
+
+  // Функция для рендера аватара с поддержкой разных форматов и заглушкой из lucide-react
   const renderAvatar = () => {
     const avatarUrl = user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(
       user.displayName || user.name || user.username || 'User'
     )}&background=7C3AED&color=fff&size=120&bold=true&length=2`;
 
-    const commonProps = {
-      className: styles.avatar,
-      style: { objectFit: 'cover' as const }
-    };
-
-    // Если произошла ошибка загрузки, показываем заглушку
-    if (avatarError) {
+    // Если произошла ошибка загрузки или нет аватара, показываем заглушку
+    if (avatarError || !user.avatar) {
       return (
         <div className={styles.avatarFallback}>
-          {user.displayName?.[0] || user.name?.[0] || user.username?.[0] || 'U'}
+          <User size={48} strokeWidth={1.2} />
         </div>
       );
     }
@@ -123,7 +155,7 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
       case 'video':
         return (
           <video
-            {...commonProps}
+            className={styles.avatar}
             autoPlay
             loop
             muted
@@ -140,7 +172,7 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
       case 'gif':
         return (
           <img
-            {...commonProps}
+            className={styles.avatar}
             src={avatarUrl}
             alt={user.displayName || user.name || user.username || 'User'}
             onError={() => setAvatarError(true)}
@@ -150,7 +182,7 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
       default:
         return (
           <img
-            {...commonProps}
+            className={styles.avatar}
             src={avatarUrl}
             alt={user.displayName || user.name || user.username || 'User'}
             onError={() => setAvatarError(true)}
@@ -182,21 +214,13 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
           onClick={onClose}
           aria-label="Закрыть панель"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M18 6L6 18M6 6L18 18"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
+          <X size={20} strokeWidth={1.5} />
         </button>
 
         {/* Шапка профиля */}
         <div className={styles.header}>
           <div className={styles.avatarWrapper}>
             {renderAvatar()}
-            {/* Бейдж скрыт по дизайну, можно не трогать */}
           </div>
 
           <div className={styles.userInfo}>
@@ -205,7 +229,10 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
             </h2>
             {/* Отображаем роль только для администратора */}
             {user.role === 'admin' && (
-              <span className={styles.userRole}>Администратор</span>
+              <span className={styles.userRole}>
+                <Shield size={14} strokeWidth={1.5} style={{ marginRight: '4px' }} />
+                Администратор
+              </span>
             )}
           </div>
         </div>
@@ -221,7 +248,9 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
                 className={styles.menuItem}
                 onClick={onClose}
               >
-                <span className={styles.menuIcon}>{item.icon || '📋'}</span>
+                <span className={styles.menuIcon}>
+                  {renderIcon(item.id, item.icon, 18)}
+                </span>
                 <span className={styles.menuLabel}>{item.label}</span>
                 {item.adminOnly && (
                   <span className={styles.adminBadge}>ADMIN</span>
@@ -243,7 +272,9 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
                   className={styles.menuItem}
                   onClick={onClose}
                 >
-                  <span className={styles.menuIcon}>{item.icon || '📋'}</span>
+                  <span className={styles.menuIcon}>
+                    {renderIcon(item.id, item.icon, 18)}
+                  </span>
                   <span className={styles.menuLabel}>{item.label}</span>
                   {item.adminOnly && (
                     <span className={styles.adminBadge}>ADMIN</span>
@@ -262,7 +293,9 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
             onClose();
           }}
         >
-          <span className={styles.logoutIcon}>🚪</span>
+          <span className={styles.logoutIcon}>
+            <LogOut size={18} strokeWidth={1.5} />
+          </span>
           <span className={styles.logoutText}>Выйти из аккаунта</span>
         </button>
 

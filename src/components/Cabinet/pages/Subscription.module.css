@@ -17,6 +17,7 @@
 
 .section {
   background: var(--color-surface);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid var(--color-glass-border);
   border-radius: 20px;
@@ -38,19 +39,40 @@
 }
 
 .configLink {
+  display: flex;
+  justify-content: center;
   margin: 16px 0;
 }
 
-.configLink a {
-  color: var(--color-accent);
-  text-decoration: underline;
+.copyButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.copyHint {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  margin-top: 8px;
-  word-break: break-all;
+.copyButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+.copyButton:active {
+  transform: translateY(0);
+}
+
+.copyButton.copied {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.copyButton.copied:hover {
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
 }
 
 .platformGrid {
@@ -64,6 +86,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   padding: 12px;
   background: var(--color-glass-bg);
   border: 1px solid var(--color-glass-border);
@@ -77,4 +100,14 @@
   background: var(--color-glass-hover);
   transform: translateY(-2px);
   color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  .subscription {
+    padding: 0 16px;
+  }
+  
+  .platformGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

@@ -87,9 +87,7 @@ const TestimonialsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [stats, setStats] = useState({
     total: 0,
-    averageRating: 0,
-    fiveStars: 0,
-    fourStars: 0
+    averageRating: 0
   });
   
   // Пагинация
@@ -115,6 +113,11 @@ const TestimonialsPage: React.FC = () => {
 
   // При изменении отзывов отправляем событие для обновления на Home странице
   useEffect(() => {
+    try {
+      sessionStorage.setItem('cherryon:testimonials', JSON.stringify(testimonials));
+    } catch {
+      // Storage can be unavailable in private browsing; the in-page event still works.
+    }
     window.dispatchEvent(new CustomEvent('testimonialsUpdated', { 
       detail: { testimonials } 
     }));
@@ -337,15 +340,13 @@ const TestimonialsPage: React.FC = () => {
   // Расчет статистики
   useEffect(() => {
     const total = testimonials.length;
-    const averageRating = testimonials.reduce((sum, t) => sum + t.rating, 0) / total;
-    const fiveStars = testimonials.filter(t => t.rating === 5).length;
-    const fourStars = testimonials.filter(t => t.rating === 4).length;
+    const averageRating = total
+      ? testimonials.reduce((sum, t) => sum + t.rating, 0) / total
+      : 0;
 
     setStats({
       total,
-      averageRating: Number(averageRating.toFixed(1)),
-      fiveStars,
-      fourStars
+      averageRating: Number(averageRating.toFixed(1))
     });
   }, [testimonials]);
 
@@ -534,7 +535,7 @@ const TestimonialsPage: React.FC = () => {
           </p>
           <div className={styles.heroButtons}>
             <Link to="/" className={styles.secondaryButton}>
-              ← На главную
+              На главную
             </Link>
             <button 
               className={styles.primaryButton}
@@ -548,7 +549,7 @@ const TestimonialsPage: React.FC = () => {
 
       {/* Статистика */}
       <section className={styles.statsSection}>
-        <div className={styles.statsContainer}>
+        <div className={`${styles.statsContainer} ${styles.statsContainerCentered}`}>
           <div className={styles.statsCard}>
             <div className={styles.statsValue}>{stats.total}</div>
             <div className={styles.statsLabel}>Всего отзывов</div>
@@ -559,14 +560,6 @@ const TestimonialsPage: React.FC = () => {
             <div className={styles.statsStars}>
               {renderStars(Math.round(stats.averageRating))}
             </div>
-          </div>
-          <div className={styles.statsCard}>
-            <div className={styles.statsValue}>{stats.fiveStars}</div>
-            <div className={styles.statsLabel}>Оценок 5★</div>
-          </div>
-          <div className={styles.statsCard}>
-            <div className={styles.statsValue}>{stats.fourStars}+</div>
-            <div className={styles.statsLabel}>Оценок 4★+</div>
           </div>
         </div>
       </section>
@@ -925,7 +918,7 @@ const TestimonialsPage: React.FC = () => {
         </div>
       </section>
 
-      {/* CTA секция */}
+      {/* Временно отключён нижний CTA-блок со ссылками на услуги и поддержку.
       <section className={styles.ctaSection}>
         <div className={styles.ctaContent}>
           <h2 className={styles.ctaTitle}>
@@ -944,6 +937,7 @@ const TestimonialsPage: React.FC = () => {
           </div>
         </div>
       </section>
+      */}
     </div>
   );
 };

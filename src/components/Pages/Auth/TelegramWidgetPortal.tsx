@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-const BOT_USERNAME = 'fsafss_bot';
+const BOT_USERNAME = 'main_cherryon_bot';
 
 interface TelegramWidgetPortalProps {
   buttonRef: React.RefObject<HTMLDivElement | null>;
@@ -25,7 +25,6 @@ export default function TelegramWidgetPortal({
   });
 
   const [isFirefox, setIsFirefox] = useState(false);
-  const scriptLoadedRef = useRef(false);
 
   // ============================================
   // Определяем Firefox
@@ -33,21 +32,6 @@ export default function TelegramWidgetPortal({
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase();
     setIsFirefox(ua.includes('firefox'));
-  }, []);
-
-  // ============================================
-  // Telegram callback
-  // ============================================
-  useEffect(() => {
-    (window as any).onTelegramAuth = (user: any) => {
-      window.dispatchEvent(
-        new CustomEvent('telegram-auth', { detail: user })
-      );
-    };
-
-    return () => {
-      delete (window as any).onTelegramAuth;
-    };
   }, []);
 
   // ============================================
@@ -61,15 +45,37 @@ export default function TelegramWidgetPortal({
 
       const rect = buttonRef.current.getBoundingClientRect();
 
-      setPosition({
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-        height: rect.height
+      setPosition((current) => {
+        if (
+          current.top === rect.top &&
+          current.left === rect.left &&
+          current.width === rect.width &&
+          current.height === rect.height
+        ) {
+          return current;
+        }
+
+        return {
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height
+        };
       });
     };
 
     updatePosition();
+
+    // Track the placeholder while the password reset panel animates its height.
+    const trackingStartedAt = window.performance.now();
+    let trackingFrame = 0;
+    const trackAnimatedPosition = () => {
+      updatePosition();
+      if (window.performance.now() - trackingStartedAt < 500) {
+        trackingFrame = window.requestAnimationFrame(trackAnimatedPosition);
+      }
+    };
+    trackingFrame = window.requestAnimationFrame(trackAnimatedPosition);
 
     // ResizeObserver — самый стабильный способ
     const resizeObserver = new ResizeObserver(() => {
@@ -87,6 +93,7 @@ export default function TelegramWidgetPortal({
     window.addEventListener('resize', handleScrollOrResize, { passive: true });
 
     return () => {
+      window.cancelAnimationFrame(trackingFrame);
       resizeObserver.disconnect();
       window.removeEventListener('scroll', handleScrollOrResize);
       window.removeEventListener('resize', handleScrollOrResize);
@@ -101,7 +108,6 @@ export default function TelegramWidgetPortal({
     if (!containerRef.current || !isVisible) return;
 
     containerRef.current.innerHTML = '';
-    scriptLoadedRef.current = false;
 
     const script = document.createElement('script');
     script.src = 'https://telegram.org/js/telegram-widget.js?22';
@@ -112,10 +118,6 @@ export default function TelegramWidgetPortal({
     script.setAttribute('data-onauth', 'onTelegramAuth(user)');
     script.setAttribute('data-request-access', 'write');
     script.setAttribute('data-userpic', 'true');
-
-    script.onload = () => {
-      scriptLoadedRef.current = true;
-    };
 
     script.onerror = () => {
       console.error('Failed to load Telegram widget');

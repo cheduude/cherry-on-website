@@ -1,11 +1,11 @@
 // src/types/index.ts
-import { AUTH_ROUTES, AUTH_TEXT, AUTH_MODES } from '../constants/auth';
+import { AUTH_ROUTES, AUTH_MODES } from '../constants/auth';
 
 export interface User {
   // Обязательные поля (всегда есть)
   id: number;
   email: string;
-  role: 'user' | 'admin';
+  role: 'user' | 'editor' | 'admin';
   
   // Опциональные поля из основного сайта
   name?: string;
@@ -14,10 +14,9 @@ export interface User {
   avatar?: string;
   token?: string;
   
-  // Опциональные поля из кабинета (могут отсутствовать, если пользователь не в кабинете)
-  balance?: number;
-  currency?: string;
-  language?: 'ru' | 'en';
+  // // Опциональные поля из кабинета (могут отсутствовать, если пользователь не в кабинете)
+  // currency?: string;
+  // language?: 'ru' | 'en';
 }
 
 export interface DropdownMenuProps {

@@ -23,7 +23,7 @@ const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps> = ({ p
     if (/[a-z]/.test(password)) score += 15;
     if (/[A-Z]/.test(password)) score += 15;
     if (/\d/.test(password)) score += 15;
-    if (/[@$!%*?&]/.test(password)) score += 15;
+    if (VALIDATION_RULES.PASSWORD_SPECIAL_CHAR_REGEX.test(password)) score += 15;
     
     return Math.min(score, maxScore);
   };
@@ -80,8 +80,8 @@ const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps> = ({ p
       errors.push('Цифра (0-9)');
     }
     
-    if (!/[@$!%*?&]/.test(password)) {
-      errors.push('Специальный символ (@$!%*?&)');
+    if (!VALIDATION_RULES.PASSWORD_SPECIAL_CHAR_REGEX.test(password)) {
+      errors.push(`Специальный символ (${VALIDATION_RULES.PASSWORD_SPECIAL_CHARACTERS})`);
     }
     
     return errors;

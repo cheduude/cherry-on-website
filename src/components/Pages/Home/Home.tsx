@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
-import type { HomeProps } from '../../../types/index';
+import { useDeviceDetect } from '../../../hooks/useDeviceDetect';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -57,7 +57,8 @@ const initialTestimonials: Testimonial[] = [
   }
 ];
 
-const Home: React.FC<HomeProps> = ({ isMobile }) => {
+const Home: React.FC = () => {
+  const { isMobile } = useDeviceDetect();
   const heroRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const testimonialRef = useRef<HTMLDivElement>(null);
@@ -175,7 +176,7 @@ const Home: React.FC<HomeProps> = ({ isMobile }) => {
     }
 
     // Анимации для тизера услуг
-    featuredServices.forEach((service, index) => {
+    featuredServices.forEach((_, index) => {
       gsap.fromTo(
         `.service-card-${index}`,
         {

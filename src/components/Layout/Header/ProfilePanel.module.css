@@ -6,6 +6,7 @@
   right: 0;
   bottom: 0;
   /*background: rgba(0, 0, 0, 0.5);*/
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   z-index: 999;
@@ -31,11 +32,13 @@
   width: 380px;
   max-width: calc(100vw - 40px);
   height: 100vh;
+  height: 100dvh;
   background: linear-gradient(
     165deg,
     rgba(30, 30, 40, 0.98) 0%,
     rgba(25, 25, 35, 0.98) 100%
   );
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: 

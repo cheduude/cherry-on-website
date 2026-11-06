@@ -1,3 +1,4 @@
+// src/components/Admin/ServerManagementPage.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './Sidebar';
 import NginxUI from './NginxUI';
@@ -7,16 +8,21 @@ import PanelUI from './PanelUI';
 import MailUI from './MailUI';
 import CloudUI from './CloudUI';
 import ServerStatusUI from './ServersStatus';
+import UsersUI from './UsersUI';
+import ShopCardsUI from './ShopCardsUI';
+import OrdersUI from './OrdersUI';
+import ContentUI from './ContentUI';
+import AnalyticsUI from './AnalyticsUI';
 import './ServerManagement.css';
 
-type TabType = 'nginx' | 'haproxy' | 'monitor' | 'status' | 'panel' | 'mail' | 'cloud' | 'logs' | 'metrics' | 'settings';
+type TabType = 'nginx' | 'haproxy' | 'monitor' | 'status' | 'panel' | 'mail' | 'cloud' | 'logs' | 'metrics' | 'users' | 'shop_cards' | 'orders' | 'content' | 'analytics';
 
 const ServerManagementPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('nginx');
-  const [sidebarVisible, setSidebarVisible] = useState(true); // состояние видимости сайдбара
+  const [sidebarVisible, setSidebarVisible] = useState(true);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const tabTitles = {
+  const tabTitles: Record<TabType, string> = {
     nginx: 'Nginx Administration',
     haproxy: 'HAProxy Administration',
     monitor: 'System Monitoring',
@@ -26,7 +32,11 @@ const ServerManagementPage: React.FC = () => {
     cloud: 'Cloud Storage',
     logs: 'System Logs',
     metrics: 'Performance Metrics',
-    settings: 'System Settings'
+    users: 'Управление пользователями',
+    shop_cards: 'Управление товарами',
+    orders: 'Управление заказами',
+    content: 'Редактор контента',
+    analytics: 'Аналитика'
   };
 
   const renderContent = () => {
@@ -49,14 +59,21 @@ const ServerManagementPage: React.FC = () => {
         return <div className="ui-content">Логи системы (в разработке)</div>;
       case 'metrics':
         return <div className="ui-content">Метрики производительности (в разработке)</div>;
-      case 'settings':
-        return <div className="ui-content">Настройки системы (в разработке)</div>;
+      case 'users':
+        return <UsersUI />;
+      case 'shop_cards':
+        return <ShopCardsUI />;
+      case 'orders':
+        return <OrdersUI />;
+      case 'content':
+        return <ContentUI />;
+      case 'analytics':
+        return <AnalyticsUI />;
       default:
         return <NginxUI />;
     }
   };
 
-    // Сброс скролла при смене таба
   useEffect(() => {
     if (wrapperRef.current) {
       wrapperRef.current.scrollTop = 0;
@@ -84,12 +101,12 @@ const ServerManagementPage: React.FC = () => {
               aria-label="Toggle sidebar"
             >
               <span className="toggle-icon">{sidebarVisible ? '◀' : '▶'}</span>
-          </button>
-          <span className="topbar-title">{tabTitles[activeTab]}</span>
-        </div>
-        <div className="admin-iframe-wrapper" ref={wrapperRef}>
-          {renderContent()}
-        </div>
+            </button>
+            <span className="topbar-title">{tabTitles[activeTab]}</span>
+          </div>
+          <div className="admin-iframe-wrapper" ref={wrapperRef}>
+            {renderContent()}
+          </div>
         </main>
       </div>
     </div>

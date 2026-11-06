@@ -61,7 +61,7 @@ const calculatePasswordStrength = (password: string): number => {
   if (/[a-z]/.test(password)) score += 15;
   if (/[A-Z]/.test(password)) score += 15;
   if (/\d/.test(password)) score += 15;
-  if (/[@$!%*?&]/.test(password)) score += 15;
+  if (VALIDATION_RULES.PASSWORD_SPECIAL_CHAR_REGEX.test(password)) score += 15;
   
   // Штраф за последовательности
   if (/(.)\1{2,}/.test(password)) score -= 10; // Три одинаковых символа подряд

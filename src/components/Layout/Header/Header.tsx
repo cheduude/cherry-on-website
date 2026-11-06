@@ -1,6 +1,6 @@
 // src/components/Layout/Header/Header.tsx
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import MenuAuth from './MenuAuth';
 import styles from './Header.module.css';
 import type { HeaderProps } from '../../../types';
@@ -9,15 +9,30 @@ import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import { useAuth } from '../../../hooks/useAuth';
 import { MENU_CONFIG } from '../../../constants/menu';
 import NotificationBell from './NotificationBell';
+import {
+  Home,
+  Wrench,
+  Star,
+  Shield,
+  LogIn,
+  Mail,
+  Clock,
+  MessageCircle,
+  LogOut,
+  User,
+  Lock,
+  LifeBuoy,
+} from 'lucide-react';
 
 const Header: React.FC<HeaderProps> = ({ isMobile }) => {
   const { isAuthenticated, user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+  const location = useLocation();
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  
+
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
@@ -25,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
   // Фильтрация пунктов меню пользователя для мобильной версии
   const getFilteredMenuItems = () => {
     if (!isAuthenticated || !user) return [];
-    
+
     return MENU_CONFIG.filter(item => {
       if (item.id === 'logout') return false;
       if (item.adminOnly && item.roles) {
@@ -35,11 +50,35 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
     });
   };
 
-  const handleMenuItemClick = (item: any) => {
-    if (item.id === 'logout') {
-      logout();
+  // Список пунктов навигации для мобильного меню с иконками lucide-react
+  const mobileNavItems = [
+    { to: '/', label: 'Главная', icon: Home },
+    { to: '/services', label: 'Услуги', icon: Wrench },
+    { to: '/testimonials', label: 'Отзывы', icon: Star },
+  ];
+
+  // Фильтруем навигационные пункты: скрываем текущую страницу
+  const filteredMobileNavItems = mobileNavItems.filter(item => {
+    if (item.to === '/') {
+      return location.pathname !== '/';
     }
-    closeMenu();
+    return !location.pathname.startsWith(item.to);
+  });
+
+  // Функция для рендера иконки
+  const renderIcon = (IconComponent: any, size: number = 20) => {
+    return <IconComponent size={size} strokeWidth={1.5} />;
+  };
+
+  // Функция для получения компонента иконки по имени
+  const getIconComponent = (iconName: string) => {
+    const icons: Record<string, any> = {
+      User: User,
+      Lock: Lock,
+      LifeBuoy: LifeBuoy,
+      LogOut: LogOut,
+    };
+    return icons[iconName];
   };
 
   // Закрываем меню при клике вне его области
@@ -50,7 +89,7 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
         closeMenu();
       }
     };
-    
+
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isMenuOpen]);
@@ -86,35 +125,47 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
               <span className={styles.hamburger}></span>
             </button>
           )}
-         
+
           <Link to="/" className={styles.logoLink}>
             <span className={styles.logoIcon}>
               <CherryLogo />
             </span>
           </Link>
         </div>
-        
+
         {/* Десктопная навигация */}
         {!isMobile && (
           <nav className={styles.nav} role="navigation" aria-label="Основное меню">
             <ul className={styles.navList}>
               <li className={styles.navItem}>
-                <Link to="/" className={styles.navLink}>Главная</Link>
+                <Link to="/" className={styles.navLink}>
+                  <Home size={18} strokeWidth={1.5} className={styles.navIcon} />
+                  Главная
+                </Link>
               </li>
               <li className={styles.navItem}>
-                <Link to="/services" className={styles.navLink}>Услуги</Link>
+                <Link to="/services" className={styles.navLink}>
+                  <Wrench size={18} strokeWidth={1.5} className={styles.navIcon} />
+                  Услуги
+                </Link>
               </li>
               <li className={styles.navItem}>
-                <Link to="/testimonials" className={styles.navLink}>Отзывы</Link>
+                <Link to="/testimonials" className={styles.navLink}>
+                  <Star size={18} strokeWidth={1.5} className={styles.navIcon} />
+                  Отзывы
+                </Link>
               </li>
               <li className={styles.navItem}>
-                <Link to="/admin" className={styles.navLink}>Админка</Link>
+                <Link to="/admin" className={styles.navLink}>
+                  <Shield size={18} strokeWidth={1.5} className={styles.navIcon} />
+                  Админка
+                </Link>
               </li>
             </ul>
           </nav>
         )}
-        
-        {/* Правая часть: авторизация (только для десктопа) */}
+
+        {/* Правая часть: авторизация, уведомления, переключатель темы */}
         <div className={styles.rightSection}>
           {!isMobile && (
             <>
@@ -122,15 +173,14 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
               <NotificationBell />
             </>
           )}
-                    {/* Для мобильной версии: показываем NotificationBell и ThemeToggle */}
-          {isMobile && (
+          {isMobile && isAuthenticated && (
             <NotificationBell />
           )}
           <ThemeToggle />
         </div>
       </div>
-      
-      {/* Мобильное меню (остается без изменений) */}
+
+      {/* Мобильное меню */}
       {isMobile && (
         <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.open : ''}`}>
           <div className={styles.mobileMenuContent}>
@@ -145,16 +195,16 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                 </div>
               </div>
             </div>
-            
+
             {/* Блок информации о пользователе (если авторизован) */}
             {isAuthenticated && user && (
               <div className={styles.userInfoSection}>
                 <div className={styles.userInfoHeader}>
-                  <img 
+                  <img
                     src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(
                       user.displayName || user.name || user.username || 'User'
                     )}&background=7C3AED&color=fff&size=64&bold=true`}
-                    alt="Аватар" 
+                    alt="Аватар"
                     className={styles.userAvatar}
                   />
                   <div className={styles.userInfo}>
@@ -168,29 +218,40 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                     )}
                   </div>
                 </div>
-                
-                {/* Меню пользователя */}
+
+                {/* Меню пользователя - скрываем пункт "Личный кабинет", если уже в кабинете */}
                 <div className={styles.menuSection}>
-                  <div className={styles.sectionTitle}>Личный кабинет</div>
                   <ul className={styles.mobileNavList}>
-                    {userMenuItems.map(item => (
-                      <li key={item.id} className={styles.mobileNavItem}>
-                        <Link
-                          to={item.path}
-                          className={styles.mobileNavLink}
-                          onClick={closeMenu}
-                        >
-                          <span className={styles.mobileNavIcon}>{item.icon || '📋'}</span>
-                          <div className={styles.navContent}>
-                            <span className={styles.mobileNavText}>{item.label}</span>
-                            {item.adminOnly && (
-                              <span className={styles.navBadge}>ADMIN</span>
-                            )}
-                          </div>
-                        </Link>
-                      </li>
-                    ))}
-                    
+                    {userMenuItems
+                      .filter(item => {
+                        if (location.pathname.startsWith('/cabinet') && item.path === '/cabinet') {
+                          return false;
+                        }
+                        return true;
+                      })
+                      .map(item => {
+                        const IconComponent = getIconComponent(item.icon || '');
+                        return (
+                          <li key={item.id} className={styles.mobileNavItem}>
+                            <Link
+                              to={item.path}
+                              className={styles.mobileNavLink}
+                              onClick={closeMenu}
+                            >
+                              <span className={styles.mobileNavIcon}>
+                                {IconComponent ? <IconComponent size={18} strokeWidth={1.5} /> : '📋'}
+                              </span>
+                              <div className={styles.navContent}>
+                                <span className={styles.mobileNavText}>{item.label}</span>
+                                {item.adminOnly && (
+                                  <span className={styles.navBadge}>ADMIN</span>
+                                )}
+                              </div>
+                            </Link>
+                          </li>
+                        );
+                      })}
+
                     {/* Кнопка выхода */}
                     <li className={styles.mobileNavItem}>
                       <button
@@ -200,7 +261,9 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                           closeMenu();
                         }}
                       >
-                        <span className={styles.mobileNavIcon}>🚪</span>
+                        <span className={styles.mobileNavIcon}>
+                          <LogOut size={18} strokeWidth={1.5} />
+                        </span>
                         <div className={styles.navContent}>
                           <span className={styles.mobileNavText}>Выйти</span>
                         </div>
@@ -210,33 +273,27 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                 </div>
               </div>
             )}
-            
-            {/* Основная навигация */}
+
+            {/* Основная навигация - фильтруем текущую страницу */}
             <div className={styles.menuSection}>
               <div className={styles.sectionTitle}>Навигация</div>
               <nav className={styles.mobileNav} role="navigation" aria-label="Мобильное меню">
                 <ul className={styles.mobileNavList}>
-                  <li className={styles.mobileNavItem}>
-                    <Link
-                      to="/"
-                      className={styles.mobileNavLink}
-                      onClick={closeMenu}
-                    >
-                      <span className={styles.mobileNavIcon}>🏠</span>
-                      <span className={styles.mobileNavText}>Главная</span>
-                    </Link>
-                  </li>
-                  <li className={styles.mobileNavItem}>
-                    <Link
-                      to="/services"
-                      className={styles.mobileNavLink}
-                      onClick={closeMenu}
-                    >
-                      <span className={styles.mobileNavIcon}>🔧</span>
-                      <span className={styles.mobileNavText}>Услуги</span>
-                    </Link>
-                  </li>
-                  
+                  {filteredMobileNavItems.map(item => (
+                    <li key={item.to} className={styles.mobileNavItem}>
+                      <Link
+                        to={item.to}
+                        className={styles.mobileNavLink}
+                        onClick={closeMenu}
+                      >
+                        <span className={styles.mobileNavIcon}>
+                          {renderIcon(item.icon, 18)}
+                        </span>
+                        <span className={styles.mobileNavText}>{item.label}</span>
+                      </Link>
+                    </li>
+                  ))}
+
                   {!isAuthenticated && (
                     <li className={styles.mobileNavItem}>
                       <Link
@@ -244,7 +301,9 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                         className={`${styles.mobileNavLink} ${styles.authLink}`}
                         onClick={closeMenu}
                       >
-                        <span className={styles.mobileNavIcon}>🔐</span>
+                        <span className={styles.mobileNavIcon}>
+                          <LogIn size={19} strokeWidth={1.7} />
+                        </span>
                         <span className={styles.mobileNavText}>Войти в аккаунт</span>
                       </Link>
                     </li>
@@ -252,37 +311,35 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
                 </ul>
               </nav>
             </div>
-                        {/* Блок уведомлений для мобильных */}
-            {isAuthenticated && (
-              <div className={styles.mobileNotifications}>
-                <div className={styles.mobileNotificationsHeader}>
-                  <NotificationBell />
-                  <span className={styles.mobileNotificationsTitle}>Уведомления</span>
-                </div>
-              </div>
-            )}
+
             {/* Блок поддержки */}
             <div className={styles.supportSection}>
               <div className={styles.supportTitle}>
-                <span className={styles.supportIcon}>💬</span>
-                Поддержка
+                <span className={styles.supportIcon}>
+                  <MessageCircle size={18} strokeWidth={1.5} />
+                </span>
+                Контакты
               </div>
-              <a href="mailto:support@mydomain.ru" className={styles.supportItem}>
-                <span className={styles.supportIcon}>✉️</span>
+              <a href="mailto:mainserev@cherryon.art" className={styles.supportItem}>
+                <span className={styles.supportIcon}>
+                  <Mail size={16} strokeWidth={1.5} />
+                </span>
                 <span className={styles.supportText}>
-                  Email: <span className={styles.supportContact}>support@mydomain.ru</span>
+                  Email: <span className={styles.supportContact}>mainserev@cherryon.art</span>
                 </span>
               </a>
-              <div className={styles.supportItem}>
-                <span className={styles.supportIcon}>🕐</span>
+              <div className={`${styles.supportItem} ${styles.supportItemStatic}`}>
+                <span className={styles.supportIcon}>
+                  <Clock size={16} strokeWidth={1.5} />
+                </span>
                 <span className={styles.supportText}>Работаем 24/7</span>
               </div>
             </div>
-            
+
             {/* Футер меню */}
             <div className={styles.mobileMenuFooter}>
               <p className={styles.mobileMenuHours}>Всегда на связи</p>
-              <p className={styles.mobileMenuCopyright}>© {new Date().getFullYear()} Сетевые услуги</p>
+              <p className={styles.mobileMenuCopyright}>© {new Date().getFullYear()} CherryOn</p>
             </div>
           </div>
         </div>

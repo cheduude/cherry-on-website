@@ -6,6 +6,7 @@ import { MENU_CONFIG } from '../../../constants/menu';
 import ProfilePanel from './ProfilePanel';
 import styles from './MenuAuth.module.css';
 import type { MenuAuthProps, MenuItem } from '../../../types';
+import { LogIn } from 'lucide-react';
 
 const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -52,7 +53,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
     setIsPanelOpen(false);
   };
 
-  // Рендер аватара (общий для всех состояний)
+  // Функция для получения компонента иконки по имени
   const renderAvatar = (size: 'small' | 'medium' = 'medium') => {
     if (!user) return null;
 
@@ -122,7 +123,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
     return (
       <div className={styles.navigation}>
         <Link to="/auth" className={styles.mobileLoginButton} aria-label="Войти">
-          <span className={styles.mobileLoginIcon}>🔐</span>
+          <LogIn size={19} strokeWidth={1.7} className={styles.mobileLoginIcon} />
         </Link>
       </div>
     );
@@ -150,11 +151,7 @@ const MenuAuth: React.FC<MenuAuthProps> = ({ isMobile }) => {
         </>
       ) : (
         <Link to="/auth" className={styles.loginButton} aria-label="Войти">
-          <img
-            src="https://ui-avatars.com/api/?name=User&background=7C3AED&color=fff&size=32&bold=true"
-            alt="Login"
-            className={styles.avatar}
-          />
+          <LogIn size={22} strokeWidth={1.7} className={styles.loginIcon} />
         </Link>
       )}
     </div>
