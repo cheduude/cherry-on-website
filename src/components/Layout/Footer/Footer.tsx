@@ -148,11 +148,11 @@ const Footer = () => {
                 <h3 className={styles.sectionTitle}>Контакты</h3>
                 <div className={styles.contactInfo}>
                   <a
-                    href="mailto:support@domain.com"
+                    href="mailto:mainserev@cherryon.art"
                     className={`${styles.contactItem} ${styles.contactItemLink}`}
                   >
                     <span className={styles.contactIcon}>{renderIcon(Mail)}</span>
-                    <span className={styles.contactText}>support@domain.com</span>
+                    <span className={styles.contactText}>mainserev@cherryon.art</span>
                   </a>
                   <div className={`${styles.contactItem} ${styles.timeItem}`}>
                     <span className={styles.contactIcon}>{renderIcon(Clock)}</span>
@@ -279,11 +279,11 @@ const Footer = () => {
               <h3 className={styles.sectionTitle}>Контакты</h3>
               <div className={styles.contactInfo}>
                 <a
-                  href="mailto:support@domain.com"
+                  href="mailto:mainserev@cherryon.art"
                   className={`${styles.contactItem} ${styles.contactItemLink}`}
                 >
                   <span className={styles.contactIcon}>{renderIcon(Mail)}</span>
-                  <span className={styles.contactText}>support@domain.com</span>
+                  <span className={styles.contactText}>mainserev@cherryon.art</span>
                 </a>
                 <div className={`${styles.contactItem} ${styles.timeItem}`}>
                   <span className={styles.contactIcon}>{renderIcon(Clock)}</span>
