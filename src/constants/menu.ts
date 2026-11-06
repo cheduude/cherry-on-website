@@ -2,7 +2,6 @@
 export const MENU_ITEMS = {
   MY_ORDERS: 'my-orders',
   EDITOR: 'editor',
-  SETTINGS: 'settings',
   SUPPORT: 'support',
   ACCESS: 'access',
   LOGOUT: 'logout',
@@ -23,12 +22,6 @@ export const MENU_CONFIG = [
     label: "Личный кабинет",
     path: "/cabinet",
     icon: "User"
-  },
-  {
-    id: 'settings',
-    label: 'Настройки',
-    path: '/settings',
-    icon: 'Settings',
   },
   {
     id: 'editor',

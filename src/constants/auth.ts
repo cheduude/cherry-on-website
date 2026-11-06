@@ -7,7 +7,6 @@ export const AUTH_ROUTES = {
   LOGIN: '/auth',
   REGISTER: '/auth?mode=register',
   PROFILE: '/profile',
-  SETTINGS: '/settings',
   HOME: '/',
   DASHBOARD: '/dashboard'
 } as const;
@@ -18,7 +17,6 @@ export const AUTH_TEXT = {
   LOGOUT: 'Выйти',
   REGISTER: 'Регистрация',
   PROFILE: 'Профиль',
-  SETTINGS: 'Настройки',
   MENU: 'Меню',
   LOGIN_BUTTON: 'LOGIN',
   LOGOUT_BUTTON: 'LOGOUT'

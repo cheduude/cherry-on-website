@@ -605,6 +605,57 @@
   margin-bottom: 1.5rem;
 }
 
+.tariffTableWrap {
+  margin-top: 1.5rem;
+  overflow-x: auto;
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.12));
+  border-radius: 14px;
+  background: var(--color-surface, rgba(20, 20, 20, 0.72));
+}
+
+.tariffTable {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  color: var(--color-text, #f5f5f5);
+  text-align: center;
+}
+
+.tariffTable caption {
+  padding: 1rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.tariffTable th,
+.tariffTable td {
+  padding: 0.8rem 0.65rem;
+  border-top: 1px solid var(--color-border, rgba(255, 255, 255, 0.12));
+  white-space: nowrap;
+}
+
+.tariffTable thead th,
+.tariffTable tbody th {
+  font-weight: 600;
+}
+
+.tariffTable tbody th {
+  text-align: left;
+}
+
+.purchaseNote {
+  margin: 1rem;
+  color: var(--color-text-muted, #aaa);
+}
+
+.tariffTableWrap > .tariffButton {
+  display: inline-flex;
+  margin: 0 1rem 1rem;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 .tariffCard {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);

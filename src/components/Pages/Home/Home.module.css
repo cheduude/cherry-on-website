@@ -356,6 +356,7 @@ body {
   max-width: 100%;
   position: relative;
   background: transparent;
+  display: flex;
 }
 
 .serviceCardInner {
@@ -371,6 +372,9 @@ body {
   max-width: 100%;
   box-sizing: border-box;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 [data-theme="dark"] .serviceCardInner {
@@ -412,7 +416,7 @@ body {
   font-size: clamp(1.5rem, 2vw, 1.8rem);
   font-weight: 700;
   margin-bottom: 1rem;
-  color: var(--color-wheat);
+  color: var(--color-text);
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: 1.3;
@@ -429,9 +433,9 @@ body {
 }
 
 [data-theme="dark"] .serviceDescription {
-  color: var(--color-wheat);
+  color: var(--color-text-muted);
   opacity: 0.9;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   line-height: 1.6;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -455,8 +459,8 @@ body {
 }
 
 [data-theme="dark"] .feature {
-  background: rgba(245, 222, 179, 0.1);
-  color: var(--color-wheat);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-muted);
   padding-top: 8px;
   padding-right: 16px;
   padding-bottom: 8px;
@@ -495,7 +499,7 @@ body {
 }
 
 [data-theme="dark"] .feature:hover {
-  background: rgba(245, 222, 179, 0.1);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="light"] .feature:hover {
@@ -507,7 +511,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-wheat);
+  color: var(--color-accent);
   text-decoration: none;
   font-weight: 600;
   transition-property: all;
@@ -515,13 +519,15 @@ body {
   transition-timing-function: ease;
   transition-delay: 0s;
   cursor: pointer;
+  margin-top: auto;
+  padding-top: 8px;
 }
 
 [data-theme="light"] .serviceLink {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #667eea;
+  color: var(--color-accent);
   text-decoration: none;
   font-weight: 600;
   transition-property: all;
@@ -529,6 +535,8 @@ body {
   transition-timing-function: ease;
   transition-delay: 0s;
   cursor: pointer;
+  margin-top: auto;
+  padding-top: 8px;
 }
 
 .serviceLink:hover {
@@ -1308,24 +1316,24 @@ font-size: 0.75rem;
 }
 
 [data-theme="dark"] .serviceTitle {
-  color: var(--color-wheat);
+  color: var(--color-text);
 }
 
 [data-theme="dark"] .serviceDescription {
-  color: var(--color-wheat);
+  color: var(--color-text-muted);
 }
 
 [data-theme="dark"] .feature {
-  background: rgba(245, 222, 179, 0.1);
-  color: var(--color-wheat);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-muted);
 }
 
 [data-theme="dark"] .feature:hover {
-  background: rgba(245, 222, 179, 0.2);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="dark"] .serviceLink {
-  color: var(--color-wheat);
+  color: var(--color-accent);
 }
 
 [data-theme="dark"] .star {

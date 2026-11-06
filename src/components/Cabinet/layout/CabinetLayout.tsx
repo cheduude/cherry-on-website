@@ -31,6 +31,7 @@ const CabinetLayout: React.FC = () => {
     { to: '/cabinet/referrals', label: 'Рефералы', icon: Users, end: false, index: 3 },
     { to: '/cabinet/profile', label: 'Профиль', icon: User, end: false, index: 4 },
   ];
+  const visibleNavItems = navItems.filter((item) => item.to !== '/cabinet' || user?.role === 'admin');
 
   // Определяем, вошёл ли пользователь через Telegram
   const isTelegramUser = user?.email?.endsWith('@telegram.com') || 
@@ -52,7 +53,7 @@ const CabinetLayout: React.FC = () => {
 
   // Обновление позиции активной полоски
   const updateActiveIndicator = () => {
-    const activeIndex = navItems.findIndex(item => {
+    const activeIndex = visibleNavItems.findIndex(item => {
       if (item.end) {
         return location.pathname === item.to;
       }
@@ -76,7 +77,7 @@ const CabinetLayout: React.FC = () => {
     updateActiveIndicator();
     window.addEventListener('resize', updateActiveIndicator);
     return () => window.removeEventListener('resize', updateActiveIndicator);
-  }, [location]);
+  }, [location, user?.role]);
 
   // Функция для установки ref
   const setNavRef = (index: number) => (el: HTMLAnchorElement | null) => {
@@ -97,7 +98,7 @@ const CabinetLayout: React.FC = () => {
           {user && <div className={styles.userEmail}>{getDisplayName()}</div>}
         </div>
         <nav className={styles.sidebarNav}>
-          {navItems.map((item) => (
+          {visibleNavItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -124,7 +125,7 @@ const CabinetLayout: React.FC = () => {
       {/* Мобильная версия: горизонтальная навигация с плавающей полоской */}
       <div className={styles.mobileNavBar}>
         <div className={styles.mobileNavContainer} ref={navContainerRef}>
-          {navItems.map((item, index) => (
+          {visibleNavItems.map((item, index) => (
             <NavLink
               key={item.to}
               to={item.to}

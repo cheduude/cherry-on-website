@@ -2,7 +2,7 @@
 import React from 'react';
 import './ServerManagement.css';
 
-type TabType = 'nginx' | 'haproxy' | 'monitor' | 'status' | 'panel' | 'mail' | 'cloud' | 'logs' | 'metrics' | 'settings' | 'users' | 'shop_cards' | 'orders' | 'content' | 'analytics';
+type TabType = 'nginx' | 'haproxy' | 'monitor' | 'status' | 'panel' | 'mail' | 'cloud' | 'logs' | 'metrics' | 'users' | 'shop_cards' | 'orders' | 'content' | 'analytics';
 
 interface SidebarProps {
   activeTab: TabType;
@@ -34,7 +34,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isVisible }) 
     // Дополнительные
     { id: 'logs', label: 'Логи', icon: 'fas fa-file-alt', color: '#45b7d1', group: 'extra' },
     { id: 'metrics', label: 'Метрики', icon: 'fas fa-chart-bar', color: '#96ceb4', group: 'extra' },
-    { id: 'settings', label: 'Настройки', icon: 'fas fa-cog', color: '#ffeaa7', group: 'extra' },
   ];
 
   return (

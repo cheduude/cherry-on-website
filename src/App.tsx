@@ -16,7 +16,7 @@ const Auth = React.lazy(() => import('./components/Pages/Auth/Auth'));
 const OrdersPage = React.lazy(() => import('./components/Pages/Orders/OrdersPage'));
 const SupportPage = React.lazy(() => import('./components/Pages/Support/SupportPage'));
 const TestimonialsPage = React.lazy(() => import('./components/Pages/Home/TestimonialsPage'));
-const SettingsPage = React.lazy(() => import('./components/Pages/Settings/SettingsPage'));
+const DocumentPage = React.lazy(() => import('./components/Pages/Documents/DocumentPage'));
 
 // Личный кабинет
 const CabinetLayout = React.lazy(() => import('./components/Cabinet/layout/CabinetLayout'));
@@ -49,14 +49,10 @@ const App: React.FC = () => {
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/support" element={<SupportPage />} />
             <Route path="/testimonials" element={<TestimonialsPage />} />
-            <Route
-              path="/settings"
-              element={
-                <ProtectedRoute redirectTo="/auth">
-                  <SettingsPage />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/pp" element={<DocumentPage />} />
+            <Route path="/tos" element={<DocumentPage />} />
+            <Route path="/cp" element={<DocumentPage />} />
+            <Route path="/po" element={<DocumentPage />} />
 
             {/* Админ-панель (только admin) */}
             <Route
@@ -95,7 +91,11 @@ const App: React.FC = () => {
                 </ProtectedRoute>
               }
             >
-              <Route index element={<Dashboard />} />
+              <Route index element={
+                <ProtectedRoute allowedRoles={['admin']} redirectTo="/cabinet/subscription">
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
               <Route path="tariffs" element={<Tariffs />} />
               <Route path="subscription" element={<Subscription />} />
               <Route path="referrals" element={<Referrals />} />

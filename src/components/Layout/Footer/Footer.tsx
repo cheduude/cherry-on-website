@@ -175,25 +175,25 @@ const Footer = () => {
                 <h3 className={styles.sectionTitle}>Документы</h3>
                 <ul className={styles.documentsList}>
                   <li className={styles.documentItem}>
-                    <Link to="/privacy" className={styles.documentLink}>
+                    <Link to="/pp" className={styles.documentLink}>
                       <span className={styles.docIcon}>{renderIcon(Shield)}</span>
                       <span className={styles.docText}>Политика конфиденциальности</span>
                     </Link>
                   </li>
                   <li className={styles.documentItem}>
-                    <Link to="/terms" className={styles.documentLink}>
+                    <Link to="/tos" className={styles.documentLink}>
                       <span className={styles.docIcon}>{renderIcon(FileText)}</span>
                       <span className={styles.docText}>Пользовательское соглашение</span>
                     </Link>
                   </li>
                   <li className={styles.documentItem}>
-                    <Link to="/cookie" className={styles.documentLink}>
+                    <Link to="/cp" className={styles.documentLink}>
                       <span className={styles.docIcon}>{renderIcon(Cookie)}</span>
                       <span className={styles.docText}>Политика использования cookie</span>
                     </Link>
                   </li>
                   <li className={styles.documentItem}>
-                    <Link to="/offers" className={styles.documentLink}>
+                    <Link to="/po" className={styles.documentLink}>
                       <span className={styles.docIcon}>{renderIcon(Receipt)}</span>
                       <span className={styles.docText}>Публичная оферта</span>
                     </Link>
@@ -306,25 +306,25 @@ const Footer = () => {
               <h3 className={styles.sectionTitle}>Документы</h3>
               <ul className={styles.documentsList}>
                 <li className={styles.documentItem}>
-                  <Link to="/privacy" className={styles.documentLink}>
+                  <Link to="/pp" className={styles.documentLink}>
                     <span className={styles.docIcon}>{renderIcon(Shield)}</span>
                     <span className={styles.docText}>Политика конфиденциальности</span>
                   </Link>
                 </li>
                 <li className={styles.documentItem}>
-                  <Link to="/terms" className={styles.documentLink}>
+                  <Link to="/tos" className={styles.documentLink}>
                     <span className={styles.docIcon}>{renderIcon(FileText)}</span>
                     <span className={styles.docText}>Пользовательское соглашение</span>
                   </Link>
                 </li>
                 <li className={styles.documentItem}>
-                  <Link to="/cookie" className={styles.documentLink}>
+                  <Link to="/cp" className={styles.documentLink}>
                     <span className={styles.docIcon}>{renderIcon(Cookie)}</span>
                     <span className={styles.docText}>Политика использования cookie</span>
                   </Link>
                 </li>
                 <li className={styles.documentItem}>
-                  <Link to="/offers" className={styles.documentLink}>
+                  <Link to="/po" className={styles.documentLink}>
                     <span className={styles.docIcon}>{renderIcon(Receipt)}</span>
                     <span className={styles.docText}>Публичная оферта</span>
                   </Link>

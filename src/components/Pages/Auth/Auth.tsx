@@ -102,8 +102,8 @@ const Auth: React.FC = () => {
       errors.push('Пароль должен содержать цифру (0-9)');
     }
 
-    if (!/[@$!%*?&]/.test(password)) {
-      errors.push('Пароль должен содержать специальный символ (@$!%*?&)');
+    if (!VALIDATION_RULES.PASSWORD_SPECIAL_CHAR_REGEX.test(password)) {
+      errors.push(`Пароль должен содержать специальный символ (${VALIDATION_RULES.PASSWORD_SPECIAL_CHARACTERS})`);
     }
 
     return errors;

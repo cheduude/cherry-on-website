@@ -16,6 +16,18 @@ body {
   flex-direction: column;
 }
 
+.site-wrapper {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-wrapper > .main-content {
+  flex: 1 0 auto;
+  width: 100%;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;

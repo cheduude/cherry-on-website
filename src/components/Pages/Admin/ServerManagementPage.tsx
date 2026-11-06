@@ -15,7 +15,7 @@ import ContentUI from './ContentUI';
 import AnalyticsUI from './AnalyticsUI';
 import './ServerManagement.css';
 
-type TabType = 'nginx' | 'haproxy' | 'monitor' | 'status' | 'panel' | 'mail' | 'cloud' | 'logs' | 'metrics' | 'settings' | 'users' | 'shop_cards' | 'orders' | 'content' | 'analytics';
+type TabType = 'nginx' | 'haproxy' | 'monitor' | 'status' | 'panel' | 'mail' | 'cloud' | 'logs' | 'metrics' | 'users' | 'shop_cards' | 'orders' | 'content' | 'analytics';
 
 const ServerManagementPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('nginx');
@@ -32,7 +32,6 @@ const ServerManagementPage: React.FC = () => {
     cloud: 'Cloud Storage',
     logs: 'System Logs',
     metrics: 'Performance Metrics',
-    settings: 'System Settings',
     users: 'Управление пользователями',
     shop_cards: 'Управление товарами',
     orders: 'Управление заказами',
@@ -60,8 +59,6 @@ const ServerManagementPage: React.FC = () => {
         return <div className="ui-content">Логи системы (в разработке)</div>;
       case 'metrics':
         return <div className="ui-content">Метрики производительности (в разработке)</div>;
-      case 'settings':
-        return <div className="ui-content">Настройки системы (в разработке)</div>;
       case 'users':
         return <UsersUI />;
       case 'shop_cards':

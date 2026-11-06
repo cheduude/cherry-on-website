@@ -3,8 +3,6 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import styles from './Services.module.css';
 import { useLenisCleanup } from '../../../hooks/useLenisCleanup';
-import { useAuth } from '../../../hooks/useAuth';
-import { useNotifications } from '../../../contexts/NotificationContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -17,12 +15,13 @@ import {
   Sparkles,
   Zap,
   Globe,
-  Lock,
   X,
   Code
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const CERTIFICATE_PURCHASE_BOT_URL = 'https://t.me/main_cherryon_bot';
 
 // Маппинг иконок для экспорта в OrdersPage
 export const iconMap = {
@@ -34,153 +33,69 @@ export const iconMap = {
   Code
 };
 
-// Интерфейс для заказа
-interface Order {
-  id: string;
-  customer_uuid: string;
-  status: 'NEW' | 'PAID' | 'PROCESSING' | 'COMPLETED' | 'CANCELLED';
-  shop_card: {
-    uuid: string;
-    name: string;
-    description: string;
-    category: string;
-    price: number;
-    visible: boolean;
-    iconName: keyof typeof iconMap;
-  };
-  price: number;
-  created_at: number;
-}
-
-// Интерфейс для тарифа цифрового сертификата
-interface Tariff {
-  id: string;
-  name: string;
-  speed: string;
-  price: number;
-  priceLabel: string;
-  features: string[];
-  isPopular?: boolean;
-}
-
-// Данные тарифов для цифровых сертификатов (позже будут с бэкенда)
-const certificateTariffs: Tariff[] = [
-  {
-    id: 'tariff-1',
-    name: 'Базовый',
-    speed: 'До 50 Мбит/с',
-    price: 499,
-    priceLabel: '₽/мес',
-    features: ['Шифрование трафика', '1 устройство', 'Базовая поддержка']
-  },
-  {
-    id: 'tariff-2',
-    name: 'Стандарт',
-    speed: 'До 150 Мбит/с',
-    price: 799,
-    priceLabel: '₽/мес',
-    features: ['Шифрование трафика', 'До 3 устройств', 'Приоритетная поддержка'],
-    isPopular: true
-  },
-  {
-    id: 'tariff-3',
-    name: 'Премиум',
-    speed: 'До 500 Мбит/с',
-    price: 1299,
-    priceLabel: '₽/мес',
-    features: ['Шифрование трафика', 'До 10 устройств', '24/7 поддержка', 'Выделенный IP']
-  }
+const certificateTariffs = [
+  { period: '1 месяц', prices: [133, 249, 345, 435, 515, 590] },
+  { period: '3 месяца', prices: [366, 685, 990, 1240, 1460, 1660] },
+  { period: '6 месяцев', prices: [666, 1240, 1780, 2240, 2640, 2990] },
+  { period: '12 месяцев', prices: [1190, 2220, 3180, 3990, 4720, 5380] }
 ];
 
-// Обновленный массив услуг с UUID и price для заказов
 const services = [
   {
     name: 'Цифровые Сертификаты',
     desc: 'Безопасное подключение с гарантией конфиденциальности. Поддержка всех устройств.',
     icon: Shield,
-    iconName: 'Shield' as const,
     features: ['Шифрование трафика', 'Все устройства', '24/7 поддержка'],
-    price: 'от 499 ₽/мес',
-    priceValue: 499,
-    uuid: 'cert-001',
-    id: 0,
-    status: 'development'
+    price: 'по тарифам',
+    status: 'active'
   },
   {
     name: 'VPS',
     desc: 'Виртуальные серверы с мощным железом и низкой задержкой. Полный root доступ.',
     icon: Server,
-    iconName: 'Server' as const,
     features: ['Root доступ', 'SSD/NVMe', 'HDD', 'Linux/Windows', 'DDoS защита'],
-    price: 'от 890 ₽/мес',
-    priceValue: 890,
-    uuid: 'vps-001',
-    id: 1,
+    price: 'Обсуждаемая цена',
     status: 'test'
   },
   {
     name: 'NVMe Диски',
     desc: 'Облачное хранилище на быстрых NVMe накопителях. Аналог Google Диска с повышенной скоростью.',
     icon: HardDrive,
-    iconName: 'HardDrive' as const,
     features: ['Высокая скорость', 'Резервное копирование', 'Общий доступ', 'Шифрование'],
-    price: 'от 299 ₽/100 ГБ',
-    priceValue: 299,
-    uuid: 'nvme-001',
-    id: 2,
+    price: 'Обсуждаемая цена',
     status: 'active'
   },
   {
     name: 'Настройка сетевого оборудования и сетей',
     desc: 'Настройка сетевых параметров устройства + цифровой сертификат на год. Оптимизация для игр и стриминга.',
     icon: Router,
-    iconName: 'Router' as const,
     features: ['Сертификат на год', 'Настройка', 'Гарантия'],
-    price: 'от 2 490 ₽',
-    priceValue: 2490,
-    uuid: 'network-001',
-    id: 3,
+    price: 'Обсуждаемая цена',
     status: 'active'
   },
   {
     name: 'Пополнение аккаунтов',
     desc: 'Steam, ChatGPT, Spotify, Grok и другие сервисы. Моментальное пополнение.',
     icon: ShoppingCart,
-    iconName: 'ShoppingCart' as const,
     features: ['Гарантия', 'Поддержка', 'Безопасно'],
-    price: 'курс +1000%',
-    priceValue: 0,
-    uuid: 'topup-001',
-    id: 4,
+    price: 'Обсуждаемая цена',
     status: 'active'
   },
   {
     name: 'Разработка под заказ',
     desc: 'Разработка ботов, сайтов, мобильных приложений и другого программного обеспечения под ваши задачи.',
     icon: Code,
-    iconName: 'Code' as const,
     features: ['Боты', 'Сайты', 'Мобильные приложения', 'Индивидуальный подход'],
-    price: 'договорная',
-    priceValue: 0,
-    uuid: 'dev-001',
-    id: 5,
+    price: 'Обсуждаемая цена',
     status: 'active'
   }
 ];
-
-// Ключ для хранения заказов в localStorage
-const ORDERS_STORAGE_KEY = 'user_orders';
 
 const Services = () => {
   const location = useLocation();
   useLenisCleanup();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hasAutoOpened, setHasAutoOpened] = useState(false);
-  const [isCreatingOrder, setIsCreatingOrder] = useState(false);
-  
-  // ХУКИ
-  const { isAuthenticated, user } = useAuth();
-  const { showInfo, showSuccess, showError } = useNotifications();
   
   const isFirstRender = useRef(true);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -189,28 +104,6 @@ const Services = () => {
   const scrollTriggers = useRef<ScrollTrigger[]>([]);
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lastAutoOpenId = useRef<string | null>(null);
-
-  // Функция для получения заказов из localStorage
-  const getStoredOrders = useCallback((): Order[] => {
-    if (!user?.id) return [];
-    
-    const stored = localStorage.getItem(`${ORDERS_STORAGE_KEY}_${user.id}`);
-    if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch (e) {
-        console.error('Error parsing stored orders:', e);
-        return [];
-      }
-    }
-    return [];
-  }, [user?.id]);
-
-  // Функция для сохранения заказов в localStorage
-  const saveOrders = useCallback((orders: Order[]) => {
-    if (!user?.id) return;
-    localStorage.setItem(`${ORDERS_STORAGE_KEY}_${user.id}`, JSON.stringify(orders));
-  }, [user?.id]);
 
   // Инициализируем массив refs для услуг
   useEffect(() => {
@@ -293,73 +186,6 @@ const Services = () => {
       return newIndex;
     });
   }, []);
-
-  // Обработчик покупки
-  const handleOrder = useCallback(async (service: typeof services[0] | (typeof services[0] & { name: string; priceValue: number; desc: string })) => {
-    if (!isAuthenticated) {
-      showError('Ошибка', 'Необходимо авторизоваться для покупки');
-      return;
-    }
-    
-    if (!user) {
-      showError('Ошибка', 'Данные пользователя не найдены');
-      return;
-    }
-
-    if (!user.id) {
-      showError('Ошибка', 'ID пользователя не найден');
-      return;
-    }
-
-    setIsCreatingOrder(true);
-    
-    try {
-      await new Promise(resolve => setTimeout(resolve, 800));
-
-      const existingOrders = getStoredOrders();
-      
-      const newOrder: Order = {
-        id: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        customer_uuid: String(user.id),
-        status: 'NEW',
-        shop_card: {
-          uuid: service.uuid,
-          name: service.name,
-          description: service.desc,
-          category: service.id?.toString() || '0',
-          price: service.priceValue,
-          visible: true,
-          iconName: service.iconName
-        },
-        price: service.priceValue,
-        created_at: Date.now()
-      };
-
-      const updatedOrders = [newOrder, ...existingOrders];
-      saveOrders(updatedOrders);
-
-      showSuccess(
-        'Заказ создан',
-        `Услуга "${service.name}" добавлена в ваши заказы`,
-        3000
-      );
-
-      showInfo(
-        'Оплата в разработке',
-        'В будущем вы сможете оплатить заказ онлайн. Пока что заказ сохранен в вашем списке.',
-        5000
-      );
-
-    } catch (error: any) {
-      console.error('❌ Order creation error:', error);
-      showError(
-        'Ошибка при создании заказа',
-        error.message || 'Попробуйте позже или обратитесь в поддержку'
-      );
-    } finally {
-      setIsCreatingOrder(false);
-    }
-  }, [isAuthenticated, user, showSuccess, showError, showInfo, getStoredOrders, saveOrders]);
 
   // Обработчик перехода к заказам
   const handleContactSupport = useCallback(() => {
@@ -614,41 +440,40 @@ const Services = () => {
 
                     {/* Если это Цифровые Сертификаты - показываем блок с тарифами */}
                     {isCertificate ? (
-                      <div className={styles.tariffsGrid}>
-                        {certificateTariffs.map((tariff) => (
-                          <div key={tariff.id} className={`${styles.tariffCard} ${tariff.isPopular ? styles.popular : ''}`}>
-                            {tariff.isPopular && <div className={styles.popularBadge}>Популярный</div>}
-                            <h4 className={styles.tariffName}>{tariff.name}</h4>
-                            <div className={styles.tariffSpeed}>{tariff.speed}</div>
-                            <div className={styles.tariffPrice}>
-                              {tariff.price.toLocaleString()} <span>{tariff.priceLabel}</span>
-                            </div>
-                            <ul className={styles.tariffFeatures}>
-                              {tariff.features.map((feature, idx) => (
-                                <li key={idx}>
-                                  <Sparkles className={styles.featureIconSmall} />
-                                  {feature}
-                                </li>
+                      <div className={styles.tariffTableWrap}>
+                        <table className={styles.tariffTable}>
+                          <caption>Стоимость цифрового сертификата, ₽</caption>
+                          <thead>
+                            <tr>
+                              <th scope="col">Срок</th>
+                              {[1, 2, 3, 4, 5, 6].map((deviceCount) => (
+                                <th key={deviceCount} scope="col">
+                                  {deviceCount} {deviceCount === 1 ? 'устройство' : deviceCount < 5 ? 'устройства' : 'устройств'}
+                                </th>
                               ))}
-                            </ul>
-                            <button
-                              className={styles.tariffButton}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleOrder({
-                                  ...service,
-                                  priceValue: tariff.price,
-                                  name: `${service.name} - ${tariff.name}`,
-                                  desc: `${service.desc} Скорость: ${tariff.speed}`
-                                });
-                              }}
-                              disabled={isCreatingOrder}
-                            >
-                              <ShoppingCart className={styles.buttonIcon} />
-                              {isCreatingOrder ? 'Добавление...' : `Купить за ${tariff.price.toLocaleString()} ₽`}
-                            </button>
-                          </div>
-                        ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {certificateTariffs.map(({ period, prices }) => (
+                              <tr key={period}>
+                                <th scope="row">{period}</th>
+                                {prices.map((price, index) => <td key={index}>{price.toLocaleString('ru-RU')} ₽</td>)}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                        <p className={styles.purchaseNote}>
+                          Покупка и оформление сертификата выполняются в Telegram-боте.
+                        </p>
+                        <a
+                          className={styles.tariffButton}
+                          href={CERTIFICATE_PURCHASE_BOT_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Купить сертификат
+                        </a>
                       </div>
                     ) : (
                       <>
@@ -662,30 +487,11 @@ const Services = () => {
                           ))}
                         </div>
 
-                        {/* Кнопка покупки для других услуг */}
+                        {/* Эти услуги оформляются по согласованию; заказа и оплаты через сайт пока нет. */}
                         <div className={styles.actions}>
-                          {isAuthenticated ? (
-                            <button
-                              className={styles.order}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleOrder(service);
-                              }}
-                              disabled={isCreatingOrder}
-                            >
-                              <ShoppingCart className={styles.buttonIcon} />
-                              {isCreatingOrder ? 'Добавление...' : 'Купить'}
-                            </button>
-                          ) : (
-                            <Link
-                              to="/auth"
-                              className={styles.authLink}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <Lock className={styles.buttonIcon} />
-                              Войдите для покупки
-                            </Link>
-                          )}
+                          <Link to="/support" className={styles.order} onClick={(e) => e.stopPropagation()}>
+                            Обсудить услугу
+                          </Link>
                         </div>
                       </>
                     )}

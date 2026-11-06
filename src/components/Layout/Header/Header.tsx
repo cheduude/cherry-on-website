@@ -20,7 +20,7 @@ import {
   MessageCircle,
   LogOut,
   User,
-  Settings,
+  Lock,
   LifeBuoy,
 } from 'lucide-react';
 
@@ -74,9 +74,8 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
   const getIconComponent = (iconName: string) => {
     const icons: Record<string, any> = {
       User: User,
-      Settings: Settings,
-      LifeBuoy: LifeBuoy,
       Lock: Lock,
+      LifeBuoy: LifeBuoy,
       LogOut: LogOut,
     };
     return icons[iconName];

@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './ProfilePanel.module.css';
-import { X, LogOut, LayoutDashboard, Settings, LifeBuoy, Lock, User, Shield, Home, Wrench, Star, Phone } from 'lucide-react';
+import { X, LogOut, LayoutDashboard, LifeBuoy, Lock, User, Shield, Home, Wrench, Star, Phone } from 'lucide-react';
 
 interface ProfilePanelProps {
   isOpen: boolean;
@@ -105,8 +105,6 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
     switch (itemId) {
       case 'cabinet':
         return <User size={size} strokeWidth={1.5} />;
-      case 'settings':
-        return <Settings size={size} strokeWidth={1.5} />;
       case 'support':
         return <LifeBuoy size={size} strokeWidth={1.5} />;
       case 'access':
@@ -125,9 +123,6 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
           case '👤':
           case 'User':
             return <User size={size} strokeWidth={1.5} />;
-          case '⚙️':
-          case 'Settings':
-            return <Settings size={size} strokeWidth={1.5} />;
           case '🛟':
           case 'LifeBuoy':
             return <LifeBuoy size={size} strokeWidth={1.5} />;
