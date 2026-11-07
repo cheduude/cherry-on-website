@@ -288,7 +288,8 @@
   position: relative;
 }
 
-.item:hover {
+/* Hover только у свёрнутой карточки — в открытой не дёргать рамку/иконку при выборе в select */
+.item:hover:not(.open) {
   border-color: var(--color-accent);
   transform: translateY(-4px) translateZ(0);
   box-shadow: var(--shadow-medium);
@@ -299,6 +300,7 @@
   box-shadow: var(--shadow-medium);
   cursor: default;
   transform: translateY(0);
+  border-color: var(--color-glass-border);
 }
 
 .item::before {
@@ -316,7 +318,7 @@
   transition-delay: 0s;
 }
 
-.item:hover::before {
+.item:hover:not(.open)::before {
   opacity: 0.5;
 }
 
@@ -378,7 +380,7 @@
   transition-delay: 0s;
 }
 
-.item:hover .iconWrapper {
+.item:hover:not(.open) .iconWrapper {
   background: linear-gradient(135deg, 
     color-mix(in srgb, var(--color-accent) 15%, transparent) 0%, 
     color-mix(in srgb, var(--color-accent-hover) 10%, transparent) 100%);
@@ -395,7 +397,7 @@
   transition-delay: 0s;
 }
 
-.item:hover .itemIcon {
+.item:hover:not(.open) .itemIcon {
   transform: scale(1.1);
 }
 
@@ -422,7 +424,7 @@
   white-space: nowrap;
 }
 
-.item:hover .itemInfo h3 {
+.item:hover:not(.open) .itemInfo h3 {
   color: var(--color-accent);
 }
 
@@ -447,7 +449,7 @@
   white-space: nowrap;
 }
 
-.item:hover .price {
+.item:hover:not(.open) .price {
   background: color-mix(in srgb, var(--color-accent) 10%, transparent);
   transform: none;
 }
@@ -1641,8 +1643,12 @@
   border-color: color-mix(in srgb, var(--color-border) 50%, transparent);
 }
 
-[data-theme="light"] .item:hover {
+[data-theme="light"] .item:hover:not(.open) {
   border-color: var(--color-accent);
+}
+
+[data-theme="light"] .item.open {
+  border-color: color-mix(in srgb, var(--color-border) 50%, transparent);
 }
 
 [data-theme="light"] .feature {
