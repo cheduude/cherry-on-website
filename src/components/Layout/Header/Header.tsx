@@ -170,15 +170,8 @@ const Header: React.FC<HeaderProps> = ({ isMobile }) => {
 
         {/* Правая часть: авторизация, уведомления, переключатель темы */}
         <div className={styles.rightSection}>
-          {!isMobile && (
-            <>
-              <MenuAuth isMobile={false} />
-              <NotificationBell />
-            </>
-          )}
-          {isMobile && isAuthenticated && (
-            <NotificationBell />
-          )}
+          <MenuAuth isMobile={isMobile} />
+          {(!isMobile || isAuthenticated) && <NotificationBell />}
           <ThemeToggle />
         </div>
       </div>

@@ -28,6 +28,40 @@ body {
   width: 100%;
 }
 
+/* Личный кабинет: высота ровно во viewport, без скролла страницы на ПК */
+.site-wrapper--cabinet {
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+.site-wrapper--cabinet > .main-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-wrapper--cabinet > .main-content > *,
+.site-wrapper--cabinet .page-transition {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-wrapper--cabinet .page-transition > * {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;

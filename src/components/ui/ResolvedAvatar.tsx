@@ -26,10 +26,12 @@ export function ResolvedAvatar({
         role="img"
         aria-label={alt}
         focusable="false"
+        preserveAspectRatio="xMidYMid meet"
       >
-        <circle cx="64" cy="46" r="26" fill="currentColor" />
+        {/* Силуэт с полями внутри viewBox — без CSS-padding, чтобы не ломать мобильные размеры */}
+        <circle cx="64" cy="48" r="22" fill="currentColor" />
         <path
-          d="M16 118c6-28 24-44 48-44s42 16 48 44"
+          d="M30 112c5-22 18-34 34-34s29 12 34 34"
           fill="currentColor"
         />
       </svg>

@@ -28,9 +28,9 @@
 .panel {
   position: fixed;
   top: 0;
-  right: -400px; /* скрыта за экраном */
+  right: 0;
   width: 380px;
-  max-width: calc(100vw - 40px);
+  max-width: min(380px, calc(100vw - 40px));
   height: 100vh;
   height: 100dvh;
   background: linear-gradient(
@@ -46,16 +46,25 @@
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
   z-index: 1000;
   overflow-y: auto;
-  transition: right 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  overflow-x: hidden;
   padding: 24px 20px;
   color: #fff;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
   border-radius: 10px 0 0 10px;
+  /* translateX не раздувает layout/scrollWidth в отличие от right: -100% */
+  transform: translateX(100%);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0.4s;
 }
 
 .panel.open {
-  right: 0;
+  transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
 }
 
 /* Стилизация скроллбара */
@@ -128,6 +137,15 @@
   object-fit: cover;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: none;
+}
+
+.avatar:global(.avatarThemeDefault) {
+  width: 100px;
+  height: 100px;
+  padding: 18px;
+  color: var(--color-text);
+  background: var(--color-surface-alt);
+  box-sizing: border-box;
 }
 
 /* Информация о пользователе */
@@ -427,18 +445,22 @@
   .panel {
     width: 100%;
     max-width: 100%;
-    right: -100%;
     padding: 20px 16px;
     border-radius: 0;
-  }
-  
-  .panel.open {
-    right: 0;
   }
   
   .avatar {
     width: 80px;
     height: 80px;
+    border-radius: 24px;
+  }
+
+  .avatar:global(.avatarThemeDefault) {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    min-height: 80px;
+    padding: 14px;
     border-radius: 24px;
   }
   
