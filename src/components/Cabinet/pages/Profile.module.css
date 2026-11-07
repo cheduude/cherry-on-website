@@ -3,12 +3,13 @@
 .profile {
   max-width: 600px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   background: linear-gradient(135deg, var(--color-text), var(--color-accent));
   -webkit-background-clip: text;
   background-clip: text;
@@ -20,20 +21,20 @@
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid var(--color-glass-border);
-  border-radius: 20px;
-  padding: 24px;
-  margin-bottom: 24px;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
 }
 
 .avatarSection {
   display: flex;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .avatar {
-  width: 100px;
-  height: 100px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--color-accent);
@@ -41,7 +42,11 @@
 }
 
 .avatar:global(.avatarThemeDefault) {
+  width: 88px;
+  height: 88px;
+  padding: 16px;
   background: var(--color-surface-alt);
+  color: var(--color-text);
 }
 
 .infoRow {
@@ -166,9 +171,49 @@
   transform: none;
 }
 
+@media (min-width: 769px) and (max-height: 900px) {
+  .title {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+  }
+
+  .card {
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+  }
+
+  .avatar:global(.avatarThemeDefault) {
+    width: 64px;
+    height: 64px;
+    padding: 10px;
+  }
+
+  .avatarSection {
+    margin-bottom: 10px;
+  }
+
+  .infoRow {
+    padding: 8px 0;
+  }
+
+  .form {
+    gap: 12px;
+  }
+
+  .field input,
+  .submitButton {
+    padding: 10px;
+  }
+}
+
 @media (max-width: 768px) {
   .profile {
-    padding: 0 16px;
+    padding: 0;
   }
   
   .infoRow {

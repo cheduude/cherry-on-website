@@ -20,12 +20,13 @@ import {
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
+  const isCabinet = location.pathname.startsWith('/cabinet');
 
-  // Проверяем, находится ли пользователь на странице, где футер должен быть скрыт
+  // Страницы, где футер скрыт по умолчанию, но доступен по кнопке (кабинет исключён полностью)
   const isHiddenPage =
     location.pathname.includes('/admin') ||
     location.pathname.includes('/server-management') ||
-    location.pathname.startsWith('/cabinet') || location.pathname.startsWith('/editor');
+    location.pathname.startsWith('/editor');
 
   // Для скрытых страниц футер изначально скрыт (false), для остальных — видим (true)
   const [isVisible, setIsVisible] = useState(!isHiddenPage);
@@ -103,6 +104,11 @@ const Footer = () => {
   const renderIcon = (IconComponent: any, size: number = 18) => {
     return <IconComponent size={size} strokeWidth={1.5} />;
   };
+
+  // Личный кабинет — без футера и без кнопки его показа
+  if (isCabinet) {
+    return null;
+  }
 
   // Если не скрытая страница, показываем обычный футер без кнопок скрытия
   if (!isHiddenPage) {
